@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Residential Building Plans | Shrijit Banerjee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0d1117;
+            --bg-card: #161b22;
+            --bg-hover: #1c2128;
+            --accent-green: #2ea043;
+            --accent-blue: #58a6ff;
+            --accent-orange: #ff7b72;
+            --accent-purple: #bc8cff;
+            --accent-teal: #39d353;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --border: #30363d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-back {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-back:hover { color: var(--accent-blue); }
+
+        .nav-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 8rem 5% 4rem;
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 70% 30%, rgba(88,166,255,0.06) 0%, transparent 60%),
+                        radial-gradient(ellipse at 20% 80%, rgba(46,160,67,0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Blueprint grid overlay on hero */
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(88,166,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(88,166,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        .hero-container { max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+
+        .project-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(88,166,255,0.12);
+            border: 1px solid rgba(88,166,255,0.4);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 1.5rem;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero h1 span { color: var(--accent-blue); }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item { display: flex; flex-direction: column; }
+
+        .meta-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 0.3rem;
+        }
+
+        .meta-value { font-size: 1rem; color: var(--text-primary); font-weight: 500; }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-dark);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: border-color 0.2s;
+        }
+
+        .stat-card:hover { border-color: var(--accent-blue); }
+
+        .stat-value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-value.green { color: var(--accent-green); }
+        .stat-value.orange { color: var(--accent-orange); }
+        .stat-value.purple { color: var(--accent-purple); }
+
+        .stat-label { font-size: 0.85rem; color: var(--text-secondary); }
+
+        /* Content */
+        .content { padding: 4rem 5%; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .section { margin-bottom: 5rem; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-num {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            background: rgba(88,166,255,0.1);
+            border: 1px solid rgba(88,166,255,0.2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--accent-blue);
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+
+        .text-block {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.4rem;
+            max-width: 100%;
+        }
+
+        .text-block strong { color: var(--text-primary); }
+
+        /* Aim Cards */
+        .aim-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .aim-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 2rem;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .aim-card:hover { border-color: var(--accent-blue); transform: translateY(-2px); }
+
+        .aim-card .aim-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            margin-bottom: 0.8rem;
+        }
+
+        .aim-card h4 { font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.8rem; }
+        .aim-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+        /* Tech Cards */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .tech-card {
+            background: var(--bg-card);
+            padding: 1.8rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .tech-card h4 { font-size: 1.1rem; color: var(--accent-blue); margin-bottom: 1rem; }
+
+        .tech-card ul { list-style: none; }
+
+        .tech-card li {
+            color: var(--text-secondary);
+            margin-bottom: 0.7rem;
+            padding-left: 1.2rem;
+            position: relative;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .tech-card li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+        }
+
+        /* Drawing Viewer */
+        .drawing-viewer {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .drawing-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-dark);
+        }
+
+        .drawing-tab {
+            padding: 0.9rem 1.5rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            user-select: none;
+        }
+
+        .drawing-tab:hover { color: var(--text-primary); }
+
+        .drawing-tab.active {
+            color: var(--accent-blue);
+            border-bottom-color: var(--accent-blue);
+        }
+
+        .drawing-tab .tab-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            opacity: 0;
+        }
+
+        .drawing-tab.active .tab-dot { opacity: 1; }
+
+        .drawing-pane { display: none; }
+        .drawing-pane.active { display: block; }
+
+        .drawing-pane iframe {
+            width: 100%;
+            height: 750px;
+            border: none;
+            background: #1a1f28;
+        }
+
+        .drawing-pane-header {
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .drawing-pane-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .drawing-pane-title span { color: var(--text-primary); }
+
+        .drawing-open-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.9rem;
+            background: rgba(88,166,255,0.1);
+            border: 1px solid rgba(88,166,255,0.3);
+            border-radius: 6px;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .drawing-open-btn:hover {
+            background: rgba(88,166,255,0.18);
+            border-color: var(--accent-blue);
+        }
+
+        /* Spec Table */
+        .spec-table {
+            width: 100%;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .spec-table table { width: 100%; border-collapse: collapse; }
+
+        .spec-table th {
+            background: var(--bg-dark);
+            padding: 0.9rem 1.2rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            border-bottom: 1px solid var(--border);
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .spec-table td {
+            padding: 0.85rem 1.2rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .spec-table tr:last-child td { border-bottom: none; }
+
+        .spec-table tr:hover td { background: var(--bg-hover); }
+
+        .spec-table td:first-child { color: var(--text-primary); font-weight: 500; }
+
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.78rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+        }
+
+        .badge-blue { background: rgba(88,166,255,0.12); color: var(--accent-blue); border: 1px solid rgba(88,166,255,0.25); }
+        .badge-green { background: rgba(46,160,67,0.12); color: var(--accent-green); border: 1px solid rgba(46,160,67,0.25); }
+        .badge-orange { background: rgba(255,123,114,0.12); color: var(--accent-orange); border: 1px solid rgba(255,123,114,0.25); }
+        .badge-purple { background: rgba(188,140,255,0.12); color: var(--accent-purple); border: 1px solid rgba(188,140,255,0.25); }
+
+        /* Standards cards */
+        .standard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .standard-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            transition: border-color 0.2s;
+        }
+
+        .standard-card:hover { border-color: var(--accent-blue); }
+
+        .standard-icon {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        .standard-card h4 { font-size: 1rem; color: var(--text-primary); margin-bottom: 0.4rem; }
+        .standard-card p { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; }
+
+        /* Downloads */
+        .downloads {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .download-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .download-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 160, 67, 0.15);
+        }
+
+        .download-icon { font-size: 2rem; flex-shrink: 0; }
+
+        .download-info h4 { color: var(--text-primary); margin-bottom: 0.3rem; font-size: 1.1rem; }
+        .download-info p { color: var(--text-secondary); font-size: 0.85rem; margin: 0; }
+
+        /* Divider */
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 0 0 5rem 0;
+        }
+
+        /* Blueprint annotation style callout */
+        .callout {
+            background: rgba(88,166,255,0.06);
+            border: 1px solid rgba(88,166,255,0.2);
+            border-left: 3px solid var(--accent-blue);
+            border-radius: 0 8px 8px 0;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .callout strong { color: var(--accent-blue); }
+
+        /* Fade in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Tags row */
+        .tags-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
+        }
+
+        .tag {
+            background: rgba(88,166,255,0.08);
+            border: 1px solid rgba(88,166,255,0.2);
+            color: var(--text-secondary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        @media (max-width: 768px) {
+            .hero { padding: 6rem 5% 3rem; }
+            .hero-meta { gap: 1.5rem; }
+            .quick-stats { grid-template-columns: repeat(2, 1fr); }
+            .drawing-pane iframe { height: 500px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="./portfolio-website.html" class="nav-back">
+                ← Back to Portfolio
+            </a>
+            <span class="nav-title">RESIDENTIAL BUILDING PLANS</span>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="project-badge">⬡ AutoCAD Drafting · Academic Project</div>
+
+            <h1>Residential <span>Building Plans</span></h1>
+
+            <p class="hero-subtitle">
+                Complete set of professional architectural and electrical drawings for a residential structure, 
+                produced entirely in AutoCAD to industry drafting standards.
+            </p>
+
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Course</span>
+                    <span class="meta-value">SJDC ETECH 12: AutoCAD Technical Drafting</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Software</span>
+                    <span class="meta-value">AutoCAD</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Drawing Sets</span>
+                    <span class="meta-value">Architectural · Electrical · Foundation</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Format</span>
+                    <span class="meta-value">DWG converted to PDF</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="container">
+
+            <!-- Section 01: Overview -->
+            <section class="section fade-in">
+                <div class="section-header">
+                    <span class="section-num">01</span>
+                    <h2 class="section-title">Project Overview</h2>
+                </div>
+
+                <p class="text-block">
+                    This project involved producing a <strong>complete set of residential building drawings</strong> 
+                    from scratch using AutoCAD. The assignment required adherence to standard drafting conventions, 
+                    including proper layering, annotation styles, dimension standards, and title block formatting.
+                </p>
+
+                <p class="text-block">
+                    The deliverable consists of two separate drawing sheets: an <strong>Architectural Plan</strong> 
+                    showing the structural layout, room arrangement, furniture, dimensions, and construction details; and an 
+                    <strong>Electrical Plan</strong> showing circuit routing, and outlet/fixture placement overlaid on the floor plan. Together, they form a coordinated drawing package 
+                    representing a complete residential design.
+                </p>
+
+                <div class="callout">
+                    <strong>Drafting Discipline:</strong> Both sheets were drafted using AutoCAD's model space / paper 
+                    space workflow, with separate layers for annotations, dimensions, electrical symbols, and 
+                    construction geometry enabling clean, print-ready outputs at specified scales.
+                </div>
+
+                <div class="aim-grid">
+                    <div class="aim-card">
+                        <div class="aim-tag">// ARCHITECTURAL</div>
+                        <h4>Floor Plan & Layout</h4>
+                        <p>Detailed floor plan with wall thicknesses, door and window schedules, room labels, 
+                        and fully dimensioned geometry following standard residential conventions.</p>
+                    </div>
+                    <div class="aim-card">
+                        <div class="aim-tag">// ELECTRICAL</div>
+                        <h4>Electrical Systems Plan</h4>
+                        <p>Overlay drawing depicting circuit runs, outlet locations, switch layouts, 
+                        lighting fixtures, and electrical panel information per NEC conventions.</p>
+                    </div>
+                    <div class="aim-card">
+                        <div class="aim-tag">// STANDARDS</div>
+                        <h4>Drawing Standards</h4>
+                        <p>Proper title blocks, revision history, graphic scale, 
+                        standard line weights, and annotation styles conforming to industry drafting practice.</p>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <!-- Section 02: Tools & Skills -->
+            <section class="section fade-in">
+                <div class="section-header">
+                    <span class="section-num">02</span>
+                    <h2 class="section-title">Tools & Techniques</h2>
+                </div>
+
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <h4>AutoCAD Drafting</h4>
+                        <ul>
+                            <li>Model Space / Paper Space workflow</li>
+                            <li>Layer management (frozen, locked, color-coded)</li>
+                            <li>Viewport scaling and annotation scaling</li>
+                            <li>Hatch patterns for materials & fills</li>
+                            <li>Xref coordination between drawing sets</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card">
+                        <h4>Architectural Drawing</h4>
+                        <ul>
+                            <li>Wall construction: single-line and double-line walls</li>
+                            <li>Door & window symbology and schedules</li>
+                            <li>Room label and area annotation</li>
+                            <li>Dimensioning chains per AIA standards</li>
+                            <li>North arrow and graphic scale placement</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card">
+                        <h4>Electrical Drawing</h4>
+                        <ul>
+                            <li>Standard electrical symbol library (NEC)</li>
+                            <li>Circuit routing and home-run notation</li>
+                            <li>Outlet, switch, and fixture placement</li>
+                            <li>Electrical panel schedule notation</li>
+                            <li>Legends and symbol keys</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <!-- Section 03: Drawing Viewer -->
+            <section class="section fade-in">
+                <div class="section-header">
+                    <span class="section-num">03</span>
+                    <h2 class="section-title">Drawing Sheets</h2>
+                </div>
+
+                <p class="text-block" style="margin-bottom: 1.5rem;">
+                    Both drawing sheets are embedded below and available for download. 
+                    Use the tabs to switch between the Architectural and Electrical plans. 
+                    Foundation plan dimensions do not match the residential floor plan.
+                    This drawing was completed as a separate exercise and has not been
+                    reconciled with the architectural set.
+                </p>
+
+                <div class="drawing-viewer">
+                    <div class="drawing-tabs">
+                        <div class="drawing-tab active" onclick="switchTab('arch', this)">
+                            <span class="tab-dot"></span>
+                            📐 Architectural Plan
+                        </div>
+                        <div class="drawing-tab" onclick="switchTab('elec', this)">
+                            <span class="tab-dot"></span>
+                            ⚡ Electrical Plan
+                        </div>
+                        <div class="drawing-tab" onclick="switchTab('found', this)">
+                            <span class="tab-dot"></span>
+                            🏗️ Foundation Plan
+                        </div>
+                    </div>
+
+                    <div id="pane-arch" class="drawing-pane active">
+                        <div class="drawing-pane-header">
+                            <span class="drawing-pane-title">
+                                <span>A-RESIDENTIAL BUILDING PLAN.pdf</span> Residential Floor Plan (Architectural with furnishings)
+                            </span>
+                            <a href="./SHRIJIT BANERJEE HW31 ARCH.pdf" download="SHRIJIT_BANERJEE_BUILDING_ARCH.pdf" class="drawing-open-btn">
+                                ↓ Download PDF
+                            </a>
+                        </div>
+                        <iframe src="./SHRIJIT BANERJEE HW31 ARCH.pdf" title="Architectural Building Plan"></iframe>
+                    </div>
+
+                    <div id="pane-elec" class="drawing-pane">
+                        <div class="drawing-pane-header">
+                            <span class="drawing-pane-title">
+                                <span>E-RESIDENTIAL BUILDING PLAN.pdf</span> Residential Electrical Plan
+                            </span>
+                            <a href="./SHRIJIT BANERJEE HW31 ELECTRICAL.pdf" download="SHRIJIT_BANERJEE_BUILDING_ELECTRICAL.pdf" class="drawing-open-btn">
+                                ↓ Download PDF
+                            </a>
+                        </div>
+                        <iframe src="./SHRIJIT BANERJEE HW31 ELECTRICAL.pdf" title="Electrical Building Plan"></iframe>
+                    </div>
+
+                    <div id="pane-elec" class="drawing-pane">
+                        <div class="drawing-pane-header">
+                            <span class="drawing-pane-title">
+                                <span>E-RESIDENTIAL BUILDING PLAN.pdf</span> Residential Electrical Plan
+                            </span>
+                            <a href="./SHRIJIT BANERJEE HW31 ELECTRICAL.pdf" download="SHRIJIT_BANERJEE_BUILDING_ELECTRICAL.pdf" class="drawing-open-btn">
+                                ↓ Download PDF
+                            </a>
+                        </div>
+                        <iframe src="./SHRIJIT BANERJEE HW31 ELECTRICAL.pdf" title="Electrical Building Plan"></iframe>
+                    </div>
+                    <div id="pane-found" class="drawing-pane">
+                        <div class="drawing-pane-header">
+                            <span class="drawing-pane-title">
+                                <span>A-RESIDENTIAL FOUNDATION DETAILS.pdf</span> Residential Foundation Plan
+                            </span>
+                            <a href="./SHRIJIT BANERJEE HW 32.pdf" download="SHRIJIT_BANERJEE_FOUNDATION.pdf" class="drawing-open-btn">
+                                ↓ Download PDF
+                            </a>
+                        </div>
+                        <iframe src="./SHRIJIT BANERJEE HW 32.pdf" title="Building Foundation Plan"></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <!-- Section 04: Drawing Content -->
+            <section class="section fade-in">
+                <div class="section-header">
+                    <span class="section-num">04</span>
+                    <h2 class="section-title">Drawing Content Summary</h2>
+                </div>
+
+                <p class="section-subtitle">Architectural Sheet</p>
+                <div class="spec-table" style="margin-bottom: 2.5rem;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Drawing Element</th>
+                                <th>Description</th>
+                                <th>Standard</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Floor Plan</td>
+                                <td>Full-scale residential floor layout with room arrangements</td>
+                                <td><span class="badge badge-blue">AIA</span></td>
+                            </tr>
+                            <tr>
+                                <td>Wall Construction</td>
+                                <td>Interior and exterior wall thicknesses drawn to specification</td>
+                                <td><span class="badge badge-green">ARCH</span></td>
+                            </tr>
+                            <tr>
+                                <td>Doors & Windows</td>
+                                <td>Swing arcs, sill lines, and schedule call-outs</td>
+                                <td><span class="badge badge-blue">AIA</span></td>
+                            </tr>
+                            <tr>
+                                <td>Dimensioning</td>
+                                <td>Continuous dimension chains, room-to-room and overall</td>
+                                <td><span class="badge badge-orange">ANSI</span></td>
+                            </tr>
+                            <tr>
+                                <td>Title Block</td>
+                                <td>Project name, scale, sheet number, revision block, author</td>
+                                <td><span class="badge badge-purple">ARCH</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="section-subtitle">Electrical Sheet</p>
+                <div class="spec-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Drawing Element</th>
+                                <th>Description</th>
+                                <th>Standard</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Circuit Routing</td>
+                                <td>Home-run lines indicating circuit paths to panel</td>
+                                <td><span class="badge badge-orange">NEC</span></td>
+                            </tr>
+                            <tr>
+                                <td>Outlet Placement</td>
+                                <td>Duplex receptacles, GFCI, and dedicated circuits</td>
+                                <td><span class="badge badge-orange">NEC</span></td>
+                            </tr>
+                            <tr>
+                                <td>Lighting Fixtures</td>
+                                <td>Ceiling fixtures and switched layouts</td>
+                                <td><span class="badge badge-green">E-PLAN</span></td>
+                            </tr>
+                            <tr>
+                                <td>Symbol Legend</td>
+                                <td>Complete key for all electrical symbols used on sheet</td>
+                                <td><span class="badge badge-blue">NFPA 70</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <!-- Section 05: Standards & Compliance -->
+            <section class="section fade-in">
+                <div class="section-header">
+                    <span class="section-num">05</span>
+                    <h2 class="section-title">Drafting Standards Applied</h2>
+                </div>
+
+                <div class="standard-grid">
+                    <div class="standard-card">
+                        <div class="standard-icon">📏</div>
+                        <div>
+                            <h4>Line Weight Hierarchy</h4>
+                            <p>Object lines, hidden lines, centerlines, and dimension lines 
+                            drawn with correct lineweight differentiation per ANSI/AIA conventions.</p>
+                        </div>
+                    </div>
+                    <div class="standard-card">
+                        <div class="standard-icon">🏷️</div>
+                        <div>
+                            <h4>Layer Management</h4>
+                            <p>Separate AutoCAD layers for walls, dimensions, annotations, 
+                            electrical, and title block, enabling independent visibility and printing control.</p>
+                        </div>
+                    </div>
+                    <div class="standard-card">
+                        <div class="standard-icon">🔠</div>
+                        <div>
+                            <h4>Text & Annotation Standards</h4>
+                            <p>Consistent font styles, text heights, and note formatting throughout 
+                            both drawing sheets for a professional, readable output.</p>
+                        </div>
+                    </div>
+                    <div class="standard-card">
+                        <div class="standard-icon">📐</div>
+                        <div>
+                            <h4>Scale & Viewport Control</h4>
+                            <p>Paper space viewports set to standard architectural scales 
+                            with properly scaled annotations and dimensions in each viewport.</p>
+                        </div>
+                    </div>
+                    <div class="standard-card">
+                        <div class="standard-icon">⚡</div>
+                        <div>
+                            <h4>NEC Electrical Symbology</h4>
+                            <p>All electrical symbols drawn per National Electrical Code (NEC) 
+                            standards with a complete legend included on the electrical sheet.</p>
+                        </div>
+                    </div>
+                    <div class="standard-card">
+                        <div class="standard-icon">📋</div>
+                        <div>
+                            <h4>Title Block & Sheet Format</h4>
+                            <p>Standard title block includes project title, scale, date, sheet designation, 
+                            revision history, and engineer/drafter signature block.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <!-- Section 06: Skills Demonstrated -->
+            <section class="section fade-in">
+                <div class="section-header">
+                    <span class="section-num">06</span>
+                    <h2 class="section-title">Skills Demonstrated</h2>
+                </div>
+
+                <p class="text-block">
+                    This project demonstrates proficiency in <strong>technical drafting and CAD documentation</strong> 
+                    critical to engineering, MEP, architectural and manufacturing roles.
+                </p>
+
+                <div class="tags-row">
+                    <span class="tag">AutoCAD</span>
+                    <span class="tag">Technical Drafting</span>
+                    <span class="tag">Architectural Plans</span>
+                    <span class="tag">Electrical Drawings</span>
+                    <span class="tag">Layer Management</span>
+                    <span class="tag">GD&T Awareness</span>
+                    <span class="tag">AIA Standards</span>
+                    <span class="tag">NEC Symbology</span>
+                    <span class="tag">ANSI Dimensioning</span>
+                    <span class="tag">Paper Space / Model Space</span>
+                    <span class="tag">DWG Format</span>
+                    <span class="tag">Print-Ready Documentation</span>
+                </div>
+            </section>
+
+            <hr class="divider">
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function switchTab(name, el) {
+            document.querySelectorAll('.drawing-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.drawing-pane').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('pane-' + name).classList.add('active');
+        }
+
+        // Fade-in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

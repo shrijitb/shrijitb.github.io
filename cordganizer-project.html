@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUMES Optimization & Vision Integration | Shrijit Banerjee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0d1117;
+            --bg-card: #161b22;
+            --bg-hover: #1c2128;
+            --accent-green: #2ea043;
+            --accent-blue: #58a6ff;
+            --accent-orange: #ff7b72;
+            --accent-purple: #bc8cff;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --border: #30363d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-back {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-back:hover { color: var(--accent-blue); }
+
+        .nav-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 8rem 5% 4rem;
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 70% 30%, rgba(88,166,255,0.06) 0%, transparent 60%),
+                        radial-gradient(ellipse at 20% 80%, rgba(46,160,67,0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-container { max-width: 1400px; margin: 0 auto; position: relative; }
+
+        .project-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(88,166,255,0.12);
+            border: 1px solid rgba(88,166,255,0.4);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 1.5rem;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero h1 span { color: var(--accent-blue); }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item { display: flex; flex-direction: column; }
+
+        .meta-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 0.3rem;
+        }
+
+        .meta-value { font-size: 1rem; color: var(--text-primary); font-weight: 500; }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-dark);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: border-color 0.2s;
+        }
+
+        .stat-card:hover { border-color: var(--accent-blue); }
+
+        .stat-value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-value.green { color: var(--accent-green); }
+        .stat-value.orange { color: var(--accent-orange); }
+        .stat-value.purple { color: var(--accent-purple); }
+
+        .stat-label { font-size: 0.85rem; color: var(--text-secondary); }
+
+        /* Content */
+        .content { padding: 4rem 5%; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .section { margin-bottom: 5rem; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-num {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            background: rgba(88,166,255,0.1);
+            border: 1px solid rgba(88,166,255,0.2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--accent-blue);
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+
+        .text-block {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.4rem;
+            max-width: 100%;
+        }
+
+        .text-block strong { color: var(--text-primary); }
+
+        /* Aim Cards */
+        .aim-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .aim-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 2rem;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .aim-card:hover { border-color: var(--accent-blue); transform: translateY(-2px); }
+
+        .aim-card .aim-tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            margin-bottom: 0.8rem;
+        }
+
+        .aim-card h4 { font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.8rem; }
+        .aim-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+        /* Image Placeholders */
+        .img-placeholder {
+            background: var(--bg-card);
+            border: 2px dashed var(--border);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 2rem;
+            transition: border-color 0.2s;
+        }
+
+        .img-placeholder:hover { border-color: var(--accent-blue); }
+
+        .img-placeholder .icon {
+            font-size: 2.5rem;
+            opacity: 0.5;
+        }
+
+        .img-placeholder .caption {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        /* Gallery */
+        .gallery-2col {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .gallery-3col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-2col, .gallery-3col { grid-template-columns: 1fr; }
+        }
+
+        .gallery-item {
+            background: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .gallery-item .img-placeholder { border-radius: 0; border: none; min-height: 220px; }
+        .gallery-caption { padding: 0.8rem 1rem; font-size: 0.85rem; color: var(--text-secondary); border-top: 1px solid var(--border); }
+
+        /* Downloads Section */
+        .downloads {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .download-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .download-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 160, 67, 0.15);
+        }
+
+        .download-card:focus {
+            outline: 2px solid var(--accent-green);
+            outline-offset: 2px;
+        }
+
+        .download-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .download-info h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+            font-size: 1.1rem;
+        }
+
+        .download-info p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        /* Video Placeholder */
+        .video-placeholder {
+            background: var(--bg-card);
+            border: 2px dashed rgba(88,166,255,0.3);
+            border-radius: 12px;
+            min-height: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 3rem;
+            transition: border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-placeholder::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(88,166,255,0.04) 0%, transparent 70%);
+        }
+
+        .video-placeholder:hover { border-color: var(--accent-blue); }
+
+        .play-icon {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: rgba(88,166,255,0.15);
+            border: 2px solid rgba(88,166,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .video-title { font-size: 1.2rem; color: var(--text-primary); font-weight: 600; }
+        .video-desc { font-size: 0.9rem; max-width: 500px; }
+
+        /* Tech Cards */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .tech-card {
+            background: var(--bg-card);
+            padding: 1.8rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .tech-card h4 { font-size: 1.1rem; color: var(--accent-blue); margin-bottom: 1rem; }
+
+        .tech-card ul { list-style: none; }
+
+        .tech-card li {
+            color: var(--text-secondary);
+            margin-bottom: 0.7rem;
+            padding-left: 1.2rem;
+            position: relative;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .tech-card li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+        }
+
+        /* Process Flow */
+        .flow-diagram {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            overflow-x: auto;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: nowrap;
+            min-width: max-content;
+        }
+
+        .flow-row:last-child { margin-bottom: 0; }
+
+        .flow-node {
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            min-width: 90px;
+        }
+
+        .node-mary { background: rgba(255,214,0,0.15); border: 1px solid rgba(255,214,0,0.3); color: #ffd700; }
+        .node-edie { background: rgba(188,140,255,0.15); border: 1px solid rgba(188,140,255,0.3); color: var(--accent-purple); }
+        .node-rosie { background: rgba(255,123,114,0.15); border: 1px solid rgba(255,123,114,0.3); color: var(--accent-orange); }
+        .node-conveyor { background: rgba(46,160,67,0.12); border: 1px solid rgba(46,160,67,0.3); color: var(--accent-green); }
+        .node-time { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--text-secondary); white-space: nowrap; }
+
+        .flow-arrow { color: var(--text-secondary); font-size: 1.1rem; }
+
+        .flow-legend {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .data-table table { width: 100%; border-collapse: collapse; }
+
+        .data-table th {
+            background: var(--bg-dark);
+            padding: 0.9rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            border-bottom: 1px solid var(--border);
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .data-table td {
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover td { background: var(--bg-hover); }
+
+        .tag-improved { color: var(--accent-green); font-weight: 600; }
+        .tag-old { color: var(--accent-orange); }
+
+        /* Code Block */
+        .code-block {
+            background: #010409;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.82rem;
+            color: #e6edf3;
+            line-height: 1.7;
+            white-space: pre;
+        }
+
+        .code-block .kw { color: #ff7b72; }
+        .code-block .fn { color: #d2a8ff; }
+        .code-block .str { color: #a5d6ff; }
+        .code-block .cm { color: #8b949e; }
+        .code-block .num { color: #79c0ff; }
+        .code-block .label { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; display: block; }
+
+        /* Pipeline Card */
+        .pipeline-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .pipeline-steps {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .pipeline-step {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.8rem 1.2rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+        }
+
+        .pipeline-arrow { color: var(--accent-green); font-size: 1.2rem; font-weight: bold; }
+
+        /* Outcome Grid */
+        .outcome-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .outcome-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.8rem;
+            text-align: center;
+        }
+
+        .outcome-before {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.4rem;
+            color: var(--accent-orange);
+            margin-bottom: 0.3rem;
+        }
+
+        .outcome-after {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: 0.4rem;
+        }
+
+        .outcome-label { font-size: 0.85rem; color: var(--text-secondary); }
+        .outcome-arrow { font-size: 1.5rem; color: var(--text-secondary); margin-bottom: 0.3rem; }
+
+        /* Team */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .team-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .team-card .name { color: var(--text-primary); font-weight: 500; }
+        .team-card .role { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.2rem; }
+
+        /* Timeline */
+        .timeline { position: relative; padding-left: 2rem; margin-bottom: 3rem; }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-blue), var(--accent-green));
+        }
+
+        .timeline-item { position: relative; margin-bottom: 2rem; }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.45rem; top: 0.35rem;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            border: 2px solid var(--bg-dark);
+        }
+
+        .timeline-item h4 { font-size: 1.05rem; color: var(--text-primary); margin-bottom: 0.4rem; }
+        .timeline-item p { color: var(--text-secondary); line-height: 1.6; font-size: 0.9rem; }
+
+        /* Section Divider */
+        .divider { border: none; border-top: 1px solid var(--border); margin: 4rem 0; }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: rgba(88,166,255,0.06);
+            border: 1px solid rgba(88,166,255,0.2);
+            border-left: 3px solid var(--accent-blue);
+            border-radius: 0 8px 8px 0;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-box p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; }
+        .highlight-box strong { color: var(--accent-blue); }
+
+        /* Limitations */
+        .limit-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        @media (max-width: 700px) { .limit-grid { grid-template-columns: 1fr; } }
+
+        .limit-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .limit-card h4 { font-size: 1rem; margin-bottom: 1rem; }
+        .limit-card.red h4 { color: var(--accent-orange); }
+        .limit-card.green h4 { color: var(--accent-green); }
+
+        .limit-card ul { list-style: none; }
+        .limit-card li { color: var(--text-secondary); font-size: 0.9rem; padding-left: 1.2rem; position: relative; margin-bottom: 0.6rem; }
+        .limit-card.red li::before { content: '✗'; position: absolute; left: 0; color: var(--accent-orange); }
+        .limit-card.green li::before { content: '→'; position: absolute; left: 0; color: var(--accent-green); }
+
+        /* Footer */
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            padding: 2.5rem 5%;
+            text-align: center;
+        }
+
+        footer p { color: var(--text-secondary); font-size: 0.9rem; }
+        footer a { color: var(--accent-blue); text-decoration: none; }
+
+
+        /* Real media */
+        .media-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .media-video {
+            width: 100%;
+            display: block;
+            border-radius: 10px;
+            background: #000;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 440px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
+        .full-img {
+            width: 100%;
+            border-radius: 10px;
+            display: block;
+            border: 1px solid var(--border);
+        }
+        /* Scroll Animation */
+        .fade-in {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <div class="container">
+        <a href="portfolio-website.html" class="nav-back">
+            ← Back to Portfolio
+        </a>
+        <span class="nav-title">AUTOMATED PRODUCTION LINE OPTIMIZATION</span>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-container">
+        <div class="project-badge">MANUFACTURING & MACHINE LEARNING</div>
+        <h1>BUMES Optimization &amp;<br><span>Vision Integration</span></h1>
+        <p class="hero-subtitle">
+            Redesigning a fully-automated manufacturing execution system for higher throughput,
+            and integrating real-time computer vision for post-production part identification and robotic sorting.
+        </p>
+        <div class="hero-meta">
+            <div class="meta-item">
+                <span class="meta-label">Role</span>
+                <span class="meta-value">SPC &amp; Automation Lead</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Institution</span>
+                <span class="meta-value">Boston University, CoE</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Timeline</span>
+                <span class="meta-value">September 2024 - April 2025</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">System</span>
+                <span class="meta-value">3× UR Arms + 2× CNC + Vision</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Stack</span>
+                <span class="meta-value">Python · OpenCV · MES · G-Code · URScript</span>
+            </div>
+        </div>
+
+        <div class="quick-stats">
+            <div class="stat-card">
+                <div class="stat-value green">150%</div>
+                <div class="stat-label">Throughput increase (parts per cycle)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">72%</div>
+                <div class="stat-label">Value-added time (up from 40%)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value orange">78%</div>
+                <div class="stat-label">Vision classification accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value purple">19.4<span style="font-size:1rem">min</span></div>
+                <div class="stat-label">Cycle time for 4 assemblies</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value green">35%</div>
+                <div class="stat-label">Yield improvement</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<div class="content">
+<div class="container">
+
+    <!-- Overview -->
+    <section class="section fade-in">
+        <div class="section-header">
+            <span class="section-num">01</span>
+            <h2 class="section-title">Project Overview</h2>
+        </div>
+
+        <p class="text-block">
+            <strong>B.U.M.E.S (Boston University Manufacturing Execution Software)</strong> is a fully automated 
+            computer-integrated manufacturing cell that produces a two-part cord organizer — the <em>Cordganizer</em> — 
+            consisting of a polycarbonate lid and an HDPE body. The original system took ~24 minutes to complete one 
+            cycle of two assemblies, with only 40% value-added process time.
+        </p>
+        <p class="text-block">
+            This project tackled three interlocked aims: redesigning the Cordganizer CAD/CAM for faster 
+            machining, re-orchestrating the BUMES scripts and UR robot programs for parallel operation, and integrating 
+            an OpenCV-based vision pipeline that allows a third robot (Rosie) to identify and sort finished assemblies 
+            by color entirely without human intervention.
+        </p>
+
+        <div class="aim-grid">
+            <div class="aim-card">
+                <div class="aim-tag">AIM 01</div>
+                <h4>CAD/CAM Redesign</h4>
+                <p>Redesign both parts in SolidWorks CAM to reduce unnecessary operations, tool changes, and machining distance. Target: halve milling time per part.</p>
+            </div>
+            <div class="aim-card">
+                <div class="aim-tag">AIM 02</div>
+                <h4>BUMES Script Optimization</h4>
+                <p>Restructure UR robot programs and BUMES task scheduling to enable alternate, parallel machining across two CNC mills, eliminating idle time at the bottleneck.</p>
+            </div>
+            <div class="aim-card">
+                <div class="aim-tag">AIM 03</div>
+                <h4>Vision-Based Sorting</h4>
+                <p>Integrate OpenCV color classification with robotic pick-and-place (Rosie) to autonomously sort finished cordganizers into colored bins based on part color.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- System Photo -->
+    <section class="section fade-in">
+        <div class="section-header">
+            <span class="section-num">02</span>
+            <h2 class="section-title">The Manufacturing Cell</h2>
+        </div>
+        <p class="text-block">
+            The BUMES cell spans multiple stations with two Universal Robots arms (Mary at Station 3, Edie at Station 4), 
+            two CNC mills (Cayenne and Paprika), a conveyor, gravity feeders, squaring fixtures, and a third robot 
+            (Rosie) at the vision/sorting station.
+        </p>
+
+        <div style="margin-bottom:2rem;">
+            <img src="BUMES diagram.png" alt="BUMES Cell Layout Diagram" class="full-img" style="background:#fff;padding:1rem;">
+        </div>
+
+        <div class="gallery-3col">
+            <div class="gallery-item">
+                <img src="cordganizer mary.jpg" alt="Mary UR Arm Station 3" style="width:100%;display:block;object-fit:contain;background:#0d1117;max-height:280px;">
+                <div class="gallery-caption">Mary: loads/unloads Cayenne CNC, assembles lids to bodies</div>
+            </div>
+            <div class="gallery-item">
+                <img src="cordganizer edie.jpg" alt="Edie UR Arm Station 4" style="width:100%;display:block;object-fit:contain;background:#0d1117;max-height:280px;">
+                <div class="gallery-caption">Edie: mirrors Mary's operations on Paprika CNC</div>
+            </div>
+            <div class="gallery-item">
+                <img src="cordganizer rosie.jpg" alt="Rosie Vision Station" style="width:100%;display:block;object-fit:contain;background:#0d1117;max-height:280px;">
+                <div class="gallery-caption">Rosie: webcam-guided pick-and-sort into color bins</div>
+            </div>
+        </div>
+
+        <div class="gallery-2col">
+            <div class="gallery-item">
+                <img src="cordganizer bins2.jpg" alt="Sorting bins" style="width:100%;display:block;object-fit:contain;background:#0d1117;max-height:280px;">
+                <div class="gallery-caption">Blue and white cordganizer assemblies at Rosie's sorting station</div>
+            </div>
+            <div class="gallery-item">
+                <img src="cordganizer cnc.jpg" alt="CNC Mill" style="width:100%;display:block;object-fit:contain;background:#0d1117;max-height:280px;">
+                <div class="gallery-caption">Haas Mini Mill machining lid stock mid-operation</div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Aim 1: CAD/CAM -->
+    <section class="section fade-in">
+        <div class="section-header">
+            <span class="section-num">03</span>
+            <h2 class="section-title">Aim 1: CAD/CAM Redesign</h2>
+        </div>
+
+        <p class="text-block">
+            The original Cordganizer design included unnecessary facing passes, redundant hole operations, and four 
+            chamfers per lid, costing machine time without contributing to fit or function. The redesigned CAD 
+            reduced operations to pocket milling with two precision holes and two chamfers for the lid, and a 
+            single roughing pass with deep pocket milling for the body.
+        </p>
+
+        <div class="gallery-2col" style="margin-bottom:2rem;">
+            <div class="gallery-item">
+                <img src="lidcad.jpg" alt="Old vs New Lid CAD" style="width:100%;height:260px;object-fit:contain;display:block;background:#fff;">
+                <div class="gallery-caption">Old lid (4 holes + 4 chamfers) → New lid (pocket milling + 2 holes + 2 chamfers)</div>
+            </div>
+            <div class="gallery-item">
+                <img src="bodycad.jpg" alt="Old vs New Body CAD" style="width:100%;height:260px;object-fit:contain;display:block;background:#fff;">
+                <div class="gallery-caption">Old body (2-pass step-down) → New body (1-pass roughing + cord channel)</div>
+            </div>
+        </div>
+
+        <div class="gallery-2col" style="margin-bottom:2rem;">
+            <div class="gallery-item">
+                <video controls style="width:100%;display:block;background:#000;">
+                    <source src="lidcam.mp4" type="video/mp4">
+                </video>
+                <div class="gallery-caption">SolidWorks CAM simulation — new lid machining sequence</div>
+            </div>
+            <div class="gallery-item">
+                <video controls style="width:100%;display:block;background:#000;">
+                    <source src="bodycam.mp4" type="video/mp4">
+                </video>
+                <div class="gallery-caption">SolidWorks CAM simulation — new body machining sequence</div>
+            </div>
+        </div>
+
+        <div class="data-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Part</th>
+                        <th>Version</th>
+                        <th>CAM Operations</th>
+                        <th>Tool Changes</th>
+                        <th>Machining Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Lid</td>
+                        <td class="tag-old">Old</td>
+                        <td>Facing, 4 Holes, 4 Chamfers</td>
+                        <td>2</td>
+                        <td class="tag-old">3 min 45 s</td>
+                    </tr>
+                    <tr>
+                        <td>Lid</td>
+                        <td class="tag-improved">New</td>
+                        <td>Pocket Milling, 2 Holes, 2 Chamfers</td>
+                        <td>1</td>
+                        <td class="tag-improved">1 min 45 s</td>
+                    </tr>
+                    <tr>
+                        <td>Body</td>
+                        <td class="tag-old">Old</td>
+                        <td>Step-Down (2 pass), Deep Pocket (2 pass), 4 Chamfers</td>
+                        <td>3</td>
+                        <td class="tag-old">6 min 24 s</td>
+                    </tr>
+                    <tr>
+                        <td>Body</td>
+                        <td class="tag-improved">New</td>
+                        <td>Roughing (1 pass), Deep Pocket (1 pass), Slot Perimeter, 2 Chamfers</td>
+                        <td>2</td>
+                        <td class="tag-improved">3 min 16 s</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="highlight-box">
+            <p>
+                Feed rate was recalculated using <strong>F<sub>m</sub> = n × z × F<sub>t</sub></strong>.
+                Scaling the feed per tooth by a height ratio of 0.667 (reduced depth-of-cut) brought the 
+                cutting feedrate from 52.8 in/min down to <strong>35.2 in/min</strong>, significantly 
+                reducing tool load while maintaining surface quality.
+            </p>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Aim 2: BUMES Process -->
+    <section class="section fade-in">
+        <div class="section-header">
+            <span class="section-num">04</span>
+            <h2 class="section-title">Aim 2: BUMES Script & Process Optimization</h2>
+        </div>
+
+        <p class="text-block">
+            The original BUMES cycle ran Mary and Edie sequentially, leaving one robot idle while the other 
+            machined. The redesigned orchestration introduced <strong>alternate machining</strong>: while Mary 
+            finishes a body on Cayenne, Edie begins a lid on Paprika. This achieved steady-state overlap and 
+            doubled the effective throughput.
+        </p>
+
+        <p class="text-block">
+            13 individual UR programs were created (7 per robot), using a letter-and-number naming convention 
+            to eliminate script confusion. The cycle now produces <strong>4 cordganizers</strong> per 24.6-minute 
+            run, compared to 2 in 24 minutes previously.
+        </p>
+
+        <!-- Process Flow Diagram -->
+        <div class="flow-diagram">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:var(--text-secondary); margin-bottom:1.2rem;">BUMES CYCLE: 1 cycle → 4 assemblies + Vision + Sort</div>
+
+            <!-- Mary's line -->
+            <div class="flow-row">
+                <span style="font-size:0.7rem;color:var(--text-secondary);width:45px;flex-shrink:0;">MARY</span>
+                <div class="flow-node node-mary">LID A<div class="node-time">3.3 min</div></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-node node-mary">BODY C<div class="node-time">5.2 min</div></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-node node-conveyor">Assemble A→B<div class="node-time">2.0 min</div></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-node node-mary">LID F<div class="node-time">3.4 min</div></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-node node-mary">BODY H<div class="node-time">5.8 min</div></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-node node-conveyor">Assemble F→G<div class="node-time">1.5 min</div></div>
+            </div>
+
+            <!-- Edie's line -->
+            <div class="flow-row" style="margin-top:0.5rem;">
+                <span style="font-size:0.7rem;color:var(--text-secondary);width:45px;flex-shrink:0;">EDIE</span>
+                <div class="flow-node node-edie">BODY B<div class="node-time">5.0 min</div></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-node node-edie">LID D<div class="node-time">3.3 min</div></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-node node-conveyor">Assemble C→D<div class="node-time">2.1 min</div></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-node node-edie">BODY G<div class="node-time">4.9 min</div></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-node node-edie">LID J<div class="node-time">3.2 min</div></div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-node node-conveyor">Assemble H→J<div class="node-time">1.1 min</div></div>
+            </div>
+
+            <!-- Rosie line -->
+            <div class="flow-row" style="margin-top:1rem;">
+                <span style="font-size:0.7rem;color:var(--text-secondary);width:45px;flex-shrink:0;">ROSIE</span>
+                <div class="flow-node node-rosie">Vision + Sort<div class="node-time">6.0 min</div></div>
+            </div>
+
+            <div class="flow-legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#ffd700;"></div><span>Mary (Station 3)</span></div>
+                <div class="legend-item"><div class="legend-dot" style="background:#bc8cff;"></div><span>Edie (Station 4)</span></div>
+                <div class="legend-item"><div class="legend-dot" style="background:#ff7b72;"></div><span>Rosie (Vision)</span></div>
+                <div class="legend-item"><div class="legend-dot" style="background:#2ea043;"></div><span>Conveyor / Assembly</span></div>
+            </div>
+        </div>
+
+        <div class="tech-grid">
+            <div class="tech-card">
+                <h4>UR Program Structure (Mary)</h4>
+                <ul>
+                    <li><strong>gravityFeederW.urp</strong> — Takes lid stock from gravity feeder, squares in fixture</li>
+                    <li><strong>gravityFeederZ.urp</strong> — Takes body stock from gravity feeder, squares in fixture</li>
+                    <li><strong>_adminCG-WXYZLoadMillMakeLid.urp</strong> — Loads stock into Cayenne, mills lid</li>
+                    <li><strong>_adminCG-WXYZUnoadMillLid.urp</strong> — Removes lid, places in vertical vise</li>
+                    <li><strong>_adminCG-WXYZLoadMillMakeBody.urp</strong> — Loads stock into Cayenne, mills body</li>
+                    <li><strong>_adminCG-WXYZUnoadMillBody.urp</strong> — Removes body to conveyor</li>
+                    <li><strong>_adminCG-AssembleAToB.urp</strong> — Grabs lid, squares, places on body for snap assembly</li>
+                </ul>
+            </div>
+            <div class="tech-card">
+                <h4>Bottleneck Analysis (Routing Diagram)</h4>
+                <ul>
+                    <li>Body milling on Paprika: <strong>230 s at 100% utilization</strong> confirmed bottleneck</li>
+                    <li>Lid milling on Cayenne: 125 s at 54% utilization</li>
+                    <li>Load operations: 70–75 s at ~30% utilization</li>
+                    <li>Assembly step: 90 s at 39% utilization</li>
+                    <li>Alternate machining strategy reduces effective cycle time per assembly from 11.9 → 7.2 min</li>
+                    <li>System designed to run infinitely once initialized</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="gallery" style="margin-bottom:2rem;">
+            <div class="gallery-item">
+                <img src="cordganizer routing.jpg" alt="Routing Diagram" style="width:100%;display:block;object-fit:contain;background:#fff;padding:0.5rem;">
+                <div class="gallery-caption">Routing diagram with utilization labels; body milling confirmed bottleneck at 100%</div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Aim 3: Vision -->
+    <section class="section fade-in">
+        <div class="section-header">
+            <span class="section-num">05</span>
+            <h2 class="section-title">Aim 3: Vision-Based Part Sorting</h2>
+        </div>
+
+        <p class="text-block">
+            When the original inspection camera failed three days before the final demo, the vision pipeline was 
+            rebuilt from scratch using <strong>OpenCV</strong>. The new system uses edge detection and contour analysis 
+            to identify assembled cordganizers in the camera's region of interest, classifies them as <em>Blue</em> 
+            or <em>White</em> based on average BGR values, and signals Rosie to route the part to the correct bin.
+        </p>
+
+        <div class="pipeline-card">
+            <div class="section-subtitle">Software Execution Pipeline</div>
+            <div class="pipeline-steps">
+                <div class="pipeline-step">_mesProcess.py</div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">Vision_test()</div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">_mesVision_test.py</div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">Vision_system.py</div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">RTDE → UR Robot</div>
+            </div>
+        </div>
+
+        <!-- Code blocks -->
+        <div class="gallery-2col" style="margin-bottom:2rem;">
+            <div>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--text-secondary);display:block;margin-bottom:0.5rem;">Color Classification — Vision_system.py</span>
+                <div class="code-block">
+<pre><span class="kw">def</span> <span class="fn">classify_color</span>(bgr):
+    b, g, r = bgr
+    <span class="kw">if</span> b &lt; <span class="num">180</span> <span class="kw">and</span> g &lt; <span class="num">120</span> <span class="kw">and</span> r &lt; <span class="num">130</span>:
+        <span class="kw">return</span> <span class="str">"Blue"</span>
+    <span class="kw">elif</span> r &gt; <span class="num">120</span> <span class="kw">and</span> g &gt; <span class="num">120</span> <span class="kw">and</span> b &gt; <span class="num">120</span>:
+        <span class="kw">return</span> <span class="str">"White"</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="str">"Unknown"</span></pre>
+                </div>
+            </div>
+            <div>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--text-secondary);display:block;margin-bottom:0.5rem;">Robot Connection &amp; Gripper Control — RTDE</span>
+                <div class="code-block">
+<pre><span class="cm"># Connect via RTDE interface</span>
+rtde_c = rtde_control.<span class="fn">RTDEControlInterface</span>(
+    <span class="str">"10.241.34.45"</span>)
+
+<span class="cm"># Gripper open/close via digital out</span>
+rtde_io_.<span class="fn">setStandardDigitalOut</span>(<span class="num">0</span>, <span class="kw">True</span>)
+print(<span class="str">"Gripper closed"</span>)
+
+<span class="cm"># Convert pose to joint angles</span>
+q = rtde_c.<span class="fn">getInverseKinematics</span>(p_home)
+rtde_c.<span class="fn">moveJ</span>(q, speed=<span class="num">0.3</span>)</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-2col" style="margin-bottom:2rem;">
+            <div>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--text-secondary);display:block;margin-bottom:0.5rem;">Object Detection — OpenCV Pipeline</span>
+                <div class="code-block">
+<pre><span class="cm"># Region of interest</span>
+roi = frame[<span class="num">50</span>:<span class="num">360</span>, <span class="num">140</span>:<span class="num">450</span>]
+
+<span class="cm"># Edge detection</span>
+gray = cv2.<span class="fn">cvtColor</span>(roi, COLOR_BGR2GRAY)
+blurred = cv2.<span class="fn">GaussianBlur</span>(gray, (<span class="num">5</span>,<span class="num">5</span>), <span class="num">0</span>)
+edges = cv2.<span class="fn">Canny</span>(blurred, <span class="num">30</span>, <span class="num">100</span>)
+
+<span class="cm"># Find &amp; filter contours</span>
+contours, _ = cv2.<span class="fn">findContours</span>(
+    edges, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE)
+<span class="kw">for</span> cnt <span class="kw">in</span> contours:
+    <span class="kw">if</span> cv2.<span class="fn">contourArea</span>(cnt) &gt; <span class="num">1000</span>:
+        b, g, r = cv2.<span class="fn">mean</span>(obj_roi)[:<span class="num">3</span>]
+        <span class="kw">return</span> <span class="fn">classify_color</span>((b, g, r))</pre>
+                </div>
+            </div>
+            <div>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--text-secondary);display:block;margin-bottom:0.5rem;">Sorting Decision — Part Routing</span>
+                <div class="code-block">
+<pre>color = <span class="fn">get_object_color</span>()
+print(<span class="fn">f</span><span class="str">"Detected: {color}"</span>)
+
+<span class="kw">if</span> color == <span class="str">"White"</span>:
+    q = rtde_c.<span class="fn">getInverseKinematics</span>(
+        white_position)
+    rtde_c.<span class="fn">moveJ</span>(q, speed=<span class="num">0.3</span>)
+    rtde_io_.<span class="fn">setStandardDigitalOut</span>(<span class="num">0</span>, <span class="kw">False</span>)
+
+<span class="kw">elif</span> color == <span class="str">"Blue"</span>:
+    q = rtde_c.<span class="fn">getInverseKinematics</span>(
+        blue_position)
+    rtde_c.<span class="fn">moveJ</span>(q, speed=<span class="num">0.3</span>)</pre>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="tech-grid" style="margin-top:2rem;">
+            <div class="tech-card">
+                <h4>Defined Waypoints (x, y, z, rx, ry, rz)</h4>
+                <ul>
+                    <li><strong>p_home</strong> — Safe neutral position</li>
+                    <li><strong>p_home_to_pallet / _down</strong> — Conveyor pickup approach &amp; grasp</li>
+                    <li><strong>pallet_to_cam</strong> — Transit to camera station</li>
+                    <li><strong>p_home_cam / p_home_abvcam</strong> — Camera presentation poses</li>
+                    <li><strong>away_from_cam</strong> — Clear view for image capture</li>
+                    <li><strong>white_position / blue_position</strong> — Bin drop poses</li>
+                </ul>
+            </div>
+            <div class="tech-card">
+                <h4>Communication Architecture</h4>
+                <ul>
+                    <li>MES (BUMES) — task scheduling, status tracking, process orchestration</li>
+                    <li>URScript / RTDE — real-time data exchange and motion control with UR arms</li>
+                    <li>G-Code — CNC toolpath programs generated from SolidWorks CAM</li>
+                    <li>Standard Digital I/O — pneumatic gripper open/close control</li>
+                    <li>os.system() bridge — MES to Python script handoff</li>
+                    <li>OpenCV VideoCapture — USB webcam at index 1 (DirectShow)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- BUMES Cycle Video -->
+    <section class="section fade-in">
+        <div class="section-header">
+            <span class="section-num">06</span>
+            <h2 class="section-title">Full BUMES Cycle Demo</h2>
+        </div>
+        <p class="text-block">
+            One complete BUMES cycle: Mary and Edie machine and assemble four cordganizers in parallel using 
+            alternate machining, then Rosie identifies each part by color and routes it to the correct bin — 
+            entirely without human intervention.
+        </p>
+
+        <video class="media-video" controls style="border-radius:10px; border:1px solid var(--border);">
+            <source src="bumes_optimization_video.mp4" type="video/mp4">
+        </video>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Results -->
+    <section class="section fade-in">
+        <div class="section-header">
+            <span class="section-num">07</span>
+            <h2 class="section-title">Results &amp; Outcomes</h2>
+        </div>
+
+        <div style="margin-bottom:2rem;">
+            <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:1.5rem;align-items:stretch;">
+                <!-- Old Process -->
+                <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:2rem;">
+                    <div style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--accent-orange);text-transform:uppercase;letter-spacing:1px;margin-bottom:1.2rem;">Old Process</div>
+                    <div style="display:flex;flex-direction:column;gap:1rem;">
+                        <div style="background:var(--bg-dark);border-radius:6px;padding:1rem;">
+                            <div style="font-family:'IBM Plex Mono',monospace;font-size:1.5rem;color:var(--accent-orange);font-weight:700;">11.9 min</div>
+                            <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.2rem;">Mfg. Operation Time / Cordganizer</div>
+                        </div>
+                        <div style="background:var(--bg-dark);border-radius:6px;padding:1rem;">
+                            <div style="font-family:'IBM Plex Mono',monospace;font-size:1.5rem;color:var(--accent-orange);font-weight:700;">40%</div>
+                            <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.2rem;">Value-Added Process Time</div>
+                        </div>
+                        <div style="background:var(--bg-dark);border-radius:6px;padding:1rem;">
+                            <div style="font-family:'IBM Plex Mono',monospace;font-size:1.5rem;color:var(--accent-orange);font-weight:700;">11.9 min</div>
+                            <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.2rem;">Throughput Time / Cordganizer</div>
+                        </div>
+                        <div style="background:var(--bg-dark);border-radius:6px;padding:1rem;">
+                            <div style="font-family:'IBM Plex Mono',monospace;font-size:1.1rem;color:var(--accent-orange);font-weight:700;">~24 min</div>
+                            <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.2rem;">To make &amp; assemble 2 cordganizers</div>
+                        </div>
+                        <div style="background:var(--bg-dark);border-radius:6px;padding:1rem;">
+                            <div style="font-family:'IBM Plex Mono',monospace;font-size:1.1rem;color:var(--accent-orange);font-weight:700;">Manual QA</div>
+                            <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.2rem;">Sorting</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- VS -->
+                <div style="display:flex;align-items:center;justify-content:center;">
+                    <div style="background:rgba(255,193,7,0.15);border:2px solid rgba(255,193,7,0.4);border-radius:50%;width:56px;height:56px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;color:#ffc107;flex-shrink:0;">VS</div>
+                </div>
+                <!-- New Process -->
+                <div style="background:var(--bg-card);border:1px solid rgba(46,160,67,0.4);border-radius:10px;padding:2rem;">
+                    <div style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--accent-green);text-transform:uppercase;letter-spacing:1px;margin-bottom:1.2rem;">New Process</div>
+                    <div style="display:flex;flex-direction:column;gap:1rem;">
+                        <div style="background:var(--bg-dark);border-radius:6px;padding:1rem;">
+                            <div style="font-family:'IBM Plex Mono',monospace;font-size:1.5rem;color:var(--accent-green);font-weight:700;">4.9 min</div>
+                            <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.2rem;">Mfg. Operation Time / Cordganizer</div>
+                        </div>
+                        <div style="background:var(--bg-dark);border-radius:6px;padding:1rem;">
+                            <div style="font-family:'IBM Plex Mono',monospace;font-size:1.5rem;color:var(--accent-green);font-weight:700;">72%</div>
+                            <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.2rem;">Value-Added Process Time</div>
+                        </div>
+                        <div style="background:var(--bg-dark);border-radius:6px;padding:1rem;">
+                            <div style="font-family:'IBM Plex Mono',monospace;font-size:1.5rem;color:var(--accent-green);font-weight:700;">7.2 min</div>
+                            <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.2rem;">Throughput Time / Cordganizer</div>
+                        </div>
+                        <div style="background:var(--bg-dark);border-radius:6px;padding:1rem;">
+                            <div style="font-family:'IBM Plex Mono',monospace;font-size:1.1rem;color:var(--accent-green);font-weight:700;">19.4 min</div>
+                            <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.2rem;">To make &amp; assemble <strong>4 cordganizers*</strong></div>
+                        </div>
+                        <div style="background:var(--bg-dark);border-radius:6px;padding:1rem;">
+                            <div style="font-family:'IBM Plex Mono',monospace;font-size:1.1rem;color:var(--accent-green);font-weight:700;">Completely Autonomous</div>
+                            <div style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.2rem;">Zero Human Intervention in Manufacturing & Sorting</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:0.8rem;font-size:0.8rem;color:var(--text-secondary);font-style:italic;">* Alternate machining achieved steady state and decreased overall time</div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Limitations & Future Work -->
+    <section class="section fade-in">
+        <div class="section-header">
+            <span class="section-num">08</span>
+            <h2 class="section-title">Limitations &amp; Future Work</h2>
+        </div>
+
+        <div class="limit-grid">
+            <div class="limit-card red">
+                <h4>Current Limitations</h4>
+                <ul>
+                    <li>Camera sensitivity to ambient lighting conditions reduced classification reliability</li>
+                    <li>No built-in wait() capability between BUMES operations caused timing issues</li>
+                    <li>Vision limited to two colors; no defect geometry detection</li>
+                    <li>Pose waypoints are manually defined — not adaptive to part variation</li>
+                </ul>
+            </div>
+            <div class="limit-card green">
+                <h4>Future Work</h4>
+                <ul>
+                    <li>Optimize CAM for exclusively snap-fit assembly; further reduce milling times</li>
+                    <li>Eliminate burring through finishing passes or reduced milling feed</li>
+                    <li>Expand vision features: size classification, hole detection, surface defect identification</li>
+                    <li>Integrate data collection and SPC tracking per-part across full production run</li>
+                    <li>Implement adaptive wait() synchronization between UR scripts</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Team -->
+    <section class="section fade-in">
+        <div class="section-header">
+            <span class="section-num">09</span>
+            <h2 class="section-title">Project Team</h2>
+        </div>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="name">Shrijit Banerjee</div>
+                <div class="role">MES Lead · CAM & Vision Integration</div>
+            </div>
+            <div class="team-card">
+                <div class="name">Aniruddha Dalal</div>
+                <div class="role">CNC Operations</div>
+            </div>
+            <div class="team-card">
+                <div class="name">Kaleigh Hilal</div>
+                <div class="role">UR Robot Programs Lead</div>
+            </div>
+            <div class="team-card">
+                <div class="name">Gaella Hawi</div>
+                <div class="role">Robot Integration Lead</div>
+            </div>
+            <div class="team-card">
+                <div class="name">Azamat Abdikarimov</div>
+                <div class="role">Vision System Programmer</div>
+            </div>
+            <div class="team-card">
+                <div class="name">Anirudh Sundaresan</div>
+                <div class="role">CNC Operations</div>
+            </div>
+        </div>
+
+        <div style="margin-top:1.5rem;">
+            <img src="cordganizer group.jpg" alt="Team photo" class="full-img" style="max-height:500px;object-fit:cover;">
+        </div>
+    </section>
+
+    <!-- Project Resources -->
+            <div class="section">
+                <h2 class="section-title">Project Resources</h2>
+                <div class="downloads">
+                    <a href="./Cordganizer Presentation.pptx" download class="download-card">
+                        <div class="download-icon">📊</div>
+                        <div class="download-info">
+                            <h4>Presentation</h4>
+                            <p>Brief Overview of Project Accomplishments</p>
+                        </div>
+                    </a>
+                    <a href="./Cordganizer Reports.zip" download class="download-card">
+                        <div class="download-icon">📄</div>
+                        <div class="download-info">
+                            <h4>Setup Reports</h4>
+                            <p>Reports describe setup and operations</p>
+                        </div>
+                    </a>
+                <a href="./Cordganizer Scripts.zip" download class="download-card">
+                    <div class="download-icon">📁</div>
+                    <div class="download-info">
+                        <h4>CAD, CAM, Scripts</h4>
+                        <p>Complete CAD, CAM, robot+vision scripts</p>
+                    </div>
+                </a>
+                </div>
+            </div>
+
+</div>
+</div>

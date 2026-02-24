@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEM Hydrogen Fuel System | Shrijit Banerjee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #0d1117;
+            --bg-card: #161b22;
+            --bg-hover: #1c2128;
+            --accent-green: #2ea043;
+            --accent-blue: #58a6ff;
+            --accent-orange: #ff7b72;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --border: #30363d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-back {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-back:hover {
+            color: var(--accent-green);
+        }
+
+        .nav-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 5% 4rem;
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-dark) 100%);
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .project-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(46, 160, 67, 0.15);
+            border: 1px solid var(--accent-green);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+        }
+
+        .meta-value {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Quick Stats Grid */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-dark);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Main Content */
+        .content {
+            padding: 4rem 5%;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .text-block {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .text-block strong {
+            color: var(--text-primary);
+        }
+
+        /* 3D Viewer Section */
+        .viewer-section {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 600px;
+            background: var(--bg-dark);
+            border-radius: 8px;
+        }
+
+        .viewer-placeholder {
+            width: 100%;
+            height: 600px;
+            background: var(--bg-dark);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--border);
+            gap: 1rem;
+        }
+
+        .viewer-placeholder-text {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .viewer-instructions {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-dark);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-item {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .gallery-caption {
+            padding: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Technical Details Grid */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .tech-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .tech-card h4 {
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .tech-card ul {
+            list-style: none;
+        }
+
+        .tech-card li {
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .tech-card li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+        }
+
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: var(--bg-dark);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent-blue);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Process Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0.3rem;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            border: 2px solid var(--bg-dark);
+        }
+
+        .timeline-item h4 {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Downloads Section */
+        .downloads {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .download-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .download-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 160, 67, 0.15);
+        }
+
+        .download-card:focus {
+            outline: 2px solid var(--accent-green);
+            outline-offset: 2px;
+        }
+
+        .download-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .download-info h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+            font-size: 1.1rem;
+        }
+
+        .download-info p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        /* Video Section Styles */
+        .video-section {
+            margin-top: 3rem;
+        }
+
+        .video-container {
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 2rem;
+        }
+
+        .video-description {
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .video-description strong {
+            color: var(--text-primary);
+        }
+
+        .video-fallback {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 1rem;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .image-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="./portfolio-website.html" class="nav-back">
+                ← Back to Portfolio
+            </a>
+            <div class="nav-title">PEM HYDROGEN PROJECT</div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <span class="project-badge">DESIGN & MANUFACTURING</span>
+            <h1>PEM Hydrogen Fuel System</h1>
+            <p class="hero-subtitle">
+                Proton exchange membrane electrolysis system achieving 96% power reduction
+                through optimized waterflow channel design and materials engineering.
+            </p>
+
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Team</span>
+                    <span class="meta-value">6 Members</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Course</span>
+                    <span class="meta-value">ME 460-461 Capstone</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Institution</span>
+                    <span class="meta-value">Boston University</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Role</span>
+                    <span class="meta-value">Manufacturing & Design Lead</span>
+                </div>
+            </div>
+
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <div class="stat-value">96%</div>
+                    <div class="stat-label">Power Reduction (13W → 0.5W)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">4x</div>
+                    <div class="stat-label">Electrode Surface Area</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">2x</div>
+                    <div class="stat-label">Proton Conductivity</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$1/kg</div>
+                    <div class="stat-label">Target H₂ Production Cost</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="content">
+        <div class="container">
+
+            <!-- Project Overview -->
+            <div class="section">
+                <h2 class="section-title">Project Overview</h2>
+                <div class="text-block">
+                    <strong>The Problem:</strong> 95% of global hydrogen comes from "grey hydrogen" produced via steam reforming, 
+                    emitting 12kg of CO₂ for every 1kg of hydrogen. This means hydrogen production alone generates 830 million 
+                    tonnes of CO₂ annually, which is more than Germany's entire annual emissions. We need green hydrogen.
+                </div>
+                <div class="text-block">
+                    <strong>Our Solution:</strong> A solar-powered PEM electrolysis system that produces hydrogen with zero direct 
+                    emissions. Unlike last year's team who focused purely on research (SOEC at 700°C+, too dangerous for our 
+                    setting), we built an actual working prototype using PEM technology operating at 50-80°C.
+                </div>
+                <div class="text-block">
+                    <strong>Why It Matters:</strong> The DOE's target is $1/kg for hydrogen production to make green hydrogen 
+                    commercially viable. Our design achieves 96% lower power consumption than benchmark systems while maintaining 
+                    equivalent hydrogen output, a critical step toward making green hydrogen economically competitive.
+                </div>
+            </div>
+
+            <!-- How It Works - Visual Explanation -->
+            <div class="section">
+                <h2 class="section-title">How PEM Electrolysis Works</h2>
+                <div style="background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); padding: 2rem; margin-bottom: 2rem;">
+                    <img src="./electrochem process.png" alt="PEM Electrolysis Process" style="width: 100%; max-width: 800px; display: block; margin: 0 auto; border-radius: 8px;">
+                    <div style="margin-top: 1.5rem; color: var(--text-secondary); line-height: 1.8;">
+                        <strong style="color: var(--text-primary);">The Electrochemical Process:</strong><br>
+                        Water enters through the anode (right side), where current initializes electrolysis process, splitting water into oxygen gas (O₂), protons (H⁺), and electrons. 
+                        The Nafion membrane (center, orange) only lets protons through while blocking gases. Electrons travel through 
+                        the external circuit (providing our power measurement). At the cathode (left), protons recombine with electrons 
+                        to form hydrogen gas (H₂). The optimized flow channels (blue) are what I redesigned to achieve 96% power reduction.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3D CAD Viewer -->
+<div class="section">
+    <h2 class="section-title">3D CAD Model</h2>
+    <div class="viewer-section">
+        <h3 class="section-subtitle">Interactive Assembly View</h3>
+        <model-viewer 
+            src="./pem_assembly.glb"
+            alt="PEM Hydrogen Cell Assembly"
+            auto-rotate
+            camera-controls
+            shadow-intensity="1"
+            exposure="0.8"
+            style="width: 100%; height: 600px; background: var(--bg-dark); border-radius: 8px;">
+
+            <!-- Loading indicator -->
+            <div slot="poster" style="display: flex; align-items: center; justify-content: center; height: 100%; background: var(--bg-dark); color: var(--text-secondary);">
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">⏳</div>
+                    <div style="font-size: 1.2rem;">Loading 3D Model...</div>
+                </div>
+            </div>
+
+            <!-- Error message if file not found -->
+            <div slot="error" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: var(--bg-dark); color: var(--text-secondary); padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+                <div style="font-size: 1.2rem; margin-bottom: 1rem;">Could not load 3D model</div>
+                <div style="font-size: 0.9rem; max-width: 600px; text-align: center; line-height: 1.6;">
+                    Make sure "pem_assembly.glb" is in the same folder as this HTML file.<br>
+                    Check the browser console (F12) for details.
+                </div>
+            </div>
+        </model-viewer>
+
+        <div class="viewer-instructions">
+            <strong>Controls:</strong> Click and drag to rotate • Scroll to zoom • Right-click drag to pan<br>
+        </div>
+    </div>
+</div>
+
+            <!-- Photos -->
+            <div class="section">
+                <h2 class="section-title">Fabricated Hardware</h2>
+                <div class="image-gallery">
+                    <div class="gallery-item">
+                        <img src="./pem apparatus.png" alt="Hydrogen Capture Apparatus">
+                        <img src="./custom apparatus features pem.png" alt="Apparatus Features">
+                        <div class="gallery-caption">
+                            <strong>Hydrogen Capture Apparatus:</strong> Custom-built testing station featuring a hydrogen
+                            collection tank, DI water reservoir with aluminum mounting plate, and integrated LCD display
+                            for real-time data monitoring during PEM cell operation.
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="./IMG_3914.jpeg" alt="Assembled PEM Stack">
+                        <img src="./pem exploded cad.png" alt="Exploded PEM Stack">
+                        <div class="gallery-caption">
+                            <strong>Completed Stack:</strong> Aluminum compression plates with barbed fittings for water 
+                            inlet and H₂/O₂ outlets. Stack has compression plates (aluminum 6061), 
+                            titanium electrodes, garolite gaskets, neoprene seals, Nafion 117 membrane, titanium sintered 
+                            mesh, all held together with teflon-coated bolts to prevent internal shorting. 
+                            Each layer plays a specific role in the electrochemical process.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Deep Dive -->
+            <div class="section">
+                <h2 class="section-title">Technical Design</h2>
+
+                <h3 class="section-subtitle">The Core Innovation: Flow Channel Optimization</h3>
+                <div class="text-block">
+                    The benchmark PEM cell had 0.014" deep flow channels. That's barely thicker than a few sheets of paper. 
+                    Water couldn't move efficiently, creating internal resistance that demanded 13W just to produce a trickle 
+                    of hydrogen.
+                </div>
+                <div class="text-block">
+                    <strong>Our fix:</strong> Custom-designed gaskets that increase channel depth to 0.0625", 4.5x deeper than our benchmark. 
+                    This lets water flow properly across 4x more electrode surface area. Less resistance = less power needed. 
+                    We dropped input power from 13W to 0.5W while maintaining the same hydrogen output rate.
+                </div>
+
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <h4>Materials Selection</h4>
+                        <ul>
+                            <li><strong>Nafion 117 Membrane:</strong> Industry standard PEM, 0.2 S/cm proton conductivity 
+                            (2x better than benchmark), stable -20°C to 120°C</li>
+                            <li><strong>Titanium Grade 2 Electrodes:</strong> Won't corrode in acidic environment, good 
+                            electrical conductivity</li>
+                            <li><strong>Titanium Sintered Mesh:</strong> Gas diffusion layer, allows even water/gas distribution</li>
+                            <li><strong>Garolite (G-10):</strong> Electrical insulator, won't ignite under laser (learned 
+                            this the hard way during prototyping)</li>
+                            <li><strong>Aluminum 6061-T6:</strong> Lightweight compression plates, easy to machine</li>
+                            <li><strong>Teflon-Coated Bolts:</strong> Prevents electrical shorting between plates</li>
+                        </ul>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Why Not SOEC?</h4>
+                        <ul>
+                            <li>Last year's team researched Solid Oxide cells which is interesting on paper but impractical 
+                            for our constraints.</li>
+                            <li>Requires 700°C+ operating temperature (safety nightmare)</li>
+                            <li>Not yet commercially viable for small-scale applications</li>
+                            <li>We wanted to build something, not just write a research paper</li>
+                        </ul>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Operating Conditions</h4>
+                        <ul>
+                            <li><strong>Temperature:</strong> 50-80°C (safe, manageable)</li>
+                            <li><strong>Voltage:</strong> 5V input (both benchmark and our design)</li>
+                            <li><strong>Power Draw:</strong> Benchmark 13W, ours 0.5-1W</li>
+                            <li><strong>H₂ Output:</strong> Both systems plateau at 2.5×10⁴ mg/L in test chamber</li>
+                            <li><strong>Efficiency Note:</strong> High internal resistance suggests optimization potential:
+                            if we eliminate small, hollow gaps in the sandwich, efficiency would improve further</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manufacturing Process -->
+            <div class="section">
+                <h2 class="section-title">Manufacturing Process</h2>
+                <h3 class="section-subtitle">2-Week Fabrication Timeline</h3>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>Week 1: Prototyping & CAM Validation</h4>
+                        <p>Built prototypes from cardboard (internals) and HDPE (externals/fittings) to verify fit and 
+                        assembly sequence. Used this phase to develop and validate CAM programs for each machining operation. 
+                        Had shop managers approve all toolpaths before touching the actual materials.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>Material-Specific Machining Strategy</h4>
+                        <p><strong>Waterjet:</strong> Garolite gaskets (laser cutting would ignite fiberglass material)<br>
+                        <strong>Wire EDM:</strong> All metal gaskets and titanium parts (CNC tool bits wear too fast on titanium)<br>
+                        <strong>CNC Mill:</strong> Aluminum compression blocks<br>
+                        <strong>Rigid Tapping:</strong> All threaded holes for bolts and NPT fittings<br>
+                        <strong>Manual Assembly:</strong> Stacking and compression with proper torque sequence</p>
+                        
+                        <div style="margin-top: 1.5rem; background: var(--bg-card); border-radius: 8px; padding: 1.5rem; border: 1px solid var(--border);">
+                            <img src="./wire edm titanium.png" alt="Wire EDM Toolpath for Titanium Gasket" style="width: 100%; max-width: 500px; display: block; margin: 0 auto 1rem; border-radius: 6px; background: black;">
+                            <div style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7;">
+                                <strong style="color: var(--text-primary);">Wire EDM Toolpath:</strong> Custom flow channel geometry for titanium electrode gasket. 
+                                The curved channels (U-shaped features) are what we optimized: 4.5x deeper than benchmark to reduce flow resistance. 
+                                Red line shows the wire EDM cutting path. Holes are for bolt clearances. Had to use wire EDM instead of CNC 
+                                because titanium eats through steel bits too fast.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>Week 2: Production Run</h4>
+                        <p>Machined all final parts across 5 different machine types. Split team: two machinists (including me) 
+                        handled fabrication while research subgroup tested the commercial cell and gathered baseline data. 
+                        Zero safety incidents, zero scrapped parts.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>Lessons Learned</h4>
+                        <p>Prototyping first was crucial. I caught assembly interferences and tolerance stackup issues before 
+                        wasting expensive materials. Also learned that some materials have unexpected properties: Garolite 
+                        starts smoking under laser cutting, producing toxic fiberglass particles. Waterjet was the right call.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Data -->
+            <div class="section">
+                <h2 class="section-title">Performance Validation</h2>
+                
+                <h3 class="section-subtitle">Test Methodology</h3>
+                <div class="text-block">
+                    We measured hydrogen concentration using an MQ-8 sensor in a sealed 0.003 m³ acrylic chamber. Both our 
+                    system and the benchmark were run at 5V input until hydrogen concentration plateaued, indicating steady-state 
+                    where production rate equals loss rate through the chamber seals.
+                </div>
+
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Benchmark Cell</th>
+                                <th>Our Design</th>
+                                <th>Improvement</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Input Voltage</td>
+                                <td>5V</td>
+                                <td>5V</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>Power Draw</td>
+                                <td>13W</td>
+                                <td>0.5-1W</td>
+                                <td>96% reduction</td>
+                            </tr>
+                            <tr>
+                                <td>Flow Channel Depth</td>
+                                <td>0.014"</td>
+                                <td>0.0625"</td>
+                                <td>4.5x increase</td>
+                            </tr>
+                            <tr>
+                                <td>Electrode Surface Area</td>
+                                <td>Baseline</td>
+                                <td>4x larger</td>
+                                <td>4x increase</td>
+                            </tr>
+                            <tr>
+                                <td>Proton Conductivity</td>
+                                <td>0.1 S/cm</td>
+                                <td>0.2 S/cm</td>
+                                <td>2x increase</td>
+                            </tr>
+                            <tr>
+                                <td>H₂ Plateau Concentration</td>
+                                <td>2.5×10⁴ mg/L</td>
+                                <td>2.5×10⁴ mg/L</td>
+                                <td>Equivalent</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="text-block">
+                    <strong>Key Takeaway:</strong> Same hydrogen output, 96% less energy input. The remaining internal resistance 
+                    (visible in the 0.5-1W power draw) suggests there's still optimization potential. If we could eliminate the 
+                    remaining microscopic gaps in the membrane sandwich through better compression or gasket design, efficiency 
+                    would improve even further.
+                </div>
+
+                <!-- Video Demonstration -->
+                <div class="video-section" style="margin-top: 3rem;">
+                    <h3 class="section-subtitle">Live Hydrogen Production Test</h3>
+                    <div class="video-container">
+                        <video controls preload="metadata" style="width: 100%; max-width: 900px; display: block; margin: 0 auto; border-radius: 8px; background: black;">
+                            <source src="./Hydrogen Capture Video (No Audio).mp4" type="video/mp4">
+                            <p class="video-fallback">Your browser does not support video playback.</p>
+                        </video>
+                        <div class="video-description">
+                            <strong>Test Setup in Action:</strong>
+                            Custom-built hydrogen capture apparatus during a production trial. Features a sealed acrylic collection chamber (0.003 m³) 
+                            with MQ-8 sensor logging H₂ concentration in real time, deionized water reservoir feeding the PEM cell, LCD display showing
+                            live concentration data as it climbs toward the 2.5×10⁴ mg/L plateau. This is the rig we used to validate 
+                            that both cells produce equivalent hydrogen despite the 96% power difference.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cost Analysis -->
+            <div class="section">
+                <h2 class="section-title">Economics & Scalability</h2>
+                <h3 class="section-subtitle">Path to $1/kg Hydrogen</h3>
+                <div class="text-block">
+                    The DOE's target is $1/kg for green hydrogen to compete with grey hydrogen economically. Current green 
+                    hydrogen costs $4-6/kg. Our contribution: reducing the energy cost per kg by 96%. 
+                </div>
+
+                <div class="text-block">
+                    <strong>Cost Breakdown (per unit, at scale):</strong><br>
+                    • Nafion 117 membrane: $125 (commercial availability, proven longevity)<br>
+                    • Titanium components: $190 (electrodes + mesh)<br>
+                    • Garolite gaskets: $15<br>
+                    • Aluminum plates: $10<br>
+                    • Hardware/fittings: $15<br>
+                    <strong>Total materials: $355 per cell</strong>
+                </div>
+            </div>
+
+            <!-- Challenges & Solutions -->
+            <div class="section">
+                <h2 class="section-title">Problems We Solved</h2>
+
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <h4>Challenge: Continuous Operation</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Initial tests showed inconsistent 
+                        hydrogen generation, which was not a design flaw, but rather a testing limitation. Water flow was intermittent.</p>
+                        <p style="color: var(--text-secondary);"><strong>Solution:</strong> Identified need for integrated 
+                        pump system to regulate water flow and maintain consistent operation. This became a key recommendation 
+                        for future iterations.</p>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Challenge: Gas Separation</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">H₂ and O₂ need separate collection 
+                        paths</p>
+                        <p style="color: var(--text-secondary);"><strong>Solution:</strong> Titanium mesh and proper gasket 
+                        sealing ensure complete separation. Separate outlet fittings for each gas stream. Validated with 
+                        sensor testing minimal O₂ ppm detected at H₂ outlet.</p>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Challenge: Manufacturing Brittle Materials</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Garolite and membrane materials are 
+                        fragile. Wrong machining method = destroyed parts.</p>
+                        <p style="color: var(--text-secondary);"><strong>Solution:</strong> Material-specific machining 
+                        strategies. Waterjet for garolite (gentle), wire EDM for metals (precision), careful handling during 
+                        assembly. Prototyped first with cheap materials to validate process.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Resources -->
+            <div class="section">
+                <h2 class="section-title">Project Resources</h2>
+                <div class="downloads">
+                    <a href="./Semester Presentation.pptx" download class="download-card">
+                        <div class="download-icon">📊</div>
+                        <div class="download-info">
+                            <h4>Semester I Presentation</h4>
+                            <p>Initial design & research phase</p>
+                        </div>
+                    </a>
+                    <a href="./Semester II Presentation.pptx" download class="download-card">
+                        <div class="download-icon">📊</div>
+                        <div class="download-info">
+                            <h4>Semester II Presentation</h4>
+                            <p>Final results & performance data</p>
+                        </div>
+                    </a>
+                    <a href="./Final Report.zip" download class="download-card">
+                        <div class="download-icon">📄</div>
+                        <div class="download-info">
+                            <h4>Technical Report</h4>
+                            <p>Complete project documentation</p>
+                        </div>
+                    </a>
+                <a href="./PEM Hydrogen (Solidworks).zip" download class="download-card">
+                    <div class="download-icon">📁</div>
+                    <div class="download-info">
+                        <h4>PEM Stack CAD Files</h4>
+                        <p>Complete CAD model and assembly files</p>
+                    </div>
+                </a>
+                </div>
+            </div>
+
+            <!-- Conclusion -->
+            <div class="section">
+                <h2 class="section-title">Outcomes & Future Work</h2>
+
+                <div class="text-block">
+                    <strong>What We Accomplished:</strong>
+                </div>
+                <div class="tech-card">
+                    <ul>
+                        <li>Designed and fabricated a working PEM electrolysis cell that produces hydrogen at 96% lower power 
+                        consumption than benchmark systems</li>
+                        <li>Demonstrated that optimized flow channel design can dramatically reduce energy requirements without 
+                        sacrificing output</li>
+                        <li>Created a manufacturable design using readily available materials and standard machining processes</li>
+                        <li>Contributed to advancing renewable energy technology toward the DOE's $1/kg cost target</li>
+                    </ul>
+                </div>
+
+                <div class="text-block">
+                    <strong>Next Steps (for whoever continues this):</strong>
+                </div>
+                <div class="tech-card">
+                    <ul>
+                        <li>Integrate water circulation pump for continuous operation</li>
+                        <li>Optimize compression to eliminate remaining internal resistance (should drop power below 0.5W)</li>
+                        <li>Scale to multi-cell stack configuration for higher hydrogen output</li>
+                        <li>Complete solar PV integration with MPPT controller</li>
+                        <li>Long-term durability testing (membrane lifespan, electrode degradation)</li>
+                        <li>Economic analysis: actual $/kg of hydrogen produced at scale</li>
+                    </ul>
+                </div>
+
+                <div class="text-block">
+                    This project proved that green hydrogen is practically achievable with 
+                    the right design choices for under $500. The key was optimizing the flow channels to reduce energy waste. 
+                    With further refinements, this technology could be a game-changer for sustainable energy production.
+                </div>
+            </div>
+
+        </div>
+    </section>
+</body>
+</html>

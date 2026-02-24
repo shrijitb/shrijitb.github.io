@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shrijit Banerjee | Mechanical Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e14;
+            --bg-secondary: #14181f;
+            --bg-card: #1a1f28;
+            --accent-orange: #ff6b35;
+            --accent-blue: #4ecdc4;
+            --text-primary: #e8eaed;
+            --text-secondary: #9ca3af;
+            --border: #2a3040;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 49px,
+                    rgba(255, 107, 53, 0.03) 49px,
+                    rgba(255, 107, 53, 0.03) 50px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 49px,
+                    rgba(78, 205, 196, 0.03) 49px,
+                    rgba(78, 205, 196, 0.03) 50px
+                );
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 20, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 5%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-orange);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 3rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-orange);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 5% 4rem;
+            position: relative;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5rem;
+            line-height: 0.95;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content h1 .highlight {
+            color: var(--accent-orange);
+            display: block;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--accent-blue);
+            font-weight: 300;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeInUp 0.8s ease-out 0.8s both;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-size: 1rem;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--accent-orange);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            border-color: var(--accent-orange);
+            color: var(--accent-orange);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--text-secondary);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .hero-image {
+            position: relative;
+            animation: fadeIn 1s ease-out 0.4s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 8px;
+            border: 3px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            margin: 0 auto;
+            display: block;
+        }
+
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--accent-orange) 0%, transparent 70%);
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 5%;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-orange), var(--accent-blue));
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 4rem;
+            margin-top: 1.5rem;
+        }
+
+        /* About Section */
+        #about {
+            background: var(--bg-secondary);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-orange);
+        }
+
+        .stat-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--accent-orange);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .skill-category {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-5px);
+        }
+
+        .skill-category h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: var(--accent-blue);
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .skill-category ul {
+            list-style: none;
+        }
+
+        .skill-category li {
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .skill-category li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-orange);
+        }
+
+        /* Projects Section */
+        #projects {
+            background: var(--bg-secondary);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-orange);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .project-status {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .project-status-label {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 107, 53, 0.2);
+            color: var(--accent-orange);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+
+        .project-status-label.ready {
+            background: rgba(78, 205, 196, 0.2);
+            color: var(--accent-blue);
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            padding: 0.4rem 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .project-assets {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .asset-badge {
+            padding: 0.5rem 1.2rem;
+            background: rgba(78, 205, 196, 0.1);
+            border: 1px solid var(--accent-blue);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        .asset-badge.pending {
+            background: rgba(156, 163, 175, 0.1);
+            border-color: var(--text-secondary);
+            color: var(--text-secondary);
+        }
+
+        /* Experience Section */
+        .experience-timeline {
+            margin-top: 3rem;
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-orange), var(--accent-blue));
+        }
+
+        .experience-item {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -3.5rem;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-orange);
+            border: 3px solid var(--bg-primary);
+        }
+
+        .experience-header {
+            margin-bottom: 1rem;
+        }
+
+        .experience-item h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+        }
+
+        .experience-company {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-date {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .experience-item ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .experience-item li {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .experience-item li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-orange);
+        }
+
+        /* Contact Section */
+        #contact {
+            background: var(--bg-secondary);
+            text-align: center;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-item a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: var(--accent-orange);
+        }
+
+        .contact-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            letter-spacing: 1px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 5%;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-image img {
+                max-width: 300px;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">SHRIJIT<span>.</span></a>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>
+                    SHRIJIT
+                    <span class="highlight">BANERJEE</span>
+                </h1>
+                <p class="hero-subtitle">Mechanical Engineer</p>
+                <p class="hero-description">
+                    Engineer focused on fabrication and automation. From managing a 12-machine shop for 400+ users to rebuilding defunct vision systems for production lines, I bridge the gap between digital CAD and physical reality.
+                </p>
+                <div class="hero-cta">
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" alt="Shrijit Banerjee" id="profile-pic">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <p class="section-subtitle">Scaling production through precision machining, custom automation, and shop-floor leadership</p>
+
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        I spent over two years at the Singh Imagineering Lab where I didn't just design, I ensured operations ran safely for over 400 students. I maintain operational and maintenance proficiency across 12 machine platforms, including CNC mills, lathes, wire EDMs, laser cutters, and waterjets.
+                    </p>
+                    <p>
+                        My experience spans production operations, computational materials engineering, and hands-on fabrication. I've developed systems that reduced input power by 96%, improved vision inspection accuracy from 55% to 90%, and optimized production lines to achieve 72% value-added time.
+                    </p>
+                    <p>
+                        I am an Autodesk Certified Professional in AutoCAD with deep roots in CNC machining and PLC programming. I don't just optimize processes, I fix the machines that run them.
+                    </p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">400+</div>
+                        <div class="stat-label">Personnel Managed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">72%</div>
+                        <div class="stat-label">Value-Added Production</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Industrial Machine Platforms Maintained</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">15</div>
+                        <div class="stat-label">Failure-Free Consecutive Production Cycles</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title">Skills & Expertise</h2>
+            <p class="section-subtitle">Comprehensive technical capabilities across manufacturing and engineering</p>
+
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Manufacturing & Lean</h3>
+                    <ul>
+                        <li>CNC Machining</li>
+                        <li>PFMEA & SPC</li>
+                        <li>Lean Six Sigma (VSM, 5S)</li>
+                        <li>Tolerance Analysis</li>
+                        <li>GD&T (ASME Y14.5M)</li>
+                        <li>MES</li>
+                        <li>SAP ERP</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>CAD & Design</h3>
+                    <ul>
+                        <li>SolidWorks</li>
+                        <li>AutoCAD (Certified Professional)</li>
+                        <li>Fusion 360</li>
+                        <li>FEA (COMSOL, Ansys)</li>
+                        <li>DFM/DFA</li>
+                        <li>G-Code</li>
+                        <li>KiCAD</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Automation & Controls</h3>
+                    <ul>
+                        <li>PLC Programming</li>
+                        <li>Cobot Programming (UR)</li>
+                        <li>Sensor Integration</li>
+                        <li>PID Control</li>
+                        <li>Vision Systems (OpenCV)</li>
+                        <li>Python</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">Innovative engineering solutions across diverse applications</p>
+            <div class="projects-grid">
+                <!-- Project 1: PEM Hydrogen Fuel System -->
+                <a href="./pem-project.html" style="text-decoration: none; color: inherit;">
+                <div class="project-card">
+                    <div class="project-status">
+                        <span class="project-status-label ready">Ready to View</span>
+                        <h3>PEM Hydrogen Project →</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">Sep 2024 - Apr 2025</p>
+                    </div>
+                    <div class="project-content">
+                        <p>
+                            Designed PEM stack, optimized flow channels via FEA, quadrupling electrode surface area while maintaining equivalent hydrogen yield rate and lowering input power by 96%. Developed CAM workflow for precision fabrication of custom flow plates, achieving 0.1mm tolerances and reducing lead time by 50%.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">FEA</span>
+                            <span class="tag">CAM</span>
+                            <span class="tag">Flow Optimization</span>
+                            <span class="tag">Fabrication</span>
+                        </div>
+                        <div class="project-assets">
+                            <span class="asset-badge">CAD Files</span>
+                            <span class="asset-badge">Design Documents</span>
+                            <span class="asset-badge">Photos</span>
+                        </div>
+                    </div>
+                </div>
+                </a>
+                </div>
+
+                <!-- Project 2: Automated Production Line -->
+                <a href="./cordganizer-project.html" style="text-decoration: none; color: inherit;">
+                <div class="project-card">
+                    <div class="project-status">
+                        <span class="project-status-label ready">Ready to View</span>
+                        <h3>Automated Production Line Optimization</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">Sep 2024 - Apr 2025</p>
+                    </div>
+                    <div class="project-content">
+                        <p>
+                            Rebuilt vision inspection system of autonomous manufactory cell from 55% to 90% accuracy and redesigned assembly 
+                            tolerancing to achieve 15 consecutive failure-free cycles. Reduced cycle time from 
+                            24 min to 19.4 min while doubling output.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Vision Systems</span>
+                            <span class="tag">Automated Robot Integration</span>
+                            <span class="tag">CAD & CAM</span>
+                            <span class="tag">Lean Manufacturing</span>
+                            <span class="tag">Real-Time Data Analysis</span>
+                        </div>
+                        <div class="project-assets">
+                            <span class="asset-badge">Presentation & Reports</span>
+                            <span class="asset-badge">CAD & CAM Files</span>
+                            <span class="asset-badge">Video</span>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+
+                <!-- Project 3: Vibration System -->
+                <div class="project-card">
+                <a href="vibration-project.html" style="text-decoration: none; color: inherit; display: block;">
+                    <div class="project-status">
+                        <span class="project-status-label ready">Ready to View</span>
+                        <h3>Vibration System Modeling</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">Mar 2025 - May 2025</p>
+                    </div>
+                    <div class="project-content">
+                        <p>
+                            Built a mass-spring suspension model achieving 1.5% deviation from theory. Designed 
+                            custom 6th-order Butterworth filter to isolate 10kHz sensor data from EMI and ground 
+                            loops, eliminating aliasing artifacts.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Signal Processing</span>
+                            <span class="tag">Filter Design</span>
+                            <span class="tag">Data Analysis</span>
+                            <span class="tag">Modeling</span>
+                        </div>
+                        <div class="project-assets">
+                            <span class="asset-badge">Technical Report</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: AutoCAD Drafting -->
+                <div class="project-card">
+                <a href="residential-building-plans.html" style="text-decoration: none; color: inherit; display: block;">
+                    <div class="project-status">
+                        <span class="project-status-label ready">Ready to View</span>
+                        <h3>Residential Building Plans</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">AutoCAD Drafting</p>
+                    </div>
+                    <div class="project-content">
+                        <p>
+                            Professional architectural drafting showcasing comprehensive residential building plans. 
+                            Demonstrates proficiency in AutoCAD with detailed floor plans, elevations, and technical 
+                            specifications following industry standards.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">AutoCAD</span>
+                            <span class="tag">Technical Drafting</span>
+                            <span class="tag">Architecture</span>
+                            <span class="tag">DWG</span>
+                        </div>
+                        <div class="project-assets">
+                            <span class="asset-badge">PDF DWG (3)</span>
+                        </div>
+                    </div>
+                </div>
+                        <!-- Project 5: Additional CAD work (Fixtures, Brackets, & Custom Parts) -->
+                <div class="project-card">
+                <a href="cad-work.html" style="text-decoration: none; color: inherit; display: block;">
+                    <div class="project-status">
+                        <span class="project-status-label ready">Ready to View</span>
+                        <h3>Miscellaneous CAD Work (Fixtures, Brackets, & Custom Parts)</h3>
+                    </div>
+                    <div class="project-content">
+                        <p>
+                            CAD work for various custom fixtures, brackets, and parts used to support fabrication and assembly operations. Demonstrates proficiency in SolidWorks and AutoCAD with detailed designs optimized for manufacturability and functionality.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">AutoCAD</span>
+                            <span class="tag">Solidworks</span>
+                            <span class="tag">DFA</span>
+                            <span class="tag">DFM</span>
+                        </div>
+                        <div class="project-assets">
+                            <span class="asset-badge">PDF DWG (7)</span>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="container">
+            <h2 class="section-title">Experience</h2>
+            <p class="section-subtitle">Professional journey and key achievements</p>
+
+            <div class="experience-timeline">
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <h3>Production Operations Engineer</h3>
+                        <div class="experience-company">Singh Imagineering Lab, Boston University</div>
+                        <div class="experience-date">Jan. 2023 - May 2025</div>
+                    </div>
+                    <ul>
+                        <li>Developed QR-accessible digital operating guides, custom fixturing, and CAM workflow 
+                            documentation for 12-machine fabrication shop serving 400+ users across mechanical, 
+                            aerospace, and biomedical programs</li>
+                        <li>Led safety enforcement and user certification program including standardized 30-minute 
+                            training protocol, quiz-based competency validation, and real-time floor monitoring</li>
+                        <li>Performed preventive maintenance (calibration, lubrication, troubleshooting) and 
+                            submitted annual equipment procurement requests via SAP ERP system</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <h3>Computational Materials Engineer</h3>
+                        <div class="experience-company">Material Informatics Lab, Boston University</div>
+                        <div class="experience-date">Feb. 2023 - Feb. 2024</div>
+                    </div>
+                    <ul>
+                        <li>Automated the characterization of high-entropy alloys by scripting a LAMMPS-to-ML 
+                            workflow to extract lattice parameters and phase transition data from molecular 
+                            dynamics trajectories</li>
+                        <li>Resolved stability discrepancies in aluminum and ice alloys by benchmarking ML 
+                            predictions against thermodynamic Gibbs free energy states, replacing high-latency 
+                            DFT simulations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Let's Connect</h2>
+            <p class="section-subtitle">Open to opportunities in drafting, manufacturing, automation, and engineering</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-label">Email</div>
+                    <a href="mailto:shrijit.bannerjee@gmail.com">shrijit.bannerjee@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">Phone</div>
+                    <a href="tel:+16509338212">(650) 933-8212</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">LinkedIn</div>
+                    <a href="https://linkedin.com/in/shrijitb" target="_blank">linkedin.com/in/shrijitb</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-label">Location</div>
+                    <span style="color: var(--text-primary);">Manteca, CA</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        // Load profile image
+        const profilePic = document.getElementById('profile-pic');
+        // This will be replaced with the actual image path when hosted
+        profilePic.src = './profile.jpg';
+        profilePic.onerror = function() {
+            // Fallback to a placeholder if image not found
+            this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect fill="%23'+
+                '1a1f28" width="400" height="400"/%3E%3Ctext fill="%239ca3af" font-family="Arial" font-size="48" '+
+                'text-anchor="middle" x="200" y="220"%3EProfile Photo%3C/text%3E%3C/svg%3E';
+        };
+    </script>
+</body>
+</html>

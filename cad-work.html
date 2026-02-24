@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miscellaneous CAD Work | Shrijit Banerjee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0d1117;
+            --bg-card: #161b22;
+            --bg-hover: #1c2128;
+            --accent-green: #2ea043;
+            --accent-blue: #58a6ff;
+            --accent-orange: #ff7b72;
+            --accent-purple: #bc8cff;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --border: #30363d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-back {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-back:hover { color: var(--accent-blue); }
+
+        .nav-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 8rem 5% 4rem;
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 70% 30%, rgba(88,166,255,0.06) 0%, transparent 60%),
+                        radial-gradient(ellipse at 20% 80%, rgba(46,160,67,0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-container { max-width: 1400px; margin: 0 auto; position: relative; }
+
+        .project-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(88,166,255,0.12);
+            border: 1px solid rgba(88,166,255,0.4);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 1.5rem;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero h1 span { color: var(--accent-blue); }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item { display: flex; flex-direction: column; }
+
+        .meta-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 0.3rem;
+        }
+
+        .meta-value { font-size: 1rem; color: var(--text-primary); font-weight: 500; }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-dark);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: border-color 0.2s;
+        }
+
+        .stat-card:hover { border-color: var(--accent-blue); }
+
+        .stat-value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-value.green { color: var(--accent-green); }
+        .stat-value.orange { color: var(--accent-orange); }
+        .stat-value.purple { color: var(--accent-purple); }
+
+        .stat-label { font-size: 0.85rem; color: var(--text-secondary); }
+
+        /* Content layout */
+        .content { padding: 4rem 5%; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .section { margin-bottom: 5rem; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-num {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            background: rgba(88,166,255,0.1);
+            border: 1px solid rgba(88,166,255,0.2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .section-course-tag {
+            margin-left: auto;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 0 0 5rem 0;
+        }
+
+        /* Drawing viewer */
+        .drawing-viewer {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .drawing-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-dark);
+            overflow-x: auto;
+        }
+
+        .drawing-tab {
+            padding: 0.85rem 1.2rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .drawing-tab:hover { color: var(--text-primary); background: var(--bg-hover); }
+
+        .drawing-tab.active {
+            color: var(--accent-blue);
+            border-bottom-color: var(--accent-blue);
+        }
+
+        .tab-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            opacity: 0;
+            flex-shrink: 0;
+        }
+
+        .drawing-tab.active .tab-dot { opacity: 1; }
+
+        .drawing-pane { display: none; }
+        .drawing-pane.active { display: block; }
+
+        .drawing-pane-header {
+            padding: 0.9rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .drawing-pane-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .drawing-pane-title span { color: var(--text-primary); }
+
+        .drawing-open-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.9rem;
+            background: rgba(88,166,255,0.1);
+            border: 1px solid rgba(88,166,255,0.3);
+            border-radius: 6px;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .drawing-open-btn:hover {
+            background: rgba(88,166,255,0.18);
+            border-color: var(--accent-blue);
+        }
+
+        .drawing-pane iframe {
+            width: 100%;
+            height: 780px;
+            border: none;
+            background: #1a1f28;
+            display: block;
+        }
+
+        /* 3D Model placeholder cards */
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .model-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .model-card:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-2px);
+        }
+
+        .model-preview {
+            height: 240px;
+            background: var(--bg-dark);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: var(--text-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle isometric grid pattern for 3D card backgrounds */
+        .model-preview::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(188,140,255,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(188,140,255,0.04) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .model-preview-icon {
+            font-size: 3rem;
+            opacity: 0.4;
+            position: relative;
+            z-index: 1;
+        }
+
+        .model-preview-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-purple);
+            opacity: 0.7;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .model-preview-slot {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            opacity: 0.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        .model-info {
+            padding: 1.3rem 1.5rem;
+        }
+
+        .model-num {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-purple);
+            margin-bottom: 0.4rem;
+            opacity: 0.8;
+        }
+
+        .model-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .model-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Fade in */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .drawing-pane iframe { height: 500px; }
+            .section-course-tag { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <a href="./portfolio-website.html" class="nav-back">← Back to Portfolio</a>
+            <span class="nav-title">miscellaneous-cad-work/</span>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="project-badge">⬡ AutoCAD · Autodesk Inventor · SJDC</div>
+
+            <h1>Miscellaneous <span>CAD Work</span></h1>
+
+            <p class="hero-subtitle">
+                Technical drawings and 3D assemblies produced across two SJDC coursework programs:
+                2D drafting in AutoCAD and parametric 3D modeling in Autodesk Inventor.
+            </p>
+
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <span class="meta-label">2D Drafting</span>
+                    <span class="meta-value">ETECH 12: AutoCAD Technical Drafting</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">3D Modeling</span>
+                    <span class="meta-value">ETECH 22: 3D Modeling</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Institution</span>
+                    <span class="meta-value">San Joaquin Delta College</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="container">
+
+            <!-- Section 01: AutoCAD Drawings -->
+            <section class="section fade-in">
+                <div class="section-header">
+                    <span class="section-num">01</span>
+                    <h2 class="section-title">AutoCAD Technical Drawings</h2>
+                    <span class="section-course-tag">ETECH 12: AutoCAD Technical Drafting</span>
+                </div>
+
+                <div class="drawing-viewer">
+                    <div class="drawing-tabs">
+                        <div class="drawing-tab active" onclick="switchTab('autocad', 'bracket', this)">
+                            <span class="tab-dot"></span>Adjustment Bracket
+                        </div>
+                        <div class="drawing-tab" onclick="switchTab('autocad', 'nozzle', this)">
+                            <span class="tab-dot"></span>Bell Nozzle
+                        </div>
+                        <div class="drawing-tab" onclick="switchTab('autocad', 'crossfeed', this)">
+                            <span class="tab-dot"></span>Cross Feed Stop
+                        </div>
+                        <div class="drawing-tab" onclick="switchTab('autocad', 'hub', this)">
+                            <span class="tab-dot"></span>Lathe Chuck Hub
+                        </div>
+                        <div class="drawing-tab" onclick="switchTab('autocad', 'rod', this)">
+                            <span class="tab-dot"></span>Rod Fixture
+                        </div>
+                    </div>
+
+                    <!-- Adjustment Bracket -->
+                    <div id="autocad-pane-bracket" class="drawing-pane active">
+                        <div class="drawing-pane-header">
+                            <span class="drawing-pane-title"><span>ADJUSTMENT BRACKET.pdf</span></span>
+                            <a href="./ADJUSTMENT BRACKET.pdf" download class="drawing-open-btn">↓ Download PDF</a>
+                        </div>
+                        <iframe src="./ADJUSTMENT BRACKET.pdf" title="Adjustment Bracket Drawing"></iframe>
+                    </div>
+
+                    <!-- Bell Nozzle -->
+                    <div id="autocad-pane-nozzle" class="drawing-pane">
+                        <div class="drawing-pane-header">
+                            <span class="drawing-pane-title"><span>BELL NOZZLE.pdf</span></span>
+                            <a href="./BELL NOZZLE.pdf" download class="drawing-open-btn">↓ Download PDF</a>
+                        </div>
+                        <iframe src="./BELL NOZZLE.pdf" title="Bell Nozzle Drawing"></iframe>
+                    </div>
+
+                    <!-- Cross Feed Stop -->
+                    <div id="autocad-pane-crossfeed" class="drawing-pane">
+                        <div class="drawing-pane-header">
+                            <span class="drawing-pane-title"><span>CROSS FEED STOP.pdf</span></span>
+                            <a href="./CROSS FEED STOP.pdf" download class="drawing-open-btn">↓ Download PDF</a>
+                        </div>
+                        <iframe src="./CROSS FEED STOP.pdf" title="Cross Feed Stop Drawing"></iframe>
+                    </div>
+
+                    <!-- Lathe Chuck Hub -->
+                    <div id="autocad-pane-hub" class="drawing-pane">
+                        <div class="drawing-pane-header">
+                            <span class="drawing-pane-title"><span>LATHE CHUCK HUB.pdf</span></span>
+                            <a href="./LATHE CHUCK HUB.pdf" download class="drawing-open-btn">↓ Download PDF</a>
+                        </div>
+                        <iframe src="./LATHE CHUCK HUB.pdf" title="Lathe Chuck Hub Drawing"></iframe>
+                    </div>
+
+                    <!-- Rod Fixture -->
+                    <div id="autocad-pane-rod" class="drawing-pane">
+                        <div class="drawing-pane-header">
+                            <span class="drawing-pane-title"><span>ROD FIXTURE.pdf</span></span>
+                            <a href="./ROD FIXTURE.pdf" download class="drawing-open-btn">↓ Download PDF</a>
+                        </div>
+                        <iframe src="./ROD FIXTURE.pdf" title="Rod Fixture Drawing"></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <!-- Section 02: 3D Assemblies -->
+            <section class="section fade-in">
+                <div class="section-header">
+                    <span class="section-num">02</span>
+                    <h2 class="section-title">Inventor 3D Assemblies</h2>
+                    <span class="section-course-tag">ETECH 22: 3D Modeling</span>
+                </div>
+
+                <div class="drawing-viewer">
+                    <div class="drawing-tabs">
+                        <div class="drawing-tab active" onclick="switchTab('inventor', 'motor', this)">
+                            <span class="tab-dot"></span>Motor Mount Assembly
+                        </div>
+                        <div class="drawing-tab" onclick="switchTab('inventor', 'pulley', this)">
+                            <span class="tab-dot"></span>Pulley Wheel Assembly
+                        </div>
+                    </div>
+                    <!-- Motor Mount -->
+                    <div id="inventor-pane-motor" class="drawing-pane active">
+                        <div class="drawing-pane-header">
+                            <span class="drawing-pane-title"><span>MOTOR MOUNT ASSEMBLY.pdf</span></span>
+                            <a href="./MOTOR MOUNT ASSEMBLY.pdf" download class="drawing-open-btn">↓ Download PDF</a>
+                        </div>
+                        <iframe src="./MOTOR MOUNT ASSEMBLY.pdf" title="Motor Mount Assembly"></iframe>
+                    </div>
+                    <!-- Pulley Wheel -->
+                    <div id="inventor-pane-pulley" class="drawing-pane">
+                        <div class="drawing-pane-header">
+                            <span class="drawing-pane-title"><span>PULLEY WHEEL ASSEMBLY.pdf</span></span>
+                            <a href="./PULLEY WHEEL ASSEMBLY.pdf" download class="drawing-open-btn">↓ Download PDF</a>
+                        </div>
+                        <iframe src="./PULLEY WHEEL ASSEMBLY.pdf" title="Pulley Wheel Assembly"></iframe>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        function switchTab(group, name, el) {
+            // Deactivate all tabs and panes within same viewer
+            const viewer = el.closest('.drawing-viewer');
+            viewer.querySelectorAll('.drawing-tab').forEach(t => t.classList.remove('active'));
+            viewer.querySelectorAll('.drawing-pane').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById(group + '-pane-' + name).classList.add('active');
+        }
+
+        // Fade-in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>

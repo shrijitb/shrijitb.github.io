@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibration System Modeling | Shrijit Banerjee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0d1117;
+            --bg-card: #161b22;
+            --bg-hover: #1c2128;
+            --accent-green: #2ea043;
+            --accent-blue: #58a6ff;
+            --accent-orange: #ff7b72;
+            --accent-purple: #bc8cff;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --border: #30363d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-back {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-back:hover {
+            color: var(--accent-blue);
+        }
+
+        .nav-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 5% 4rem;
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-dark) 100%);
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .project-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(88, 166, 255, 0.15);
+            border: 1px solid var(--accent-blue);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+        }
+
+        .meta-value {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Quick Stats Grid */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-dark);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Main Content */
+        .content {
+            padding: 4rem 5%;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .text-block {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* Image Placeholder */
+        .image-placeholder {
+            background: var(--bg-card);
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .image-placeholder-text {
+            color: var(--text-secondary);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Tech Grid */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tech-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .tech-card:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-hover);
+            transform: translateY(-2px);
+        }
+
+        .tech-card h4 {
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .tech-card ul {
+            list-style: none;
+            color: var(--text-secondary);
+        }
+
+        .tech-card ul li {
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .tech-card ul li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue);
+        }
+
+        /* Specs Table */
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .specs-table th,
+        .specs-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .specs-table th {
+            background: var(--bg-hover);
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .specs-table td {
+            color: var(--text-secondary);
+        }
+
+        .specs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .specs-table tr:hover {
+            background: var(--bg-hover);
+        }
+
+        /* Equation Display */
+        .equation-block {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-left: 3px solid var(--accent-purple);
+            margin: 1.5rem 0;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1rem;
+            color: var(--text-primary);
+            border-radius: 4px;
+        }
+
+        .equation-block .eq-label {
+            color: var(--accent-purple);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: rgba(88, 166, 255, 0.1);
+            border-left: 4px solid var(--accent-blue);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box strong {
+            color: var(--accent-blue);
+        }
+
+        /* Downloads Section */
+        .downloads {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .download-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .download-card:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-hover);
+            transform: translateY(-2px);
+        }
+
+        .download-icon {
+            font-size: 2rem;
+        }
+
+        .download-info h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
+        }
+
+        .download-info p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="portfolio-website.html" class="nav-back">
+                ← Back to Portfolio
+            </a>
+            <div class="nav-title">VIBRATION SYSTEM MODELING</div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <span class="project-badge">SIGNAL PROCESSING & ANALYSIS</span>
+            <h1>Vibration System Modeling & Transduction Design</h1>
+            <p class="hero-subtitle">
+                Experimental characterization of a second-order mass-spring oscillator using optical sensors,
+                achieving 1.5% theoretical-experimental deviation through precision measurement and signal processing
+            </p>
+
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Timeline</span>
+                    <span class="meta-value">March 2024 - May 2024</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Role</span>
+                    <span class="meta-value">Lead Researcher & Instrumentation Engineer</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Institution</span>
+                    <span class="meta-value">Boston University</span>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <div class="stat-value">1.5%</div>
+                    <div class="stat-label">Deviation from Theory</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">10 kHz</div>
+                    <div class="stat-label">Sampling Frequency</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">±2 mm</div>
+                    <div class="stat-label">Measurement Precision</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">6th Order</div>
+                    <div class="stat-label">Butterworth Filter</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="content">
+        <div class="container">
+
+            <!-- Project Overview -->
+            <div class="section">
+                <h2 class="section-title">Project Overview</h2>
+                <div class="text-block">
+                    This project aimed to experimentally determine the frequency response characteristics of a second-order 
+                    oscillatory system through precision measurement and analysis. Using a custom optical transduction system, 
+                    we measured the dynamic behavior of a mass-spring system across varying driving frequencies to validate 
+                    theoretical predictions and characterize system performance.
+                </div>
+
+                <div class="highlight-box">
+                    <strong>Core Challenge:</strong> Design and implement a non-contact measurement system capable of 
+                    accurately capturing oscillation data across a wide frequency range (0-35 rad/s) while filtering 
+                    out electromagnetic interference and ground loop noise that would corrupt the signal.
+                </div>
+
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="./fig5_vibapp.jpg" alt="Optical Sensor Setup in Lab" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+                        Figure 5: Optical sensor setup showing the mass-spring oscillator with mounted sensor and cantilever beam
+                    </p>
+                </div>
+            </div>
+
+            <!-- System Design -->
+            <div class="section">
+                <h2 class="section-title">Experimental System Design</h2>
+                <h3 class="section-subtitle">Hardware Configuration</h3>
+
+                <div class="text-block">
+                    The experimental apparatus consisted of a motorized oscillator with two masses connected by a spring. 
+                    The bottom mass oscillates at a controlled driving frequency while the top mass responds dynamically 
+                    based on system characteristics. To measure this motion without physical contact (which would alter 
+                    the dynamics), we implemented an optical proximity sensing system.
+                </div>
+
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <h4>Optical Transduction System</h4>
+                        <ul>
+                            <li><strong>Sensor:</strong> Sick DT50-P1113 optical proximity sensor</li>
+                            <li><strong>Range:</strong> 200-800 mm operational distance</li>
+                            <li><strong>Output:</strong> 4-20 mA analog current signal</li>
+                            <li><strong>Conversion:</strong> 242Ω resistor for current-to-voltage</li>
+                            <li><strong>Resolution:</strong> ±0.1 mm measurement accuracy</li>
+                        </ul>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Data Acquisition</h4>
+                        <ul>
+                            <li><strong>ADC:</strong> NI PCI-6221 DAQ board (10-bit resolution)</li>
+                            <li><strong>Sampling Rate:</strong> 500+ Hz (exceeding Nyquist)</li>
+                            <li><strong>Input Range:</strong> ±5V to capture full signal swing</li>
+                            <li><strong>Processing:</strong> MATLAB real-time data logging</li>
+                            <li><strong>Validation:</strong> Oscilloscope monitoring for signal integrity</li>
+                        </ul>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Mechanical System</h4>
+                        <ul>
+                            <li><strong>Spring Constant:</strong> k = 90.2 ± 0.12 N/m</li>
+                            <li><strong>Top Mass:</strong> m = 0.2864 ± 0.0005 kg</li>
+                            <li><strong>Natural Frequency:</strong> ωₙ = 17.7 ± 0.02 rad/s</li>
+                            <li><strong>Damping Ratio:</strong> ζ = 0.373 ± 0.0018</li>
+                            <li><strong>Frequency Range:</strong> 0-35 rad/s variable drive</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="./fig3_vibsetup.jpg" alt="Dual Sensor Setup with Cantilever Beam" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+                        Figure 3: Dual sensor configuration showing custom cantilever beam attached to bottom mass for phase measurement
+                    </p>
+                </div>
+
+                <div class="text-block" style="margin-top: 2rem;">
+                    <strong>Why Optical Sensing?</strong> Traditional contact-based measurement methods (like accelerometers 
+                    or LVDTs) add mass to the system and introduce mechanical coupling that alters the dynamics we're trying 
+                    to measure. The optical approach is completely non-invasive, the sensor sits stationary while the mass 
+                    moves freely. The challenge is getting clean data from a reflected light signal.
+                </div>
+            </div>
+
+            <!-- Signal Processing -->
+            <div class="section">
+                <h2 class="section-title">Signal Processing & Noise Elimination</h2>
+                
+                <div class="text-block">
+                    Raw sensor data contained significant high-frequency noise from electromagnetic interference (EMI), 
+                    ground loops in the power supply, and motor-induced electrical noise. This noise would corrupt our 
+                    amplitude and frequency measurements if not properly filtered.
+                </div>
+
+                <h3 class="section-subtitle">Filter Design Strategy</h3>
+                
+                <div class="highlight-box">
+                    <strong>Solution:</strong> 6th-order Butterworth low-pass filter with 15 Hz cutoff frequency. 
+                    This design provides steep roll-off to eliminate noise while preserving the signal content we 
+                    care about (system operates 0-5.6 Hz, well below the cutoff).
+                </div>
+
+                <div class="equation-block">
+                    <div class="eq-label">Nyquist Criterion</div>
+                    fₛ ≥ 2 × f_max<br>
+                    fₛ = 2 × 5.6 Hz = 11.2 Hz minimum<br>
+                    <span style="color: var(--accent-blue);">→ Actual sampling: 500+ Hz (45× safety margin)</span>
+                </div>
+
+                <div class="text-block">
+                    The Butterworth filter was chosen specifically for its maximally flat frequency response in the 
+                    passband. This means no ripple or distortion in our signal of interest. The 6th order provides 
+                    -120 dB/decade roll-off, aggressively attenuating noise above 15 Hz while the system signal 
+                    passes through unaffected.
+                </div>
+
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="./fig15_topcollaramp.png" alt="Time-Dependent Position of Top Collar" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+                        Figure 15: Time-dependent position comparison at two driving frequencies - 12.56 rad/s (left) vs 17.59 rad/s (right) showing increased amplitude closer to resonance frequency, data shown after calibration but before filtering
+                    </p>
+                </div>
+            </div>
+
+            <!-- Calibration -->
+            <div class="section">
+                <h2 class="section-title">Sensor Calibration & Uncertainty Analysis</h2>
+
+                <h3 class="section-subtitle">Weighted Linear Regression Calibration</h3>
+
+                <div class="text-block">
+                    To convert sensor voltage to actual displacement, we performed a weighted calibration using precision 
+                    mass loading. By placing known masses on the platform and measuring both the voltage output and the 
+                    actual displacement (via ruler), we established a calibration curve.
+                </div>
+
+                <div class="equation-block">
+                    <div class="eq-label">Calibration Relationship</div>
+                    Distance [mm] = a₁ × Voltage [V] + a₀<br>
+                    a₁ = 154.548 mm/V (sensitivity)<br>
+                    a₀ = 49.853 V (offset)
+                </div>
+
+                <table class="specs-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Measured Value</th>
+                            <th>Uncertainty</th>
+                            <th>Method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Spring Constant (k)</td>
+                            <td>90.2 N/m</td>
+                            <td>±0.12 N/m</td>
+                            <td>Weighted fit (8 data points)</td>
+                        </tr>
+                        <tr>
+                            <td>Natural Frequency (ωₙ)</td>
+                            <td>17.7 rad/s</td>
+                            <td>±0.02 rad/s</td>
+                            <td>Step response analysis</td>
+                        </tr>
+                        <tr>
+                            <td>Damping Ratio (ζ)</td>
+                            <td>0.373</td>
+                            <td>±0.0018</td>
+                            <td>Envelope decay method</td>
+                        </tr>
+                        <tr>
+                            <td>Damping Coefficient (c)</td>
+                            <td>4.03 Ns/m</td>
+                            <td>±0.018 Ns/m</td>
+                            <td>Propagated from ζ, k, m</td>
+                        </tr>
+                        <tr>
+                            <td>Top Mass (m)</td>
+                            <td>0.2864 kg</td>
+                            <td>±0.0005 kg</td>
+                            <td>Digital scale (0.1g resolution)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="./fig7_calib.png" alt="Weighted Calibration Fit for Optical Sensor" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+                        Figure 7: Weighted calibration fit showing linear relationship between sensor voltage and measured distance
+                    </p>
+                </div>
+
+                <div class="text-block" style="margin-top: 2rem;">
+                    <strong>Uncertainty Propagation:</strong> All uncertainties were calculated using proper error 
+                    propagation techniques. For derived quantities (like damping ratio), we used partial derivatives 
+                    to propagate measurement uncertainties from base parameters. This ensures our final results include 
+                    realistic confidence bounds.
+                </div>
+            </div>
+
+            <!-- Experimental Methodology -->
+            <div class="section">
+                <h2 class="section-title">Experimental Methodology</h2>
+                
+                <div class="two-column">
+                    <div class="tech-card">
+                        <h4>Step Response Testing</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                            To determine natural frequency and damping ratio experimentally, we performed step input 
+                            tests. The top mass was pulled down and released, allowing free oscillation until reaching 
+                            steady state.
+                        </p>
+                        <p style="color: var(--text-secondary);">
+                            <strong>Analysis:</strong> Using the envelope decay method, we extracted the damped natural 
+                            frequency from the oscillation period and the damping ratio from the exponential decay rate 
+                            of the amplitude envelope.
+                        </p>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Frequency Sweep Testing</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                            To map the full frequency response, we varied the motor power from 20-100 (arbitrary units) 
+                            in increments, measuring system response at each frequency. Near resonance, we took finer 
+                            steps to precisely locate the peak.
+                        </p>
+                        <p style="color: var(--text-secondary);">
+                            <strong>Validation:</strong> Data was collected both increasing and decreasing power to 
+                            check for hysteresis effects in the system response.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="./fig9_stepfunc.png" alt="Step Function Response" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+                        Figure 9: Step response showing exponential decay envelope of free oscillation used for damping analysis
+                    </p>
+                </div>
+
+                <h3 class="section-subtitle" style="margin-top: 2rem;">Phase Lag Measurement</h3>
+                
+                <div class="text-block">
+                    To measure the phase shift between driving force and system response, we needed to simultaneously 
+                    track both the bottom mass (driving) and top mass (responding). The challenge: the top mass disk 
+                    blocks direct line-of-sight to the bottom mass.
+                </div>
+
+                <div class="highlight-box">
+                    <strong>Creative Solution:</strong> Designed and fabricated a cantilever beam from pencils and 
+                    cardboard, attached to the bottom mass and extending beyond the top disk. This allowed the second 
+                    optical sensor to track bottom mass motion indirectly through the beam movement.
+                </div>
+
+                <div class="text-block">
+                    While not as rigid as a machined metal component would be (we weren't allowed to disassemble the 
+                    system), this solution worked well at lower frequencies. At higher frequencies, the beam itself 
+                    began to resonate, introducing some error in our experimental phase data deviation from 
+                    theory at frequencies above 25 rad/s.
+                </div>
+            </div>
+
+            <!-- Results & Analysis -->
+            <div class="section">
+                <h2 class="section-title">Results & Theoretical Validation</h2>
+
+                <h3 class="section-subtitle">Magnitude Ratio (Amplitude Response)</h3>
+
+                <div class="text-block">
+                    The magnitude ratio M(ω) describes how the amplitude of the responding mass compares to the driving 
+                    amplitude as a function of frequency. At resonance, this ratio peaks dramatically. The system amplifies 
+                    small inputs into large motions.
+                </div>
+
+                <div class="equation-block">
+                    <div class="eq-label">Theoretical Magnitude Ratio</div>
+                    M(ω) = 1 / √[(1-(ω/ωₙ)²)² + (2ζω/ωₙ)²]<br>
+                    <br>
+                    <div class="eq-label">Experimental Magnitude Ratio</div>
+                    M(ω) = X / X_bottom<br>
+                    <span style="color: var(--text-secondary); font-size: 0.9rem;">
+                        where X = (Peak_high - Peak_low)/2 from filtered data
+                    </span>
+                </div>
+
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="./fig16_magratio.png" alt="Magnitude Ratio vs Frequency" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+                        Figure 16: Magnitude ratio comparison showing excellent agreement between experimental measurements (both increasing and decreasing frequency) and theoretical predictions, with clear resonance peak at ~15 rad/s
+                    </p>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>Key Finding:</strong> Experimental data matches theoretical predictions within 1.5% across 
+                    the entire frequency range. The magnitude ratio correctly peaks at the resonance frequency of 
+                    15.08 rad/s, exactly where theory predicts maximum amplification.
+                </div>
+
+                <h3 class="section-subtitle" style="margin-top: 2rem;">Phase Response</h3>
+
+                <div class="text-block">
+                    Phase lag φ(ω) describes the time delay between the driving force and the system's response. At 
+                    low frequencies, the mass follows the drive nearly in-phase. At resonance, the lag is exactly 90°. 
+                    Above resonance, the mass lags significantly, approaching 180° at high frequencies.
+                </div>
+
+                <div class="equation-block">
+                    <div class="eq-label">Theoretical Phase Lag</div>
+                    φ(ω) = -tan⁻¹(2ζω/ωₙ / (1-(ω/ωₙ)²))<br>
+                    <br>
+                    <div class="eq-label">Experimental Phase Lag</div>
+                    φ(ω) = Δt_peak × ω<br>
+                    <span style="color: var(--text-secondary); font-size: 0.9rem;">
+                        measured from time difference between top and bottom mass peaks
+                    </span>
+                </div>
+
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="./fig17_phase.png" alt="Phase Response vs Frequency" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+                        Figure 17: Phase lag comparison showing characteristic second-order behavior with close agreement at low frequencies and divergence at high frequencies due to cantilever beam resonance effects
+                    </p>
+                </div>
+
+                <div class="text-block">
+                    Phase measurements show excellent agreement with theory at lower frequencies. Above ~25 rad/s, the 
+                    experimental phase diverges slightly. This is the cantilever beam reaching its own resonance and 
+                    introducing measurement artifact. The core finding remains valid: the system exhibits classic 
+                    second-order phase behavior.
+                </div>
+            </div>
+
+            <!-- Challenges & Solutions -->
+            <div class="section">
+                <h2 class="section-title">Technical Challenges & Solutions</h2>
+
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <h4>Challenge: Electromagnetic Interference</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                            Motor operation and ground loops created significant electrical noise in the sensor signal, 
+                            particularly at harmonics of the motor frequency.
+                        </p>
+                        <p style="color: var(--text-secondary);">
+                            <strong>Solution:</strong> 6th-order Butterworth low-pass filter with 15 Hz cutoff 
+                            effectively eliminated high-frequency noise while preserving signal content (0-5.6 Hz). 
+                            Signal-to-noise ratio improved dramatically.
+                        </p>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Challenge: Phase Measurement Accessibility</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                            Top mass disk blocked direct optical access to bottom mass, making simultaneous measurement 
+                            of both masses impossible with fixed sensor positions.
+                        </p>
+                        <p style="color: var(--text-secondary);">
+                            <strong>Solution:</strong> Custom cantilever beam (pencils + cardboard) attached to bottom 
+                            mass, extending beyond top disk. Second optical sensor tracked beam motion. Worked well at 
+                            low frequencies; noted beam resonance effects at high frequencies.
+                        </p>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Challenge: Signal Clipping Risk</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                            Sensor output range (4-20 mA) needed to fit within ADC input range (±5V) without clipping 
+                            at extreme positions.
+                        </p>
+                        <p style="color: var(--text-secondary);">
+                            <strong>Solution:</strong> Carefully calculated resistor value (242Ω from two 121Ω in series) 
+                            to map sensor range to safe voltage window. Verified with multimeter before data collection. 
+                            Monitored oscilloscope throughout testing to catch any signal integrity issues.
+                        </p>
+                    </div>
+
+                    <div class="tech-card">
+                        <h4>Challenge: Resonance Peak Localization</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                            Initial coarse frequency steps missed the exact resonance peak, leading to uncertainty in 
+                            maximum amplitude measurement.
+                        </p>
+                        <p style="color: var(--text-secondary);">
+                            <strong>Solution:</strong> Two-pass methodology: broad sweep to locate approximate resonance, 
+                            then fine steps (smaller power increments) near the peak. Collected data both increasing and 
+                            decreasing to check for hysteresis.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Equipment & Instrumentation -->
+            <div class="section">
+                <h2 class="section-title">Equipment & Instrumentation</h2>
+
+                <table class="specs-table">
+                    <thead>
+                        <tr>
+                            <th>Instrument</th>
+                            <th>Model/Specifications</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Optical Sensor</td>
+                            <td>SICK DT50-P1113 (200-800mm, 4-20mA)</td>
+                            <td>Non-contact displacement measurement</td>
+                        </tr>
+                        <tr>
+                            <td>DAQ Board</td>
+                            <td>National Instruments PCI-6221 (10-bit)</td>
+                            <td>Analog-to-digital conversion & logging</td>
+                        </tr>
+                        <tr>
+                            <td>Oscilloscope</td>
+                            <td>BK Precision 2190E (800×480)</td>
+                            <td>Real-time signal validation</td>
+                        </tr>
+                        <tr>
+                            <td>Multimeter</td>
+                            <td>Keysight 34461A (10μV-100mV resolution)</td>
+                            <td>Resistor verification & voltage checks</td>
+                        </tr>
+                        <tr>
+                            <td>Digital Scale</td>
+                            <td>Triomph TRKS09 (0.1oz/1g resolution)</td>
+                            <td>Mass measurement for calibration</td>
+                        </tr>
+                        <tr>
+                            <td>Caliper</td>
+                            <td>Tack Life DC01 (0.1mm resolution)</td>
+                            <td>Displacement measurement</td>
+                        </tr>
+                        <tr>
+                            <td>Stroboscope</td>
+                            <td>Extech 461830 (100-10000 FPM/RPM)</td>
+                            <td>Driving frequency verification</td>
+                        </tr>
+                        <tr>
+                            <td>DC Gearmotor</td>
+                            <td>Bison 26-999-2004-027</td>
+                            <td>Variable frequency oscillation driver</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="./fig4_blockdiagram.png" alt="Block Diagram of Optical Sensor Setup" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+                        Figure 4: Signal flow from optical sensor through resistor conversion to ADC/DAQ for data acquisition
+                    </p>
+                </div>
+            </div>
+
+            <!-- Key Learnings -->
+            <div class="section">
+                <h2 class="section-title">Conclusions & Future Improvements</h2>
+                
+                <h3 class="section-subtitle">What We Achieved</h3>
+                <div class="tech-card">
+                    <ul>
+                        <li>Successfully characterized a second-order oscillatory system with 1.5% deviation from 
+                            theoretical predictions across the full frequency range</li>
+                        <li>Designed and implemented a non-invasive optical measurement system eliminating the mass-loading 
+                            effects inherent in contact sensors</li>
+                        <li>Developed effective signal processing pipeline (6th-order Butterworth filter) that isolated 
+                            clean displacement data from noisy electrical environment</li>
+                        <li>Validated theoretical models for magnitude ratio and phase response through rigorous experimental 
+                            measurement and uncertainty analysis</li>
+                        <li>Demonstrated practical application of weighted linear regression for sensor calibration and 
+                            error propagation techniques for uncertainty quantification</li>
+                    </ul>
+                </div>
+
+                <h3 class="section-subtitle" style="margin-top: 2rem;">Acknowledged Limitations</h3>
+                <div class="text-block">
+                    While results were excellent, several sources of systematic error were identified:
+                </div>
+                <div class="tech-card">
+                    <ul>
+                        <li><strong>Cantilever beam resonance:</strong> The improvised bottom mass tracking solution 
+                            introduced phase measurement errors at high frequencies when the beam reached its own resonant mode</li>
+                        <li><strong>Friction & nonlinearity:</strong> The collar-to-rod interface had significant friction 
+                            not accounted for in the ideal second-order model, contributing to small deviations</li>
+                        <li><strong>Paper surface vibration:</strong> At high frequencies, the paper target on the top disk 
+                            vibrated independently, affecting magnitude ratio measurements above resonance</li>
+                    </ul>
+                </div>
+
+                <h3 class="section-subtitle" style="margin-top: 2rem;">Recommended Improvements</h3>
+                <div class="text-block">
+                    If this experiment were repeated, the following modifications would improve accuracy:
+                </div>
+                <div class="tech-card">
+                    <ul>
+                        <li><strong>Rigid phase measurement fixture:</strong> Machine a metal cantilever arm with high 
+                            stiffness (resonant frequency >100 Hz) to eliminate beam-induced phase errors</li>
+                        <li><strong>Lubrication:</strong> Reduce collar friction through proper lubrication or air bearing 
+                            design, bringing the system closer to ideal second-order behavior</li>
+                        <li><strong>Nonlinear system identification:</strong> Apply advanced techniques like extended Kalman 
+                            filtering or nonlinear least squares to better model the actual system dynamics including friction</li>
+                        <li><strong>Multi-sensor fusion:</strong> Combine optical displacement with accelerometer data to 
+                            cross-validate measurements and improve confidence bounds</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 2rem;">
+                    <strong>Bottom Line:</strong> This project successfully demonstrated that a carefully designed 
+                    measurement and signal processing system can accurately characterize dynamic mechanical systems. 
+                    The combination of proper sensor selection, noise filtering, and uncertainty analysis produced 
+                    experimental results that validated second-order theory within acceptable engineering tolerances.
+                </div>
+            </div>
+
+            <!-- Downloads -->
+            <div class="section">
+                <h2 class="section-title">Project Resources</h2>
+                <div class="downloads">
+                    <a href="./Vibration System Modeling & Transduction Design.pdf" download class="download-card">
+                        <div class="download-icon">📄</div>
+                        <div class="download-info">
+                            <h4>Complete Technical Report</h4>
+                            <p>Full documentation with analysis & calculations</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</body>
+</html>
