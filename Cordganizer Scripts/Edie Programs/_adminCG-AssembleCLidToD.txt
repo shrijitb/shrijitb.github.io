@@ -1,0 +1,216 @@
+ Program
+   Robot Program
+     Set DO[0]=Off
+     MoveJ
+       pHome
+       backUpFromFlip
+     MoveJ
+       Call _adminLinearIndex4
+       toFlip
+       atFlip
+       Set DO[0]=On
+       Wait: 1.0
+       Set DO[2]=Off
+       Wait: 1.0
+       toFlip
+       Call _adminLinearIndex2
+       Call squareLid
+     MoveJ
+       Call _adminLinearIndex1
+       aboveConvey
+       rotateAbove
+       atBody
+       Wait: 1.0
+       Set DO[0]=Off
+       Wait: 1.0
+       rotateAbove
+       aboveConvey
+       Set DO[0]=On
+       abovePress
+     If force()≤65
+       MoveL
+         assemble1
+     MoveJ
+       abovePress
+     If force()≤65
+       MoveL
+         assemble2
+     MoveJ
+       abovePress
+     If force()≤65
+       MoveL
+         assemble1
+     MoveJ
+       abovePress
+     If force()≤65
+       MoveL
+         assemble2
+     MoveJ
+       abovePress
+       pHome
+   _adminLinearIndex1
+     Move_linear_slide_Index1
+       var_1≔ False 
+       Loop var_1≟ False 
+         var_1≔socket_open("10.241.34.52",4001)
+       var_3≔1
+       Send≔"s r0x24 21"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"s r0xca 0"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"t 1"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Loop var_3≠0
+         Send≔"g r0xA0"
+         socket_send_string(Send)
+         socket_send_byte(13)
+         var_3≔socket_get_var("v")
+         Wait: 0.1
+       socket_close()
+       sync()
+   _adminLinearIndex4
+     Move_linear_slide_Index4
+       var_1≔ False 
+       Loop var_1≟ False 
+         var_1≔socket_open("10.241.34.52",4001)
+       var_3≔1
+       Send≔"s r0x24 21"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"s r0xca 169167"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"t 1"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Loop var_3≠0
+         Send≔"g r0xA0"
+         socket_send_string(Send)
+         socket_send_byte(13)
+         var_3≔socket_get_var("v")
+         Wait: 0.1
+       socket_close()
+       sync()
+   squareLid
+     MoveJ
+       aboveSquare
+     MoveL
+       atSquare
+       Set DO[0]=Off
+       Wait: 0.5
+       aboveSquare
+       Set DO[0]=On
+     MoveJ
+       besideSquareX
+     MoveL
+       If force()≤40
+         atSquareX_1
+       Wait: 0.5
+     MoveJ
+       besideSquareX
+       linkingMove
+       besideSquareY
+     MoveL
+       If force()≤40
+         atSquareY_1
+       Wait: 0.5
+     MoveJ
+       besideSquareY
+       aboveSquareNew
+       Set DO[0]=Off
+       Wait: 1.0
+     MoveL
+       atSquareNew
+       Set DO[0]=On
+       Wait: 1.0
+       easeout
+       aboveSquareNew
+     MoveJ
+       pHome_1
+   _adminLinearIndex3
+     Move_linear_slide_Index1
+       var_1≔ False 
+       Loop var_1≟ False 
+         var_1≔socket_open("10.241.34.52",4001)
+       var_3≔1
+       Send≔"s r0x24 21"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"s r0xca 103936"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"t 1"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Loop var_3≠0
+         Send≔"g r0xA0"
+         socket_send_string(Send)
+         socket_send_byte(13)
+         var_3≔socket_get_var("v")
+         Wait: 0.1
+       socket_close()
+       sync()
+   _adminLinearIndex2
+     Move_linear_slide_Index2
+       var_1≔ False 
+       Loop var_1≟ False 
+         var_1≔socket_open("10.241.34.52",4001)
+       var_3≔1
+       Send≔"s r0x24 21"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"s r0xca 51968"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"t 1"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Loop var_3≠0
+         Send≔"g r0xA0"
+         socket_send_string(Send)
+         socket_send_byte(13)
+         var_3≔socket_get_var("v")
+         Wait: 0.1
+       socket_close()
+       sync()
+   _adminLinearIndex5
+     Move_linear_slide_Index5
+       var_1≔ False 
+       Loop var_1≟ False 
+         var_1≔socket_open("10.241.34.52",4001)
+       var_3≔1
+       Send≔"s r0x24 21"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"s r0xca 190000"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"t 1"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Loop var_3≠0
+         Send≔"g r0xA0"
+         socket_send_string(Send)
+         socket_send_byte(13)
+         var_3≔socket_get_var("v")
+         Wait: 0.1
+       socket_close()
+       sync()

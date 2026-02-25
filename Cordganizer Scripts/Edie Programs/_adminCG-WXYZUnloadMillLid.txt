@@ -1,0 +1,87 @@
+ Program
+   BeforeStart
+     Script: R2CScript.script
+   Robot Program
+     MoveJ
+       pHome
+     Call _adminLinearIndex4
+     Wait for CNC Program
+     'Wait: 120.0'
+     Run CNC Program
+     Wait for CNC Program
+     Set DO[0]=Off
+     Set DO[2]=Off
+     MoveJ
+       Crouch
+       Pivot
+       aboveVise2
+     MoveL
+       atVise2
+       Set DO[0]=On
+       Wait: 1.0
+       Set DO[1]=Off
+       Wait: 1.0
+       easeout
+       aboveVise2
+     MoveJ
+       Pivot
+       Crouch
+       toflip
+       Wait: 1.0
+       Set DO[2]=On
+       Wait: 1.0
+       Set DO[0]=Off
+       Wait: 1.0
+       back_up
+   _adminLinearIndex2
+     Move_linear_slide_Index2
+       var_1≔ False 
+       Loop var_1≟ False 
+         var_1≔socket_open("10.241.34.52",4001)
+       var_3≔1
+       Send≔"s r0x24 21"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"s r0xca 56389"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"t 1"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Loop var_3≠0
+         Send≔"g r0xA0"
+         socket_send_string(Send)
+         socket_send_byte(13)
+         var_3≔socket_get_var("v")
+         Wait: 0.1
+       socket_close()
+       sync()
+   _adminLinearIndex4
+     Move_linear_slide_Index4
+       var_1≔ False 
+       Loop var_1≟ False 
+         var_1≔socket_open("10.241.34.52",4001)
+       var_3≔1
+       Send≔"s r0x24 21"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"s r0xca 169167"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"t 1"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Loop var_3≠0
+         Send≔"g r0xA0"
+         socket_send_string(Send)
+         socket_send_byte(13)
+         var_3≔socket_get_var("v")
+         Wait: 0.1
+       socket_close()
+       sync()

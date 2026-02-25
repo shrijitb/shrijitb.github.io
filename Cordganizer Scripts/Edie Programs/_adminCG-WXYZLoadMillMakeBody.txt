@@ -1,0 +1,60 @@
+ Program
+   BeforeStart
+     Script: R2CScript.script
+   Robot Program
+     Run CNC Program
+     Wait for CNC Program
+     Set DO[1]=Off
+     Call _adminLinearIndex4
+     MoveJ
+       Crouch
+       Pivot
+       aboveVise
+     MoveL
+       atVise
+       Set DO[0]=Off
+       Wait: 1.0
+       aboveVise
+       Set DO[0]=On
+       Wait: 1.0
+     MoveJ
+       besideVise
+     MoveL
+       pushBlock
+       Set DO[1]=On
+       Wait: 1.0
+       besideVise
+     MoveJ
+       aboveVise
+     MoveJ
+       Pivot
+       Crouch
+       pHome
+       Set DO[0]=Off
+     Run CNC Program
+   _adminLinearIndex4
+     Move_linear_slide_Index4
+       var_1≔ False 
+       Loop var_1≟ False 
+         var_1≔socket_open("10.241.34.52",4001)
+       var_3≔1
+       Send≔"s r0x24 21"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"s r0xca 169167"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"t 1"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Loop var_3≠0
+         Send≔"g r0xA0"
+         socket_send_string(Send)
+         socket_send_byte(13)
+         var_3≔socket_get_var("v")
+         Wait: 0.1
+       socket_close()
+       sync()

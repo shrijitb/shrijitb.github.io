@@ -1,0 +1,80 @@
+ Program
+   Robot Program
+     Set DO[0]=Off
+     Call _adminLinearIndex3
+     Wait: 1.0
+     MoveJ
+       pHome
+       aboveGFW
+     MoveL
+       atGFRel
+       Set DO[0]=On
+       Wait: 1.0
+       moveUpRel
+       aboveGFRel
+     MoveJ
+       pHome
+       aboveSquare
+     MoveL
+       atSquare
+       Set DO[0]=Off
+       Wait: 1.0
+       aboveSquare
+       NextToSquare
+       Set DO[0]=On
+       Wait: 0.5
+     MoveJ
+       besideSquareY
+     Wait: 0.1
+     MoveL
+       If force()≤45
+         atSquareY
+       Wait: 0.5
+     MoveJ
+       besideSquareY
+       linkingMove
+       besideSquareX
+     Wait: 0.1
+     MoveL
+       If force()≤45
+         atSquareX
+       Wait: 0.5
+     MoveJ
+       besideSquareX
+       aboveSquare2
+       Set DO[0]=Off
+       Wait: 1.0
+     MoveL
+       atSquare2
+       Set DO[0]=On
+       Wait: 1.0
+       easeout
+       aboveSquare2
+     MoveL
+       pHome
+   _adminLinearIndex3
+     Move_linear_slide_Index3
+       var_1≔ False 
+       Loop var_1≟ False 
+         var_1≔socket_open("10.241.34.48",4001)
+       var_3≔1
+       Send≔"s r0x24 21"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"s r0xca 112778"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Send≔"t 1"
+       socket_send_string(Send)
+       socket_send_byte(13)
+       Send_Reply≔socket_read_string()
+       Loop var_3≠0
+         Send≔"g r0xA0"
+         socket_send_string(Send)
+         socket_send_byte(13)
+         var_3≔socket_get_var("v")
+         Wait: 0.1
+       socket_close()
+       sync()
