@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MARA | Shrijit Banerjee</title>
+    <meta name="description" content="Multi-Agent Risk-Adjusted Capital Orchestrator. Open-source autonomous trading system coordinating AI agents across crypto, futures, and prediction markets.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#111211;--bg-raised:#181a18;--bg-inset:#0e0f0e;--text:#d8d5cf;--text-muted:#7a7872;--accent:#8a9a7b;--accent-dim:rgba(138,154,123,0.12);--border:#262826;--border-hover:#3a3c3a;--radius:6px}
+        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+        *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+        body{font-family:'JetBrains Mono',monospace;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
+        .skip-link{position:absolute;top:-100%;left:1rem;padding:.75rem 1.5rem;background:var(--accent);color:var(--bg);font-weight:600;border-radius:var(--radius);z-index:9999;text-decoration:none}
+        .skip-link:focus{top:1rem}
+        :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+        h1,h2,h3{font-family:'JetBrains Mono',monospace;font-weight:400;text-wrap:balance}
+        p{text-wrap:pretty}
+        .container{max-width:960px;margin:0 auto;padding:0 clamp(1.25rem,4vw,3rem)}
+
+        nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(17,18,17,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+        .nav-inner{max-width:1200px;margin:0 auto;padding:0 clamp(1.25rem,4vw,3rem);display:flex;justify-content:space-between;align-items:center;height:64px}
+        .nav-back{color:var(--text-muted);text-decoration:none;font-size:.875rem;display:flex;align-items:center;gap:.4rem;transition:color .15s}
+        .nav-back:hover{color:var(--text)}
+        .nav-title{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:500;color:var(--text-muted);letter-spacing:.05em;text-transform:uppercase}
+
+        .hero{padding:calc(64px + clamp(3rem,6vw,5rem)) 0 clamp(3rem,5vw,4rem)}
+        .project-badge{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);padding:.35rem .8rem;border:1px solid var(--accent);border-radius:3px;display:inline-block;margin-bottom:1.25rem}
+        .hero h1{font-size:clamp(2.25rem,5vw,3.5rem);line-height:1.1;margin-bottom:.5rem}
+        .hero .hero-full{font-size:clamp(.85rem,1.2vw,.95rem);color:var(--text-muted);margin-bottom:1.25rem;font-weight:300}
+        .hero-sub{font-size:clamp(.9rem,1.3vw,1rem);color:var(--text-muted);max-width:700px;margin-bottom:2rem;line-height:1.8}
+        .hero-meta{display:flex;flex-wrap:wrap;gap:2rem;margin-bottom:2.5rem}
+        .meta-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:.2rem}
+        .meta-value{font-size:.9rem;color:var(--text);font-weight:500}
+        .meta-value a{color:var(--accent);text-decoration:none;transition:color .15s}
+        .meta-value a:hover{color:var(--text)}
+
+        .hero-links{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.5rem}
+        .hero-link{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.25rem;font-size:.8rem;font-weight:500;border-radius:var(--radius);text-decoration:none;border:1px solid var(--border);color:var(--text-muted);transition:border-color .15s,color .15s}
+        .hero-link:hover{border-color:var(--accent);color:var(--text)}
+
+        .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+        .stat{background:var(--bg-raised);padding:1.25rem 1.5rem}
+        .stat-val{font-family:'JetBrains Mono',monospace;font-size:1.35rem;font-weight:500;color:var(--accent);font-variant-numeric:tabular-nums;margin-bottom:.2rem}
+        .stat-lbl{font-size:.75rem;color:var(--text-muted)}
+
+        .content{padding:clamp(3rem,6vw,5rem) 0}
+        .sect{margin-bottom:clamp(3rem,6vw,5rem)}
+        .sect:last-child{margin-bottom:0}
+        .sect-title{font-size:clamp(1.3rem,2.5vw,1.75rem);margin-bottom:1rem}
+        .sect-sub{font-size:.9rem;color:var(--accent);margin-bottom:.75rem;font-weight:500}
+        .prose{color:var(--text-muted);line-height:1.8;margin-bottom:1.25rem;font-size:.9rem}
+        .prose strong{color:var(--text)}
+        .prose code{font-size:.82rem;background:var(--bg-inset);padding:.15rem .4rem;border-radius:3px;border:1px solid var(--border)}
+
+        .card{background:var(--bg-raised);border:1px solid var(--border);border-radius:var(--radius);padding:clamp(1.25rem,3vw,2rem)}
+        .card h4{font-size:.95rem;color:var(--accent);margin-bottom:.75rem;font-weight:600}
+        .card ul{list-style:none}
+        .card li{color:var(--text-muted);margin-bottom:.5rem;padding-left:1rem;position:relative;font-size:.85rem;line-height:1.6}
+        .card li::before{content:'';position:absolute;left:0;top:.55rem;width:4px;height:4px;border-radius:50%;background:var(--accent)}
+        .card li strong{color:var(--text)}
+        .card p{color:var(--text-muted);font-size:.85rem;line-height:1.65}
+        .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-bottom:1.5rem}
+
+        .code-block{background:var(--bg-inset);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;overflow-x:auto;margin-bottom:1.25rem}
+        .code-block pre{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text);line-height:1.7;white-space:pre}
+        .code-label{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text-muted);margin-bottom:.4rem;display:block}
+
+        .data-table{width:100%;border-collapse:collapse;background:var(--bg-raised);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1.5rem}
+        .data-table th{background:var(--bg-inset);padding:.7rem 1rem;text-align:left;font-size:.7rem;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.04em}
+        .data-table td{padding:.7rem 1rem;border-bottom:1px solid var(--border);font-size:.8rem;color:var(--text-muted);font-variant-numeric:tabular-nums}
+        .data-table tr:last-child td{border-bottom:none}
+
+        .highlight{background:var(--accent-dim);border:1px solid rgba(138,154,123,0.2);border-radius:var(--radius);padding:1.25rem;margin-bottom:1.5rem}
+        .highlight p{color:var(--text-muted);font-size:.85rem;line-height:1.7;margin:0}
+        .highlight strong{color:var(--text)}
+
+        .divider{border:none;border-top:1px solid var(--border);margin:0 0 clamp(3rem,6vw,5rem)}
+
+        /* Architecture diagram */
+        .arch-flow{background:var(--bg-raised);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;overflow-x:auto}
+        .arch-label{font-size:.7rem;color:var(--text-muted);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.08em}
+        .arch-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;flex-wrap:nowrap;min-width:max-content}
+        .arch-row:last-of-type{margin-bottom:0}
+        .arch-node{padding:.5rem .9rem;border-radius:4px;font-size:.75rem;font-weight:500;text-align:center;min-width:100px;border:1px solid var(--border);background:var(--bg-inset);color:var(--text)}
+        .arch-node.primary{border-color:rgba(138,154,123,0.4);color:var(--accent)}
+        .arch-node.worker{border-color:var(--border);color:var(--text-muted)}
+        .arch-arrow{color:var(--text-muted);font-size:.85rem;flex-shrink:0}
+
+        .file-tree{background:var(--bg-inset);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;overflow-x:auto;margin-bottom:1.5rem}
+        .file-tree pre{font-size:.72rem;color:var(--text-muted);line-height:1.8;white-space:pre}
+        .file-tree .dir{color:var(--accent)}
+        .file-tree .file{color:var(--text-muted)}
+        .file-tree .comment{color:#5a5a5a}
+
+        .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+        @media(max-width:768px){
+            .card-grid{grid-template-columns:1fr}
+            .hero-meta{gap:1.25rem}
+            .arch-row{flex-wrap:wrap}
+        }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <nav aria-label="Project navigation">
+        <div class="nav-inner">
+            <a href="./index.html" class="nav-back" aria-label="Back to portfolio">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>
+                Portfolio
+            </a>
+            <div class="nav-title">MARA</div>
+        </div>
+    </nav>
+
+    <main id="main">
+    <section class="hero">
+        <div class="container">
+            <span class="project-badge">Systems &amp; Software</span>
+            <h1>MARA</h1>
+            <p class="hero-full">Multi-Agent Risk-Adjusted Capital Orchestrator</p>
+            <p class="hero-sub">An open-source autonomous trading system that coordinates specialized AI agents across crypto, futures, and prediction markets. Capital flows dynamically based on real-time macro regime classification, conflict indexing, and per-worker risk scoring. The whole stack runs on a Raspberry Pi 5.</p>
+
+            <div class="hero-meta">
+                <div><div class="meta-label">Status</div><div class="meta-value">Paper Trading MVP</div></div>
+                <div><div class="meta-label">License</div><div class="meta-value">LGPL-3.0</div></div>
+                <div><div class="meta-label">Stack</div><div class="meta-value">Python, FastAPI, Docker, NautilusTrader</div></div>
+                <div><div class="meta-label">Deploy Target</div><div class="meta-value">Raspberry Pi 5 (ARM64)</div></div>
+            </div>
+
+            <div class="hero-links">
+                <a href="https://github.com/shrijitb/mara" target="_blank" rel="noopener noreferrer" class="hero-link">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                    Source Code
+                </a>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat"><div class="stat-val">5</div><div class="stat-lbl">Specialized worker agents</div></div>
+                <div class="stat"><div class="stat-val">7</div><div class="stat-lbl">Market regime states</div></div>
+                <div class="stat"><div class="stat-val">4</div><div class="stat-lbl">Data source feeds</div></div>
+                <div class="stat"><div class="stat-val">60s</div><div class="stat-lbl">Orchestration cycle</div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container">
+
+            <!-- What MARA Does -->
+            <div class="sect">
+                <h2 class="sect-title">What It Does</h2>
+                <p class="prose">MARA is built around one idea: different market conditions call for different strategies. A system that trades crypto momentum during a bull run should not be running the same playbook when geopolitical conflict spikes or a recession sets in.</p>
+                <p class="prose">A central <strong>FastAPI Hypervisor</strong> runs a 60-second loop: pull market data, classify the current macro regime, allocate capital to whichever workers are best suited for that regime, enforce risk limits, and execute. Five specialized workers handle the actual trading, each designed for a specific edge. The hypervisor never trades directly. It orchestrates.</p>
+                <p class="prose">The system runs entirely on Docker containers. Dev happens on WSL2 Ubuntu, production deploys to a Raspberry Pi 5 via ARM64 images built with <code>docker buildx</code>.</p>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Architecture -->
+            <div class="sect">
+                <h2 class="sect-title">Architecture</h2>
+                <p class="sect-sub">Hypervisor Loop (each 60s cycle)</p>
+
+                <div class="arch-flow">
+                    <div class="arch-label">Orchestration Pipeline</div>
+                    <div class="arch-row">
+                        <div class="arch-node primary">Fetch Data</div>
+                        <span class="arch-arrow">-></span>
+                        <div class="arch-node primary">Classify Regime</div>
+                        <span class="arch-arrow">-></span>
+                        <div class="arch-node primary">Allocate Capital</div>
+                        <span class="arch-arrow">-></span>
+                        <div class="arch-node primary">Risk Check</div>
+                        <span class="arch-arrow">-></span>
+                        <div class="arch-node primary">Execute</div>
+                    </div>
+                    <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)">
+                        <div class="arch-label">Worker Fleet (ports 8001-8005)</div>
+                        <div class="arch-row">
+                            <div class="arch-node worker">Nautilus :8001</div>
+                            <div class="arch-node worker">Polymarket :8002</div>
+                            <div class="arch-node worker">AutoHedge :8003</div>
+                            <div class="arch-node worker">Arbitrader :8004</div>
+                            <div class="arch-node worker">StockSharp :8005</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="prose">Every worker implements the same REST contract: <code>/health</code>, <code>/status</code>, <code>/metrics</code>, <code>/signal</code>, <code>/execute</code>, <code>/allocate</code>, <code>/pause</code>, <code>/resume</code>, <code>/regime</code>. The hypervisor doesn't care what's behind the API. Swap NautilusTrader for a different engine and nothing else changes.</p>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Workers -->
+            <div class="sect">
+                <h2 class="sect-title">Workers</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>Nautilus</h4>
+                        <p>MACD + Williams Fractals swing trading on OKX perpetuals. Dual-confirmation entry with RSI gating, trailing stop to breakeven at 1:1 R:R. Falls back to an internal paper simulator if the NautilusTrader wheel isn't available for the target platform.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Polymarket</h4>
+                        <p>CLOB market-making on prediction markets. Regime-gated exposure: expands during WAR_PREMIUM (high uncertainty = good spreads), pauses entirely in CRISIS_ACUTE (liquidity dries up). Wraps an existing open-source market maker bot.</p>
+                    </div>
+                    <div class="card">
+                        <h4>AutoHedge</h4>
+                        <p>LLM-based advisory pipeline. Director, Quant, and Risk agents run sequentially on phi3:mini via Ollama. Advisory only, never executes. Each regime gets a tailored system prompt so the agents reason in context. Falls back to direct Ollama calls if the agent framework fails.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Arbitrader</h4>
+                        <p>Cross-exchange price arbitrage. Delta-neutral: long on the cheaper exchange, short on the more expensive. Python sidecar manages the JVM lifecycle for the Java arbitrage engine. In paper mode, the JVM is never launched; the sidecar simulates arb PnL directly.</p>
+                    </div>
+                    <div class="card">
+                        <h4>StockSharp (Phase 2)</h4>
+                        <p>Interactive Brokers order routing via .NET 8 wrapper. Not yet implemented. Will handle US equities, options, and futures through IBKR's TWS API once the paper trading phase validates the rest of the stack.</p>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Regime Classifier -->
+            <div class="sect">
+                <h2 class="sect-title">Regime Classifier</h2>
+                <p class="prose">The regime classifier decides how the system behaves. It fuses market data (VIX, DXY, gold/oil ratio, BDI, defense ETF momentum) with geopolitical conflict scoring from ACLED and GDELT to produce one of seven regime states. Market proxy data carries 70-75% of the weight. Conflict indices fill in the gaps that pure market data misses.</p>
+
+                <table class="data-table" role="table">
+                    <caption class="sr-only">Regime states, triggers, and capital allocation</caption>
+                    <thead><tr><th scope="col">Regime</th><th scope="col">Trigger</th><th scope="col">Allocation Bias</th></tr></thead>
+                    <tbody>
+                        <tr><td>WAR_PREMIUM</td><td>Geopolitical crisis, defense momentum, gold/oil spike</td><td>Arb 45%, Poly 30%, Naut 25%</td></tr>
+                        <tr><td>CRISIS_ACUTE</td><td>VIX > 40, yield inversion</td><td>Arb 40%, Poly 20%, Naut 10%</td></tr>
+                        <tr><td>BEAR_RECESSION</td><td>Sustained downturn</td><td>Naut 45%, Arb 25%, Poly 20%</td></tr>
+                        <tr><td>BULL_FROTHY</td><td>Low VIX, high funding rates</td><td>Naut 45%, Arb 35%, Poly 10%</td></tr>
+                        <tr><td>REGIME_CHANGE</td><td>Transition signals, direction unclear</td><td>Arb 40%, Naut 30%, Poly 20%</td></tr>
+                        <tr><td>SHADOW_DRIFT</td><td>BDI divergence, hidden pressure</td><td>Arb 40%, Naut 35%, Poly 15%</td></tr>
+                        <tr><td>BULL_CALM</td><td>Default, no stress indicators</td><td>Naut 45%, Arb 30%, Poly 10%</td></tr>
+                    </tbody>
+                </table>
+
+                <p class="prose">Key design choice: requiring 2-of-N signal confirmation before triggering a regime change. A single indicator spiking (say gold jumps on a supply disruption) won't flip the system into WAR_PREMIUM by itself. This prevents false positives from commodity-specific events.</p>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Risk Manager -->
+            <div class="sect">
+                <h2 class="sect-title">Risk Manager</h2>
+                <p class="prose">Seven enforcement points run every cycle. If any trip, the system either halts the offending worker, blocks new signals, or puts the entire portfolio into cooldown.</p>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>Portfolio-Level</h4>
+                        <ul>
+                            <li><strong>Drawdown gate:</strong> Portfolio DD > 20% triggers 1-hour cooldown</li>
+                            <li><strong>PnL floor:</strong> Realized PnL below -$40 triggers cooldown</li>
+                            <li><strong>Max positions:</strong> More than 6 open positions blocks new signals</li>
+                            <li><strong>Free capital:</strong> Less than 15% cash reserve blocks new signals</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Per-Worker</h4>
+                        <ul>
+                            <li><strong>Allocation cap:</strong> No single worker gets more than 50% of capital</li>
+                            <li><strong>Worker drawdown:</strong> Worker DD > 30% excludes it from allocation</li>
+                            <li><strong>Sharpe penalty:</strong> Worker Sharpe below 0.5 cuts allocation by half</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Data Sources -->
+            <div class="sect">
+                <h2 class="sect-title">Data Sources</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>Market Data</h4>
+                        <ul>
+                            <li><strong>OHLCV:</strong> yfinance (equities, ETFs, crypto)</li>
+                            <li><strong>Macro:</strong> FRED (fed rates, 10Y-2Y yield, DXY)</li>
+                            <li><strong>Commodities:</strong> Gold, oil, BDI proxy via BDRY ETF</li>
+                            <li><strong>Sentiment:</strong> VIX, BTC funding rates</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Conflict Index</h4>
+                        <ul>
+                            <li><strong>ACLED CAST:</strong> 21-day conflict forecast (weighted 20%)</li>
+                            <li><strong>ACLED Live:</strong> Recent conflict events by country (5%)</li>
+                            <li><strong>GDELT:</strong> Global news sentiment, Goldstein scale (5-25%)</li>
+                            <li>GDELT is confirmation-only scoring, rate-limited</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Stack & Environment -->
+            <div class="sect">
+                <h2 class="sect-title">Stack</h2>
+
+                <table class="data-table" role="table">
+                    <caption class="sr-only">Development and production environment details</caption>
+                    <thead><tr><th scope="col">Layer</th><th scope="col">Spec</th></tr></thead>
+                    <tbody>
+                        <tr><td>Dev</td><td>Windows laptop, WSL2 Ubuntu-24.04, Docker Desktop 4.63.0</td></tr>
+                        <tr><td>Production</td><td>Raspberry Pi 5 (16GB), Docker ARM64 via buildx + QEMU</td></tr>
+                        <tr><td>Exchange</td><td>OKX only (Binance 451, Bybit 403 geo-blocked)</td></tr>
+                        <tr><td>LLM</td><td>phi3:mini on Ollama (CPU inference, no GPU required)</td></tr>
+                        <tr><td>Data</td><td>yfinance, FRED, ACLED, GDELT, live order books</td></tr>
+                    </tbody>
+                </table>
+
+                <p class="sect-sub">File Structure</p>
+                <div class="file-tree"><pre><span class="dir">mara/</span>
+  <span class="dir">hypervisor/</span>
+    <span class="file">main.py</span>              <span class="comment"># FastAPI orchestrator</span>
+    <span class="dir">allocator/</span><span class="file">capital.py</span>  <span class="comment"># Regime-based capital splits</span>
+    <span class="dir">regime/</span><span class="file">classifier.py</span>  <span class="comment"># 7-state regime detector</span>
+    <span class="dir">risk/</span><span class="file">manager.py</span>      <span class="comment"># 7-point risk enforcement</span>
+  <span class="dir">workers/</span>
+    <span class="dir">nautilus/</span>             <span class="comment"># MACD+Fractals swing trader</span>
+    <span class="dir">polymarket/</span>           <span class="comment"># CLOB market maker</span>
+    <span class="dir">autohedge/</span>            <span class="comment"># LLM advisory pipeline</span>
+    <span class="dir">arbitrader/</span>           <span class="comment"># Cross-exchange arb sidecar</span>
+    <span class="dir">stocksharp/</span>           <span class="comment"># IBKR routing (Phase 2)</span>
+  <span class="dir">data/feeds/</span>
+    <span class="file">market_data.py</span>       <span class="comment"># yfinance + FRED wrapper</span>
+    <span class="file">conflict_index.py</span>    <span class="comment"># ACLED + GDELT fusion</span>
+  <span class="dir">config/</span>
+    <span class="file">settings.yaml</span>        <span class="comment"># Runtime parameters</span>
+    <span class="file">regimes.yaml</span>         <span class="comment"># Classifier thresholds</span>
+  <span class="dir">tests/</span>
+    <span class="file">test_integration_dryrun.py</span>
+  <span class="file">docker-compose.yml</span></pre></div>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Test Suite -->
+            <div class="sect">
+                <h2 class="sect-title">Test Suite</h2>
+                <p class="prose">Integration tests cover the full REST contract, capital allocation math, risk enforcement, and hypervisor cycle logic. Current state as of March 2026: <strong>38 passed, 2 failed, 17 skipped</strong>.</p>
+
+                <table class="data-table" role="table">
+                    <caption class="sr-only">Test coverage breakdown</caption>
+                    <thead><tr><th scope="col">Test Class</th><th scope="col">Coverage</th><th scope="col">Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>WorkerContract</td><td>8 REST endpoints (nautilus + arbitrader)</td><td>10/12 pass</td></tr>
+                        <tr><td>CapitalAllocator</td><td>Dollar splits per regime, key alignment</td><td>10/10 pass</td></tr>
+                        <tr><td>RiskManager</td><td>Drawdown, cooldown, PnL floor, position cap</td><td>8/8 pass</td></tr>
+                        <tr><td>HypervisorCycle</td><td>Worker registry, capital math, position count</td><td>4/4 pass</td></tr>
+                        <tr><td>SignalSchema</td><td>Signal format, required fields</td><td>4/6 pass</td></tr>
+                    </tbody>
+                </table>
+
+                <p class="prose">The two failures are <code>/metrics</code> endpoints returning JSON instead of <code>text/plain</code> (Prometheus requires raw text). Known fix, tracked. Skipped tests are for workers whose dependencies (litellm, py_clob_client) aren't in the test venv.</p>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Design Decisions -->
+            <div class="sect">
+                <h2 class="sect-title">Key Design Decisions</h2>
+                <div class="card">
+                    <ul>
+                        <li><strong>OKX only:</strong> Binance returns HTTP 451, Bybit returns 403. Both geo-blocked. OKX works. Symbol format: <code>BTC-USDT-SWAP</code></li>
+                        <li><strong>BDRY as BDI proxy:</strong> The Baltic Dry Index (^BDI) was delisted from yfinance. BDRY ETF tracks it well enough for regime classification</li>
+                        <li><strong>Market proxy primary (70-75%):</strong> Prevents commodity-only spikes from false-triggering WAR_PREMIUM. Conflict data is confirmation, not primary signal</li>
+                        <li><strong>2-of-N confirmation:</strong> No single indicator can flip the regime by itself. Prevents false positives from isolated market events</li>
+                        <li><strong>AutoHedge advisory-only:</strong> Stripped the Execution agent (Solana-only, unusable). Director + Quant + Risk agents remain for LLM-based portfolio commentary</li>
+                        <li><strong>Workers as FastAPI services:</strong> Pluggable architecture. The hypervisor talks REST and doesn't care what runs behind the API. Swap engines without touching orchestration</li>
+                        <li><strong>Paper capital frozen:</strong> In paper mode, total capital stays at INITIAL_CAPITAL_USD. PnL is tracked but never compounds into the capital base. Prevents unrealistic snowball effects during testing</li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Roadmap -->
+            <div class="sect">
+                <h2 class="sect-title">Roadmap</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>Now</h4>
+                        <ul>
+                            <li>Paper trading validation (PnL, Sharpe, positions updating)</li>
+                            <li>Fix /metrics Response type on nautilus + arbitrader</li>
+                            <li>Confirm capital allocation numbers in hypervisor logs</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Next (1-4 weeks)</h4>
+                        <ul>
+                            <li>NautilusTrader backtest harness with historical OHLCV</li>
+                            <li>Regime classifier validation with live data</li>
+                            <li>Pi deployment via deploy_pi.sh</li>
+                            <li>ACLED token refresh</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Phase 2 (2-3 months)</h4>
+                        <ul>
+                            <li>StockSharp IBKR wrapper (.NET 8)</li>
+                            <li>Multi-regime stress testing</li>
+                            <li>Live trading on OKX</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    </main>
+</body>
+</html>

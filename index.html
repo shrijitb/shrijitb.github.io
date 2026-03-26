@@ -4,707 +4,619 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shrijit Banerjee | Mechanical Engineer</title>
+    <meta name="description" content="Mechanical engineer specializing in fabrication, automation, and production operations. Portfolio of engineering projects spanning PEM fuel cells, CNC machining, and vision-guided robotics.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0a0e14;
-            --bg-secondary: #14181f;
-            --bg-card: #1a1f28;
-            --accent-orange: #ff6b35;
-            --accent-blue: #4ecdc4;
-            --text-primary: #e8eaed;
-            --text-secondary: #9ca3af;
-            --border: #2a3040;
+            --bg: #111211;
+            --bg-raised: #181a18;
+            --bg-inset: #0e0f0e;
+            --text: #d8d5cf;
+            --text-muted: #7a7872;
+            --accent: #8a9a7b;
+            --accent-dim: rgba(138,154,123,0.12);
+            --border: #262826;
+            --border-hover: #3a3c3a;
+            --radius: 6px;
         }
-        
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
         body {
-            font-family: 'Work Sans', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Background Pattern */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 49px,
-                    rgba(255, 107, 53, 0.03) 49px,
-                    rgba(255, 107, 53, 0.03) 50px
-                ),
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 49px,
-                    rgba(78, 205, 196, 0.03) 49px,
-                    rgba(78, 205, 196, 0.03) 50px
-                );
-            z-index: -1;
-            opacity: 0.5;
+        /* Skip link */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent);
+            color: var(--bg);
+            font-weight: 600;
+            border-radius: var(--radius);
+            z-index: 9999;
+            text-decoration: none;
+        }
+        .skip-link:focus {
+            top: 1rem;
         }
 
-        /* Navigation */
+        /* Focus */
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 400;
+            text-wrap: balance;
+        }
+
+        p {
+            text-wrap: pretty;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 clamp(1.25rem, 4vw, 3rem);
+        }
+
+        /* ─── NAV ─── */
         nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(10, 14, 20, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem 5%;
-            z-index: 1000;
+            z-index: 100;
+            background: rgba(17, 18, 17, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
-            animation: slideDown 0.6s ease-out;
         }
 
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        nav .container {
-            max-width: 1400px;
+        .nav-inner {
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 0 clamp(1.25rem, 4vw, 3rem);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: 64px;
         }
 
-        .logo {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            letter-spacing: 2px;
-            color: var(--text-primary);
+        .nav-logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text);
             text-decoration: none;
+            letter-spacing: 0.02em;
         }
 
-        .logo span {
-            color: var(--accent-orange);
-        }
-
-        nav ul {
+        .nav-links {
+            display: flex;
+            gap: 2rem;
             list-style: none;
-            display: flex;
-            gap: 3rem;
         }
 
-        nav a {
-            color: var(--text-secondary);
+        .nav-links a {
+            color: var(--text-muted);
             text-decoration: none;
+            font-size: 0.875rem;
             font-weight: 400;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-            position: relative;
+            transition: color 0.15s ease;
         }
 
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-orange);
-            transition: width 0.3s ease;
+        .nav-links a:hover,
+        .nav-links a:focus-visible {
+            color: var(--text);
         }
 
-        nav a:hover {
-            color: var(--text-primary);
+        /* Mobile menu toggle */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: var(--text);
         }
 
-        nav a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 8rem 5% 4rem;
-            position: relative;
-        }
-
-        .hero-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-content h1 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 5rem;
-            line-height: 0.95;
-            margin-bottom: 1.5rem;
-            letter-spacing: 1px;
-            animation: fadeInUp 0.8s ease-out 0.2s both;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero-content h1 .highlight {
-            color: var(--accent-orange);
+        .nav-toggle svg {
             display: block;
         }
 
-        .hero-subtitle {
-            font-size: 1.4rem;
-            color: var(--accent-blue);
-            font-weight: 300;
-            margin-bottom: 2rem;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
+        /* ─── HERO ─── */
+        .hero {
+            padding: calc(64px + clamp(4rem, 10vw, 8rem)) 0 clamp(4rem, 8vw, 7rem);
         }
 
-        .hero-description {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            max-width: 600px;
-            line-height: 1.8;
-            animation: fadeInUp 0.8s ease-out 0.6s both;
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: clamp(2rem, 5vw, 5rem);
+            align-items: end;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.75rem, 6vw, 4.5rem);
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 em {
+            color: var(--accent);
+            
+        }
+
+        .hero-lead {
+            font-size: clamp(1rem, 1.5vw, 1.15rem);
+            color: var(--text-muted);
+            max-width: 560px;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
         }
 
         .hero-cta {
             display: flex;
-            gap: 1.5rem;
-            animation: fadeInUp 0.8s ease-out 0.8s both;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 1rem 2.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            font-family: inherit;
+            border-radius: var(--radius);
             text-decoration: none;
-            font-weight: 600;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            display: inline-block;
-            font-size: 1rem;
-            border: 2px solid transparent;
+            cursor: pointer;
+            transition: opacity 0.15s ease, transform 0.15s ease;
+            border: 1px solid transparent;
         }
 
-        .btn-primary {
-            background: var(--accent-orange);
-            color: var(--bg-primary);
+        .btn:hover {
+            opacity: 0.88;
         }
 
-        .btn-primary:hover {
+        .btn-fill {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .btn-outline {
             background: transparent;
-            border-color: var(--accent-orange);
-            color: var(--accent-orange);
-            transform: translateY(-2px);
+            border-color: var(--border-hover);
+            color: var(--text-muted);
+        }
+        .btn-outline:hover {
+            border-color: var(--text-muted);
+            color: var(--text);
+            opacity: 1;
         }
 
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid var(--text-secondary);
-            color: var(--text-secondary);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-            transform: translateY(-2px);
-        }
-
-        .hero-image {
-            position: relative;
-            animation: fadeIn 1s ease-out 0.4s both;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .hero-image img {
+        .hero-photo {
             width: 100%;
-            max-width: 400px;
-            height: auto;
-            border-radius: 8px;
-            border: 3px solid var(--border);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            margin: 0 auto;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
             display: block;
         }
 
-        .hero-image::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, var(--accent-orange) 0%, transparent 70%);
-            opacity: 0.1;
-            z-index: -1;
-        }
-
-        /* Section Styles */
+        /* ─── SECTIONS ─── */
         section {
-            padding: 6rem 5%;
+            padding: clamp(4rem, 8vw, 6rem) 0;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
+        .section-alt {
+            background: var(--bg-raised);
         }
 
-        .section-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 3.5rem;
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
             margin-bottom: 1rem;
-            letter-spacing: 1px;
-            position: relative;
-            display: inline-block;
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-orange), var(--accent-blue));
+        .section-heading {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
         }
 
-        .section-subtitle {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 4rem;
-            margin-top: 1.5rem;
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1rem;
+            max-width: 600px;
+            margin-bottom: clamp(2rem, 4vw, 3.5rem);
         }
 
-        /* About Section */
-        #about {
-            background: var(--bg-secondary);
-        }
-
-        .about-content {
+        /* ─── ABOUT ─── */
+        .about-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin-top: 3rem;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: clamp(2rem, 5vw, 4rem);
+            align-items: start;
         }
 
         .about-text p {
-            margin-bottom: 1.5rem;
-            color: var(--text-secondary);
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
             line-height: 1.8;
         }
 
-        .stats-grid {
+        .about-text a {
+            color: var(--text);
+            text-decoration-color: var(--accent);
+            text-underline-offset: 3px;
+        }
+        .about-text a:hover {
+            color: var(--accent);
+        }
+
+        .metrics {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            padding: 2rem;
-            border-radius: 8px;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--border);
             border: 1px solid var(--border);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            border-radius: var(--radius);
+            overflow: hidden;
         }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-orange);
+        .metric {
+            background: var(--bg-raised);
+            padding: 1.5rem;
         }
 
-        .stat-number {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 3rem;
-            color: var(--accent-orange);
-            line-height: 1;
-            margin-bottom: 0.5rem;
+        .metric-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.75rem;
+            font-weight: 500;
+            color: var(--text);
+            font-variant-numeric: tabular-nums;
+            line-height: 1.2;
+            margin-bottom: 0.35rem;
         }
 
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
+        .metric-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
         }
 
-        /* Skills Section */
-        .skills-grid {
+        /* ─── SKILLS ─── */
+        .skills-columns {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .skill-category {
-            background: var(--bg-card);
-            padding: 2.5rem;
-            border-radius: 8px;
+            gap: 1px;
+            background: var(--border);
             border: 1px solid var(--border);
-            transition: all 0.3s ease;
+            border-radius: var(--radius);
+            overflow: hidden;
         }
 
-        .skill-category:hover {
-            border-color: var(--accent-blue);
-            transform: translateY(-5px);
+        .skill-group {
+            background: var(--bg);
+            padding: clamp(1.5rem, 3vw, 2.5rem);
         }
 
-        .skill-category h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            color: var(--accent-blue);
-            margin-bottom: 1.5rem;
-            letter-spacing: 1px;
+        .skill-group h3 {
+            font-size: 1.35rem;
+            margin-bottom: 1.25rem;
+            color: var(--text);
         }
 
-        .skill-category ul {
+        .skill-group ul {
             list-style: none;
         }
 
-        .skill-category li {
-            color: var(--text-secondary);
-            margin-bottom: 0.8rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .skill-category li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: var(--accent-orange);
-        }
-
-        /* Projects Section */
-        #projects {
-            background: var(--bg-secondary);
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 3rem;
-            margin-top: 3rem;
-        }
-
-        .project-card {
-            background: var(--bg-card);
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            transition: all 0.4s ease;
-            cursor: pointer;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-orange);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .project-status {
-            background: var(--bg-primary);
-            padding: 2rem;
+        .skill-group li {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            padding: 0.4rem 0;
             border-bottom: 1px solid var(--border);
-            min-height: 200px;
+        }
+        .skill-group li:last-child {
+            border-bottom: none;
+        }
+
+        /* ─── PROJECTS ─── */
+        .project-list {
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
         }
 
-        .project-status-label {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: rgba(255, 107, 53, 0.2);
-            color: var(--accent-orange);
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            width: fit-content;
+        .project-item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            align-items: center;
+            padding: clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3vw, 2.5rem);
+            background: var(--bg-raised);
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.15s ease;
         }
 
-        .project-status-label.ready {
-            background: rgba(78, 205, 196, 0.2);
-            color: var(--accent-blue);
+        .project-item:hover {
+            background: #1e201e;
         }
 
-        .project-content {
-            padding: 2rem;
+        .project-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(1.15rem, 2vw, 1.5rem);
+            font-weight: 400;
+            margin-bottom: 0.4rem;
+            color: var(--text);
         }
 
-        .project-card h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            letter-spacing: 0.5px;
+        .project-desc {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            max-width: 640px;
+            line-height: 1.65;
         }
 
-        .project-card p {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-
-        .project-tags {
+        .project-meta {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
         }
 
         .tag {
-            padding: 0.4rem 1rem;
-            background: var(--bg-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 400;
+            padding: 0.3rem 0.7rem;
             border: 1px solid var(--border);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+            border-radius: 3px;
+            color: var(--text-muted);
+            white-space: nowrap;
         }
 
-        .project-assets {
+        .project-arrow {
+            color: var(--text-muted);
+            flex-shrink: 0;
+            transition: transform 0.15s ease, color 0.15s ease;
+        }
+
+        .project-item:hover .project-arrow {
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        .project-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        /* ─── EXPERIENCE ─── */
+        .exp-list {
             display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: clamp(2rem, 4vw, 3rem);
         }
 
-        .asset-badge {
-            padding: 0.5rem 1.2rem;
-            background: rgba(78, 205, 196, 0.1);
-            border: 1px solid var(--accent-blue);
-            border-radius: 4px;
-            font-size: 0.85rem;
-            color: var(--accent-blue);
-            font-weight: 500;
+        .exp-item {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 2rem;
         }
 
-        .asset-badge.pending {
-            background: rgba(156, 163, 175, 0.1);
-            border-color: var(--text-secondary);
-            color: var(--text-secondary);
-        }
-
-        /* Experience Section */
-        .experience-timeline {
-            margin-top: 3rem;
-            position: relative;
-            padding-left: 3rem;
-        }
-
-        .experience-timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, var(--accent-orange), var(--accent-blue));
-        }
-
-        .experience-item {
-            margin-bottom: 3rem;
+        .exp-where {
             position: relative;
         }
 
-        .experience-item::before {
-            content: '';
-            position: absolute;
-            left: -3.5rem;
-            top: 5px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--accent-orange);
-            border: 3px solid var(--bg-primary);
+        .exp-where h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
         }
 
-        .experience-header {
-            margin-bottom: 1rem;
+        .exp-company {
+            font-size: 0.875rem;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
         }
 
-        .experience-item h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            color: var(--text-primary);
-            letter-spacing: 0.5px;
+        .exp-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
         }
 
-        .experience-company {
-            color: var(--accent-blue);
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .experience-date {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .experience-item ul {
+        .exp-details ul {
             list-style: none;
-            margin-top: 1rem;
         }
 
-        .experience-item li {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            padding-left: 1.5rem;
-            position: relative;
+        .exp-details li {
+            color: var(--text-muted);
+            font-size: 0.9rem;
             line-height: 1.7;
+            padding: 0.5rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+            border-bottom: 1px solid var(--border);
         }
-
-        .experience-item li::before {
-            content: '▸';
+        .exp-details li:last-child {
+            border-bottom: none;
+        }
+        .exp-details li::before {
+            content: '';
             position: absolute;
             left: 0;
-            color: var(--accent-orange);
+            top: 1rem;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
         }
 
-        /* Contact Section */
-        #contact {
-            background: var(--bg-secondary);
+        /* ─── CONTACT ─── */
+        .contact-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: clamp(1.5rem, 4vw, 3rem);
+            justify-content: center;
             text-align: center;
         }
 
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .contact-item a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
-        }
-
-        .contact-item a:hover {
-            color: var(--accent-orange);
+        .contact-block {
+            min-width: 160px;
         }
 
         .contact-label {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.2rem;
-            color: var(--accent-blue);
-            letter-spacing: 1px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
         }
 
-        /* Footer */
+        .contact-value a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.15s;
+        }
+        .contact-value a:hover {
+            color: var(--accent);
+        }
+        .contact-value span {
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        /* ─── FOOTER ─── */
         footer {
-            padding: 2rem 5%;
-            text-align: center;
+            padding: 2rem 0;
             border-top: 1px solid var(--border);
-            color: var(--text-secondary);
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
 
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .hero-container {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-image img {
-                max-width: 300px;
-            }
-
-            .hero-cta {
-                justify-content: center;
-            }
-
-            .about-content {
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            .hero-inner {
                 grid-template-columns: 1fr;
             }
-
-            .skills-grid {
+            .hero-photo {
+                max-width: 260px;
+                aspect-ratio: 1;
+            }
+            .about-grid {
                 grid-template-columns: 1fr;
             }
-
-            .projects-grid {
+            .skills-columns {
                 grid-template-columns: 1fr;
             }
-
-            nav ul {
-                gap: 1.5rem;
+            .exp-item {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
             }
-        }
-
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 3.5rem;
+            .project-item {
+                grid-template-columns: 1fr;
             }
-
-            .section-title {
-                font-size: 2.5rem;
-            }
-
-            nav ul {
+            .project-arrow {
                 display: none;
             }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
-        /* Smooth Scroll */
-        html {
-            scroll-behavior: smooth;
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 64px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(12,12,12,0.98);
+                flex-direction: column;
+                padding: 2rem clamp(1.25rem, 4vw, 3rem);
+                gap: 0;
+                z-index: 99;
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-links li {
+                border-bottom: 1px solid var(--border);
+            }
+            .nav-links a {
+                display: block;
+                padding: 1rem 0;
+                font-size: 1rem;
+            }
+            .nav-toggle {
+                display: block;
+            }
+            .metrics {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <a href="#" class="logo">SHRIJIT<span>.</span></a>
-            <ul>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <!-- Nav -->
+    <nav aria-label="Primary navigation">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo" aria-label="Shrijit Banerjee, home">SB</a>
+            <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+            <ul class="nav-links" id="nav-menu" role="list">
                 <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
@@ -714,105 +626,94 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
+    <main id="main">
     <section class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1>
-                    SHRIJIT
-                    <span class="highlight">BANERJEE</span>
-                </h1>
-                <p class="hero-subtitle">Mechanical Engineer</p>
-                <p class="hero-description">
-                    Engineer focused on fabrication and automation. From managing a 12-machine shop for 400+ users to rebuilding defunct vision systems for production lines, I bridge the gap between digital CAD and physical reality.
-                </p>
-                <div class="hero-cta">
-                    <a href="#projects" class="btn btn-primary">View Projects</a>
-                    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" alt="Shrijit Banerjee" id="profile-pic">
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about">
         <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <p class="section-subtitle">Scaling production through precision machining, custom automation, and shop-floor leadership</p>
-
-            <div class="about-content">
-                <div class="about-text">
-                    <p>
-                        I spent over two years at the Singh Imagineering Lab where I didn't just design, I ensured operations ran safely for over 400 students. I maintain operational and maintenance proficiency across 12 machine platforms, including CNC mills, lathes, wire EDMs, laser cutters, and waterjets.
-                    </p>
-                    <p>
-                        My experience spans production operations, computational materials engineering, and hands-on fabrication. I've developed systems that reduced input power by 96%, improved vision inspection accuracy from 55% to 90%, and optimized production lines to achieve 72% value-added time.
-                    </p>
-                    <p>
-                        I am an <a href="https://www.credly.com/badges/555b6643-609a-4141-81fb-08c654838dab" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; text-decoration-color: #8e96c2;">Autodesk Certified Professional in AutoCAD</a> with deep roots in CNC machining and PLC programming. I don't just optimize processes, I fix the machines that run them.
-                    </p>
+            <div class="hero-inner">
+                <div>
+                    <h1>Shrijit<br><span style="color:var(--accent)">Banerjee</span></h1>
+                    <p class="hero-lead">Mechanical engineer focused on fabrication and automation. I've run a 12-machine shop for 400+ users, rebuilt vision systems on production lines, and designed hydrogen fuel cells from CAD to CNC. I bridge the gap between digital models and physical parts.</p>
+                    <div class="hero-cta">
+                        <a href="#projects" class="btn btn-fill">View Projects</a>
+                        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+                    </div>
                 </div>
+                <div>
+                    <img src="./profile.jpg" alt="Portrait of Shrijit Banerjee" class="hero-photo" id="profile-pic"
+                         onerror="this.style.background='var(--bg-raised)'; this.alt='Photo unavailable';">
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number">400+</div>
-                        <div class="stat-label">Personnel Managed</div>
+    <!-- About -->
+    <section id="about" class="section-alt">
+        <div class="container">
+            <p class="section-label">Background</p>
+            <h2 class="section-heading">About Me</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>I spent two-plus years at the Singh Imagineering Lab at Boston University, where I kept a 12-machine fabrication shop running safely for over 400 students across mechanical, aerospace, and biomedical programs. I maintain hands-on proficiency across CNC mills, lathes, wire EDMs, laser cutters, and waterjets.</p>
+                    <p>My work spans production operations, computational materials engineering, and physical fabrication. Some highlights: reducing input power on a PEM fuel cell by 96%, pushing vision inspection accuracy from 55% to 90%, and optimizing a production line to 72% value-added time.</p>
+                    <p>I'm an <a href="https://www.credly.com/badges/555b6643-609a-4141-81fb-08c654838dab" target="_blank" rel="noopener noreferrer">Autodesk Certified Professional in AutoCAD</a> with deep roots in CNC machining and PLC programming. I don't just optimize processes - I fix the machines that run them.</p>
+                </div>
+                <div class="metrics" role="list" aria-label="Key metrics">
+                    <div class="metric" role="listitem">
+                        <div class="metric-value">400+</div>
+                        <div class="metric-label">Users managed</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-number">72%</div>
-                        <div class="stat-label">Value-Added Production</div>
+                    <div class="metric" role="listitem">
+                        <div class="metric-value">72%</div>
+                        <div class="metric-label">Value-added time</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-number">12</div>
-                        <div class="stat-label">Industrial Machine Platforms Maintained</div>
+                    <div class="metric" role="listitem">
+                        <div class="metric-value">12</div>
+                        <div class="metric-label">Machine platforms</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-number">15</div>
-                        <div class="stat-label">Failure-Free Consecutive Production Cycles</div>
+                    <div class="metric" role="listitem">
+                        <div class="metric-value">15</div>
+                        <div class="metric-label">Failure-free cycles</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Skills Section -->
+    <!-- Skills -->
     <section id="skills">
         <div class="container">
-            <h2 class="section-title">Skills & Expertise</h2>
-            <p class="section-subtitle">Comprehensive technical capabilities across manufacturing and engineering</p>
+            <p class="section-label">Capabilities</p>
+            <h2 class="section-heading">Skills</h2>
+            <p class="section-desc">What I work with day to day - from shop-floor tooling to simulation software.</p>
 
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>Manufacturing & Lean</h3>
+            <div class="skills-columns">
+                <div class="skill-group">
+                    <h3>Manufacturing</h3>
                     <ul>
                         <li>CNC Machining</li>
-                        <li>PFMEA & SPC</li>
+                        <li>PFMEA &amp; SPC</li>
                         <li>Lean Six Sigma (VSM, 5S)</li>
                         <li>Tolerance Analysis</li>
-                        <li>GD&T (ASME Y14.5M)</li>
+                        <li>GD&amp;T (ASME Y14.5M)</li>
                         <li>MES</li>
                         <li>SAP ERP</li>
                     </ul>
                 </div>
-
-                <div class="skill-category">
-                    <h3>CAD & Design</h3>
+                <div class="skill-group">
+                    <h3>CAD &amp; Design</h3>
                     <ul>
                         <li>SolidWorks</li>
                         <li>AutoCAD (Certified Professional)</li>
                         <li>Fusion 360</li>
                         <li>FEA (COMSOL, Ansys)</li>
-                        <li>DFM/DFA</li>
+                        <li>DFM / DFA</li>
                         <li>G-Code</li>
                         <li>KiCAD</li>
                     </ul>
                 </div>
-
-                <div class="skill-category">
-                    <h3>Automation & Controls</h3>
+                <div class="skill-group">
+                    <h3>Automation</h3>
                     <ul>
                         <li>PLC Programming</li>
                         <li>Cobot Programming (UR)</li>
@@ -826,229 +727,192 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects">
+    <!-- Projects -->
+    <section id="projects" class="section-alt">
         <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-            <p class="section-subtitle">Innovative engineering solutions across diverse applications</p>
-            <div class="projects-grid">
-                <!-- Project 1: PEM Hydrogen Fuel System -->
-                <a href="./pem-project.html" style="text-decoration: none; color: inherit;">
-                <div class="project-card">
-                    <div class="project-status">
-                        <span class="project-status-label ready">Ready to View</span>
-                        <h3>PEM Hydrogen Project</h3>
-                        <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">Sep 2024 - Apr 2025</p>
-                    </div>
-                    <div class="project-content">
-                        <p>
-                            Designed PEM stack, optimized flow channels via FEA, quadrupling electrode surface area while maintaining equivalent hydrogen yield rate and lowering input power by 96%. Developed CAM workflow for precision fabrication of custom flow plates, achieving 0.1mm tolerances and reducing lead time by 50%.
-                        </p>
-                        <div class="project-tags">
+            <p class="section-label">Work</p>
+            <h2 class="section-heading">Projects</h2>
+            <p class="section-desc">Selected engineering projects - each one built, tested, and documented.</p>
+
+            <div class="project-list">
+                <a href="./pem-project.html" class="project-item">
+                    <div>
+                        <div class="project-date">Sep 2024 – Apr 2025</div>
+                        <div class="project-name">PEM Hydrogen Fuel System</div>
+                        <p class="project-desc">Designed and fabricated a PEM electrolysis cell, optimized flow channels via FEA, quadrupled electrode surface area while cutting input power by 96%. Developed CAM workflow for precision flow plates at 0.1mm tolerances.</p>
+                        <div class="project-meta">
                             <span class="tag">FEA</span>
                             <span class="tag">CAM</span>
                             <span class="tag">Flow Optimization</span>
                             <span class="tag">Fabrication</span>
                         </div>
-                        <div class="project-assets">
-                            <span class="asset-badge">CAD Files</span>
-                            <span class="asset-badge">Design Documents</span>
-                            <span class="asset-badge">Photos</span>
-                        </div>
                     </div>
-                </div>
+                    <svg class="project-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6l6 6-6 6"/></svg>
                 </a>
-                </div>
 
-                <!-- Project 2: Automated Production Line -->
-                <a href="./cordganizer-project.html" style="text-decoration: none; color: inherit;">
-                <div class="project-card">
-                    <div class="project-status">
-                        <span class="project-status-label ready">Ready to View</span>
-                        <h3>Automated Production Line Optimization</h3>
-                        <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">Sep 2024 - Apr 2025</p>
-                    </div>
-                    <div class="project-content">
-                        <p>
-                            Rebuilt vision inspection system of autonomous manufactory cell from 55% to 90% accuracy and redesigned assembly 
-                            tolerancing to achieve 15 consecutive failure-free cycles. Reduced cycle time from 
-                            24 min to 19.4 min while doubling output.
-                        </p>
-                        <div class="project-tags">
+                <a href="./cordganizer-project.html" class="project-item">
+                    <div>
+                        <div class="project-date">Sep 2024 – Apr 2025</div>
+                        <div class="project-name">Automated Production Line Optimization</div>
+                        <p class="project-desc">Rebuilt a vision inspection system from 55% to 90% accuracy and re-toleranced the assembly to hit 15 consecutive failure-free cycles. Cut cycle time from 24 to 19.4 minutes while doubling output.</p>
+                        <div class="project-meta">
                             <span class="tag">Vision Systems</span>
-                            <span class="tag">Automated Robot Integration</span>
-                            <span class="tag">CAD & CAM</span>
-                            <span class="tag">Lean Manufacturing</span>
-                            <span class="tag">Real-Time Data Analysis</span>
-                        </div>
-                        <div class="project-assets">
-                            <span class="asset-badge">Presentation & Reports</span>
-                            <span class="asset-badge">CAD & CAM Files</span>
-                            <span class="asset-badge">Video</span>
+                            <span class="tag">Robot Integration</span>
+                            <span class="tag">CAD &amp; CAM</span>
+                            <span class="tag">Lean</span>
                         </div>
                     </div>
-                    </a>
-                </div>
+                    <svg class="project-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6l6 6-6 6"/></svg>
+                </a>
 
-                <!-- Project 3: Vibration System -->
-                <div class="project-card">
-                <a href="vibration-project.html" style="text-decoration: none; color: inherit; display: block;">
-                    <div class="project-status">
-                        <span class="project-status-label ready">Ready to View</span>
-                        <h3>Vibration System Modeling</h3>
-                        <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">Mar 2025 - May 2025</p>
-                    </div>
-                    <div class="project-content">
-                        <p>
-                            Built a mass-spring suspension model achieving 1.5% deviation from theory. Designed 
-                            custom 6th-order Butterworth filter to isolate 10kHz sensor data from EMI and ground 
-                            loops, eliminating aliasing artifacts.
-                        </p>
-                        <div class="project-tags">
+                <a href="./vibration-project.html" class="project-item">
+                    <div>
+                        <div class="project-date">Mar 2025 – May 2025</div>
+                        <div class="project-name">Vibration System Modeling</div>
+                        <p class="project-desc">Built a mass-spring suspension model within 1.5% of theory. Designed a custom 6th-order Butterworth filter to isolate 10kHz sensor data from EMI and ground loops, eliminating aliasing artifacts.</p>
+                        <div class="project-meta">
                             <span class="tag">Signal Processing</span>
                             <span class="tag">Filter Design</span>
-                            <span class="tag">Data Analysis</span>
                             <span class="tag">Modeling</span>
                         </div>
-                        <div class="project-assets">
-                            <span class="asset-badge">Technical Report</span>
-                        </div>
                     </div>
-                </div>
+                    <svg class="project-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6l6 6-6 6"/></svg>
+                </a>
 
-                <!-- Project 4: AutoCAD Drafting -->
-                <div class="project-card">
-                <a href="residential-building-plans.html" style="text-decoration: none; color: inherit; display: block;">
-                    <div class="project-status">
-                        <span class="project-status-label ready">Ready to View</span>
-                        <h3>Residential Building Plans</h3>
-                        <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">AutoCAD Drafting</p>
-                    </div>
-                    <div class="project-content">
-                        <p>
-                            Professional architectural drafting showcasing comprehensive residential building plans. 
-                            Demonstrates proficiency in AutoCAD with detailed floor plans, elevations, and technical 
-                            specifications following industry standards.
-                        </p>
-                        <div class="project-tags">
-                            <span class="tag">AutoCAD</span>
-                            <span class="tag">Technical Drafting</span>
-                            <span class="tag">Architecture</span>
-                            <span class="tag">DWG</span>
-                        </div>
-                        <div class="project-assets">
-                            <span class="asset-badge">PDF DWG (3)</span>
+                <a href="./mara-project.html" class="project-item">
+                    <div>
+                        <div class="project-date">Oct 2025 – Present</div>
+                        <div class="project-name">MARA: Multi-Agent Trading System</div>
+                        <p class="project-desc">Open-source autonomous trading system coordinating five AI agents across crypto, futures, and prediction markets. Regime-aware capital allocation, real-time conflict indexing, and a FastAPI hypervisor running on a Raspberry Pi 5.</p>
+                        <div class="project-meta">
+                            <span class="tag">Python</span>
+                            <span class="tag">FastAPI</span>
+                            <span class="tag">Docker</span>
+                            <span class="tag">NautilusTrader</span>
+                            <span class="tag">OpenCV</span>
                         </div>
                     </div>
-                </div>
-                        <!-- Project 5: Additional CAD work (Fixtures, Brackets, & Custom Parts) -->
-                <div class="project-card">
-                <a href="cad-work.html" style="text-decoration: none; color: inherit; display: block;">
-                    <div class="project-status">
-                        <span class="project-status-label ready">Ready to View</span>
-                        <h3>Miscellaneous CAD Work (Fixtures, Brackets, & Custom Parts)</h3>
-                    </div>
-                    <div class="project-content">
-                        <p>
-                            CAD work for various custom fixtures, brackets, and parts used to support fabrication and assembly operations. Demonstrates proficiency in SolidWorks and AutoCAD with detailed designs optimized for manufacturability and functionality.
-                        </p>
-                        <div class="project-tags">
+                    <svg class="project-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6l6 6-6 6"/></svg>
+                </a>
+
+                <a href="./cad-work.html" class="project-item">
+                    <div>
+                        <div class="project-name">CAD Work - Fixtures, Brackets, &amp; Custom Parts</div>
+                        <p class="project-desc">Collection of custom fixtures, brackets, and parts designed to support fabrication and assembly operations. SolidWorks and AutoCAD, optimized for manufacturability.</p>
+                        <div class="project-meta">
                             <span class="tag">AutoCAD</span>
-                            <span class="tag">Solidworks</span>
+                            <span class="tag">SolidWorks</span>
                             <span class="tag">DFA</span>
                             <span class="tag">DFM</span>
                         </div>
-                        <div class="project-assets">
-                            <span class="asset-badge">PDF DWG (7)</span>
-                        </div>
                     </div>
-                </div>
-                    </div>
-                </div>
+                    <svg class="project-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6l6 6-6 6"/></svg>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Experience Section -->
+    <!-- Experience -->
     <section id="experience">
         <div class="container">
-            <h2 class="section-title">Experience</h2>
-            <p class="section-subtitle">Professional journey and key achievements</p>
+            <p class="section-label">Career</p>
+            <h2 class="section-heading">Experience</h2>
 
-            <div class="experience-timeline">
-                <div class="experience-item">
-                    <div class="experience-header">
+            <div class="exp-list">
+                <article class="exp-item">
+                    <div class="exp-where">
                         <h3>Production Operations Engineer</h3>
-                        <div class="experience-company">Singh Imagineering Lab, Boston University</div>
-                        <div class="experience-date">Jan. 2023 - May 2025</div>
+                        <div class="exp-company">Singh Imagineering Lab, Boston University</div>
+                        <div class="exp-date">Jan 2023 – May 2025</div>
                     </div>
-                    <ul>
-                        <li>Developed QR-accessible digital operating guides, custom fixturing, and CAM workflow 
-                            documentation for 12-machine fabrication shop serving 400+ users across mechanical, 
-                            aerospace, and biomedical programs</li>
-                        <li>Led safety enforcement and user certification program including standardized 30-minute 
-                            training protocol, quiz-based competency validation, and real-time floor monitoring</li>
-                        <li>Performed preventive maintenance (calibration, lubrication, troubleshooting) and 
-                            submitted annual equipment procurement requests via SAP ERP system</li>
-                    </ul>
-                </div>
+                    <div class="exp-details">
+                        <ul>
+                            <li>Created QR-accessible digital operating guides, custom fixturing, and CAM documentation for a 12-machine shop serving 400+ users across ME, aero, and biomedical programs.</li>
+                            <li>Ran the safety enforcement and user certification program - standardized 30-minute training, quiz-based competency validation, real-time floor monitoring.</li>
+                            <li>Handled preventive maintenance (calibration, lubrication, troubleshooting) and filed annual procurement requests through SAP.</li>
+                        </ul>
+                    </div>
+                </article>
 
-                <div class="experience-item">
-                    <div class="experience-header">
+                <article class="exp-item">
+                    <div class="exp-where">
                         <h3>Computational Materials Engineer</h3>
-                        <div class="experience-company">Material Informatics Lab, Boston University</div>
-                        <div class="experience-date">Feb. 2023 - Feb. 2024</div>
+                        <div class="exp-company">Material Informatics Lab, Boston University</div>
+                        <div class="exp-date">Feb 2023 – Feb 2024</div>
                     </div>
-                    <ul>
-                        <li>Automated the characterization of high-entropy alloys by scripting a LAMMPS-to-ML 
-                            workflow to extract lattice parameters and phase transition data from molecular 
-                            dynamics trajectories</li>
-                        <li>Resolved stability discrepancies in aluminum and ice alloys by benchmarking ML 
-                            predictions against thermodynamic Gibbs free energy states, replacing high-latency 
-                            DFT simulations</li>
-                    </ul>
-                </div>
+                    <div class="exp-details">
+                        <ul>
+                            <li>Automated high-entropy alloy characterization by scripting a LAMMPS-to-ML workflow that extracted lattice parameters and phase transition data from molecular dynamics trajectories.</li>
+                            <li>Resolved stability discrepancies in aluminum and ice alloys by benchmarking ML predictions against thermodynamic Gibbs free energy states, replacing high-latency DFT simulations.</li>
+                        </ul>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <div class="container">
-            <h2 class="section-title">Let's Connect</h2>
-            <p class="section-subtitle">Open to opportunities in drafting, manufacturing, automation, and engineering</p>
-            
-            <div class="contact-info">
-                <div class="contact-item">
+    <!-- Contact -->
+    <section id="contact" class="section-alt">
+        <div class="container" style="text-align:center;">
+            <p class="section-label">Reach Out</p>
+            <h2 class="section-heading">Let's Talk</h2>
+            <p class="section-desc" style="margin-left:auto;margin-right:auto;">Open to opportunities in drafting, manufacturing, automation, and engineering.</p>
+
+            <div class="contact-row">
+                <div class="contact-block">
                     <div class="contact-label">Email</div>
-                    <a href="mailto:shrijit.bannerjee@gmail.com">shrijit.bannerjee@gmail.com</a>
+                    <div class="contact-value"><a href="mailto:shrijitbanerjee@gmail.com">shrijitbanerjee@gmail.com</a></div>
                 </div>
-                <div class="contact-item">
+                <div class="contact-block">
                     <div class="contact-label">Phone</div>
-                    <a href="tel:+16509338212">(650) 933-8212</a>
+                    <div class="contact-value"><a href="tel:+16509338212">(650) 933-8212</a></div>
                 </div>
-                <div class="contact-item">
+                <div class="contact-block">
                     <div class="contact-label">LinkedIn</div>
-                    <a href="https://linkedin.com/in/shrijitb" target="_blank">linkedin.com/in/shrijitb</a>
+                    <div class="contact-value"><a href="https://linkedin.com/in/shrijitb" target="_blank" rel="noopener noreferrer">linkedin.com/in/shrijitb</a></div>
                 </div>
-                <div class="contact-item">
+                <div class="contact-block">
+                    <div class="contact-label">GitHub</div>
+                    <div class="contact-value"><a href="https://github.com/shrijitb" target="_blank" rel="noopener noreferrer">github.com/shrijitb</a></div>
+                </div>
+                <div class="contact-block">
                     <div class="contact-label">Location</div>
-                    <span style="color: var(--text-primary);">Manteca, CA</span>
+                    <div class="contact-value"><span>Manteca, CA</span></div>
                 </div>
             </div>
         </div>
     </section>
+    </main>
+
+    <footer>
+        <div class="container">&copy; 2025 Shrijit Banerjee</div>
+    </footer>
+
     <script>
-        // Load profile image
-        const profilePic = document.getElementById('profile-pic');
-        // This will be replaced with the actual image path when hosted
-        profilePic.src = './profile.jpg';
-        profilePic.onerror = function() {
-            // Fallback to a placeholder if image not found
-            this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect fill="%23'+
-                '1a1f28" width="400" height="400"/%3E%3Ctext fill="%239ca3af" font-family="Arial" font-size="48" '+
-                'text-anchor="middle" x="200" y="220"%3EProfile Photo%3C/text%3E%3C/svg%3E';
-        };
+        // Mobile nav toggle
+        const toggle = document.querySelector('.nav-toggle');
+        const menu = document.getElementById('nav-menu');
+        if (toggle && menu) {
+            toggle.addEventListener('click', () => {
+                const open = menu.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', open);
+            });
+            // Close on link click
+            menu.querySelectorAll('a').forEach(a => {
+                a.addEventListener('click', () => {
+                    menu.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+            // Close on Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && menu.classList.contains('open')) {
+                    menu.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    toggle.focus();
+                }
+            });
+        }
     </script>
 </body>
 </html>
