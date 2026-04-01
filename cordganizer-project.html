@@ -181,7 +181,7 @@
         <div class="container">
             <span class="project-badge">Manufacturing &amp; Machine Learning</span>
             <h1>BUMES Optimization &amp; <span style="color:var(--accent)">Vision Integration</span></h1>
-            <p class="hero-sub">Redesigned a fully automated manufacturing cell for higher throughput, then integrated real-time computer vision for autonomous part sorting - no human intervention from stock to finished, sorted product.</p>
+            <p class="hero-sub">Redesigned a fully automated manufacturing cell for higher throughput, then integrated real-time computer vision for autonomous part sorting. Additional goal we achieved was zero human intervention from stock to finished, sorted product.</p>
 
             <div class="hero-meta">
                 <div><div class="meta-label">Role</div><div class="meta-value">MES Lead · CAM &amp; Vision</div></div>
@@ -207,7 +207,7 @@
             <!-- 01 Overview -->
             <div class="sect">
                 <h2 class="sect-title"><span class="sect-num">01</span> Project Overview</h2>
-                <p class="prose"><strong>BUMES (Boston University Manufacturing Execution Software)</strong> is a fully automated manufacturing cell that produces a two-part cord organizer - the Cordganizer - from polycarbonate and HDPE stock. The original system took ~24 minutes per cycle to produce two assemblies, with only 40% of that time adding value.</p>
+                <p class="prose"><strong>BUMES (Boston University Manufacturing Execution Software)</strong> is a fully automated manufacturing cell that produces a two-part cord organizer, the Cordganizer, from polycarbonate and HDPE stock. The original system took ~24 minutes per cycle to produce two assemblies, with only 40% of that time adding value.</p>
                 <p class="prose">This project had three interlocked goals: redesign the Cordganizer CAD/CAM for faster machining, restructure the robot programs for parallel operation, and build an OpenCV-based vision pipeline so a third robot (Rosie) could sort finished parts by color without human input.</p>
 
                 <div class="card-grid-3">
@@ -269,7 +269,7 @@
             <!-- 03 CAD/CAM -->
             <div class="sect">
                 <h2 class="sect-title"><span class="sect-num">03</span> Aim 1: CAD/CAM Redesign</h2>
-                <p class="prose">The original design included unnecessary facing passes, redundant hole operations, and four chamfers per lid - machine time that didn't contribute to fit or function. The redesigned CAD reduced operations to pocket milling with two precision holes and two chamfers for the lid, and a single roughing pass with deep pocket milling for the body.</p>
+                <p class="prose">The original design included unnecessary facing passes, redundant hole operations, and four chamfers per lid. That is machine time that didn't contribute to fit or function. The redesigned CAD reduced operations to pocket milling with two precision holes and two chamfers for the lid, and a single roughing pass with deep pocket milling for the body.</p>
 
                 <div class="gallery-2" style="margin-bottom:1.5rem;">
                     <div class="gallery-item">
@@ -287,13 +287,13 @@
                         <video controls style="width:100%;display:block;background:#000;">
                             <source src="lidcam.mp4" type="video/mp4">
                         </video>
-                        <div class="gallery-cap">CAM simulation - new lid sequence</div>
+                        <div class="gallery-cap">CAM simulation of new lid design</div>
                     </div>
                     <div class="gallery-item">
                         <video controls style="width:100%;display:block;background:#000;">
                             <source src="bodycam.mp4" type="video/mp4">
                         </video>
-                        <div class="gallery-cap">CAM simulation - new body sequence</div>
+                        <div class="gallery-cap">CAM simulation of new body design</div>
                     </div>
                 </div>
 
@@ -320,7 +320,7 @@
             <!-- 04 Process -->
             <div class="sect">
                 <h2 class="sect-title"><span class="sect-num">04</span> Aim 2: BUMES Script Optimization</h2>
-                <p class="prose">The original cycle ran Mary and Edie sequentially - one robot idle while the other machined. The redesigned orchestration introduced <strong>alternate machining</strong>: while Mary finishes a body on Cayenne, Edie begins a lid on Paprika. Steady-state overlap doubled effective throughput.</p>
+                <p class="prose">The original cycle ran Mary and Edie sequentially, meaning one robot stayed idle while the other machined. The redesigned orchestration introduced <strong>alternate machining</strong>: while Mary finishes a body on Cayenne, Edie begins a lid on Paprika. Steady-state overlap doubled effective throughput.</p>
                 <p class="prose">13 individual UR programs were written (7 per robot), using a letter-and-number naming convention to eliminate confusion. The cycle now produces <strong>4 cordganizers</strong> per 24.6-minute run, versus 2 in 24 minutes before.</p>
 
                 <div class="flow-wrap">
@@ -418,7 +418,7 @@
 
                 <div class="gallery-2" style="margin-bottom:1.5rem;">
                     <div>
-                        <span class="code-label">Color Classification - Vision_system.py</span>
+                        <span class="code-label">Color Classification via Vision_system.py</span>
                         <div class="code-block"><pre><span class="kw">def</span> <span class="fn">classify_color</span>(bgr):
     b, g, r = bgr
     <span class="kw">if</span> b &lt; <span class="num">180</span> <span class="kw">and</span> g &lt; <span class="num">120</span> <span class="kw">and</span> r &lt; <span class="num">130</span>:
@@ -429,7 +429,7 @@
         <span class="kw">return</span> <span class="str">"Unknown"</span></pre></div>
                     </div>
                     <div>
-                        <span class="code-label">Robot Connection - RTDE</span>
+                        <span class="code-label">Robot Connection via RTDE</span>
                         <div class="code-block"><pre><span class="cm"># Connect via RTDE interface</span>
 rtde_c = rtde_control.<span class="fn">RTDEControlInterface</span>(
     <span class="str">"10.241.34.45"</span>)
@@ -445,7 +445,7 @@ rtde_c.<span class="fn">moveJ</span>(q, speed=<span class="num">0.3</span>)</pre
 
                 <div class="gallery-2" style="margin-bottom:1.5rem;">
                     <div>
-                        <span class="code-label">Object Detection - OpenCV</span>
+                        <span class="code-label">Object Detection via OpenCV</span>
                         <div class="code-block"><pre><span class="cm"># Region of interest</span>
 roi = frame[<span class="num">50</span>:<span class="num">360</span>, <span class="num">140</span>:<span class="num">450</span>]
 
@@ -463,7 +463,7 @@ contours, _ = cv2.<span class="fn">findContours</span>(
         <span class="kw">return</span> <span class="fn">classify_color</span>((b, g, r))</pre></div>
                     </div>
                     <div>
-                        <span class="code-label">Sorting Decision - Part Routing</span>
+                        <span class="code-label">Sorting Decision and Part Routing</span>
                         <div class="code-block"><pre>color = <span class="fn">get_object_color</span>()
 print(<span class="fn">f</span><span class="str">"Detected: {color}"</span>)
 
@@ -511,7 +511,7 @@ print(<span class="fn">f</span><span class="str">"Detected: {color}"</span>)
             <!-- 06 Video -->
             <div class="sect">
                 <h2 class="sect-title"><span class="sect-num">06</span> Full Cycle Demo</h2>
-                <p class="prose">One complete BUMES cycle: Mary and Edie machine and assemble four cordganizers in parallel, then Rosie identifies each by color and routes it to the correct bin - entirely without human intervention.</p>
+                <p class="prose">One complete BUMES cycle: Mary and Edie machine and assemble four cordganizers in parallel, then Rosie identifies each by color and routes it to the correct bin entirely without human intervention.</p>
                 <div class="video-block">
                     <video controls preload="metadata">
                         <source src="bumes_optimization_video.mp4" type="video/mp4">
@@ -557,7 +557,7 @@ print(<span class="fn">f</span><span class="str">"Detected: {color}"</span>)
                             <li>Camera sensitivity to ambient lighting reduced classification reliability</li>
                             <li>No built-in wait() capability between BUMES operations caused timing issues</li>
                             <li>Vision limited to two colors; no defect geometry detection</li>
-                            <li>Pose waypoints manually defined - not adaptive to part variation</li>
+                            <li>Pose waypoints manually defined instead of being adaptive to part variation</li>
                         </ul>
                     </div>
                     <div class="card limit-card card-green">
