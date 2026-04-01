@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vibration System Modeling | Shrijit Banerjee</title>
+    <meta name="description" content="Second-order oscillatory system characterization with 1.5% theoretical deviation. Custom optical transduction, 6th-order Butterworth filter, and uncertainty analysis.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0d1117;
-            --bg-card: #161b22;
-            --bg-hover: #1c2128;
-            --accent-green: #2ea043;
-            --accent-blue: #58a6ff;
-            --accent-orange: #ff7b72;
-            --accent-purple: #bc8cff;
-            --text-primary: #e6edf3;
-            --text-secondary: #8b949e;
-            --border: #30363d;
+            --bg: #111211;
+            --bg-raised: #181a18;
+            --bg-inset: #0e0f0e;
+            --text: #d8d5cf;
+            --text-muted: #7a7872;
+            --accent: #8a9a7b;
+            --accent-dim: rgba(138,154,123,0.12);
+            --border: #262826;
+            --border-hover: #3a3c3a;
+            --radius: 6px;
         }
 
         * {
@@ -27,10 +28,23 @@
             box-sizing: border-box;
         }
 
+        html { scroll-behavior: smooth; }
+
+        .skip-link {
+            position: absolute; top: -100%; left: 1rem; padding: 0.75rem 1.5rem;
+            background: var(--accent); color: var(--bg); font-weight: 600;
+            border-radius: var(--radius); z-index: 9999; text-decoration: none;
+        }
+        .skip-link:focus { top: 1rem; }
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+        h1, h2, h3 { font-family: 'JetBrains Mono', monospace; font-weight: 400; text-wrap: balance; }
+        p { text-wrap: pretty; }
+
         body {
-            font-family: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.7;
         }
 
@@ -40,11 +54,22 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(13, 17, 23, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 5%;
+            background: rgba(17, 18, 17, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0;
             z-index: 1000;
             border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 clamp(1.25rem, 4vw, 3rem);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
         }
 
         nav .container {
@@ -56,66 +81,73 @@
         }
 
         .nav-back {
-            color: var(--text-secondary);
+            color: var(--text-muted);
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            transition: color 0.2s;
+            gap: 0.4rem;
+            font-size: 0.875rem;
+            transition: color 0.15s;
         }
 
         .nav-back:hover {
-            color: var(--accent-blue);
+            color: var(--text);
         }
 
         .nav-title {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 1.1rem;
-            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
         /* Hero Section */
         .hero {
-            padding: 8rem 5% 4rem;
-            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-dark) 100%);
+            padding: calc(64px + clamp(3rem, 6vw, 5rem)) 0 clamp(3rem, 5vw, 4rem);
         }
 
         .hero-container {
-            max-width: 1400px;
+            max-width: 960px;
             margin: 0 auto;
+            padding: 0 clamp(1.25rem, 4vw, 3rem);
         }
 
         .project-badge {
             display: inline-block;
-            padding: 0.5rem 1rem;
-            background: rgba(88, 166, 255, 0.15);
-            border: 1px solid var(--accent-blue);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-            margin-bottom: 1.5rem;
+            padding: 0.35rem 0.8rem;
+            border: 1px solid var(--accent);
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 1.25rem;
         }
 
         h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2.25rem, 5vw, 3.5rem);
+            font-weight: 400;
+            margin-bottom: 1.25rem;
             line-height: 1.1;
+            text-wrap: balance;
         }
 
         .hero-subtitle {
-            font-size: 1.4rem;
-            color: var(--text-secondary);
+            font-size: clamp(1rem, 1.5vw, 1.1rem);
+            color: var(--text-muted);
             margin-bottom: 2rem;
-            max-width: 800px;
+            max-width: 680px;
         }
 
         .hero-meta {
             display: flex;
             gap: 2rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
             flex-wrap: wrap;
         }
 
@@ -125,84 +157,91 @@
         }
 
         .meta-label {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.3rem;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.2rem;
         }
 
         .meta-value {
-            font-size: 1.1rem;
-            color: var(--text-primary);
+            font-size: 0.95rem;
+            color: var(--text);
             font-weight: 500;
         }
 
         /* Quick Stats Grid */
         .quick-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 2.5rem;
         }
 
         .stat-card {
-            background: var(--bg-dark);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border);
+            background: var(--bg-raised);
+            padding: 1.25rem 1.5rem;
         }
 
         .stat-value {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 0.2rem;
         }
 
         .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
 
         /* Main Content */
         .content {
-            padding: 4rem 5%;
+            padding: clamp(3rem, 6vw, 5rem) 0;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 960px;
             margin: 0 auto;
+            padding: 0 clamp(1.25rem, 4vw, 3rem);
         }
 
         .section {
-            margin-bottom: 5rem;
+            margin-bottom: clamp(3rem, 6vw, 5rem);
         }
 
         .section-title {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--text);
+            text-wrap: balance;
         }
 
         .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--accent-blue);
-            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+            font-weight: 500;
         }
 
         .text-block {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
             line-height: 1.8;
         }
 
         /* Image Placeholder */
         .image-placeholder {
-            background: var(--bg-card);
+            background: var(--bg-raised);
             border: 2px dashed var(--border);
             border-radius: 8px;
             padding: 3rem;
@@ -211,164 +250,172 @@
         }
 
         .image-placeholder-text {
-            color: var(--text-secondary);
-            font-family: 'IBM Plex Mono', monospace;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.9rem;
         }
 
         /* Tech Grid */
         .tech-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
 
         .tech-card {
-            background: var(--bg-card);
-            padding: 1.5rem;
-            border-radius: 8px;
+            background: var(--bg-raised);
+            padding: clamp(1.25rem, 3vw, 2rem);
+            border-radius: var(--radius);
             border: 1px solid var(--border);
-            transition: all 0.3s ease;
+            transition: border-color 0.15s ease;
         }
 
         .tech-card:hover {
-            border-color: var(--accent-blue);
-            background: var(--bg-hover);
-            transform: translateY(-2px);
+            border-color: var(--border-hover);
         }
 
         .tech-card h4 {
-            color: var(--accent-blue);
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
         }
 
         .tech-card ul {
             list-style: none;
-            color: var(--text-secondary);
+            color: var(--text-muted);
         }
 
         .tech-card ul li {
-            padding-left: 1.5rem;
+            padding-left: 1rem;
             margin-bottom: 0.5rem;
             position: relative;
+            font-size: 0.88rem;
+            line-height: 1.6;
         }
 
         .tech-card ul li::before {
-            content: '▹';
+            content: '';
             position: absolute;
             left: 0;
-            color: var(--accent-blue);
+            top: 0.55rem;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--accent);
         }
 
         /* Specs Table */
         .specs-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 2rem 0;
-            background: var(--bg-card);
-            border-radius: 8px;
+            margin: 1.5rem 0;
+            background: var(--bg-raised);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
             overflow: hidden;
         }
 
         .specs-table th,
         .specs-table td {
-            padding: 1rem;
+            padding: 0.85rem 1rem;
             text-align: left;
             border-bottom: 1px solid var(--border);
         }
 
         .specs-table th {
-            background: var(--bg-hover);
-            color: var(--accent-blue);
+            background: var(--bg-inset);
+            color: var(--accent);
             font-weight: 600;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
 
         .specs-table td {
-            color: var(--text-secondary);
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
 
         .specs-table tr:last-child td {
             border-bottom: none;
         }
 
-        .specs-table tr:hover {
-            background: var(--bg-hover);
-        }
-
         /* Equation Display */
         .equation-block {
-            background: var(--bg-card);
-            padding: 1.5rem;
-            border-left: 3px solid var(--accent-purple);
+            background: var(--bg-raised);
+            padding: 1.25rem;
+            border-left: 3px solid var(--accent);
             margin: 1.5rem 0;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 1rem;
-            color: var(--text-primary);
-            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text);
+            border-radius: var(--radius);
         }
 
         .equation-block .eq-label {
-            color: var(--accent-purple);
-            font-size: 0.85rem;
+            color: var(--accent);
+            font-size: 0.75rem;
             margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
 
         /* Highlight Box */
         .highlight-box {
-            background: rgba(88, 166, 255, 0.1);
-            border-left: 4px solid var(--accent-blue);
-            padding: 1.5rem;
-            margin: 2rem 0;
-            border-radius: 4px;
+            background: var(--accent-dim);
+            border-left: 3px solid var(--accent);
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: var(--radius);
         }
 
         .highlight-box strong {
-            color: var(--accent-blue);
+            color: var(--accent);
         }
 
         /* Downloads Section */
         .downloads {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
 
         .download-card {
-            background: var(--bg-card);
-            padding: 1.5rem;
-            border-radius: 8px;
+            background: var(--bg-raised);
+            padding: 1.25rem;
+            border-radius: var(--radius);
             border: 1px solid var(--border);
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 1rem;
-            transition: all 0.3s ease;
+            transition: border-color 0.15s;
         }
 
         .download-card:hover {
-            border-color: var(--accent-blue);
-            background: var(--bg-hover);
-            transform: translateY(-2px);
+            border-color: var(--accent);
         }
 
         .download-icon {
-            font-size: 2rem;
+            font-size: 1.5rem;
+            flex-shrink: 0;
         }
 
         .download-info h4 {
-            color: var(--text-primary);
-            margin-bottom: 0.3rem;
-            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 0.15rem;
+            font-size: 0.95rem;
+            font-weight: 500;
         }
 
         .download-info p {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
         }
 
         /* Two Column Layout */
@@ -396,34 +443,37 @@
     </style>
 </head>
 <body>
+    <a href="#main" class="skip-link">Skip to content</a>
     <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <a href="./index.html" class="nav-back">
-                ← Back to Portfolio
+    <nav aria-label="Project navigation">
+        <div class="nav-inner">
+            <a href="./index.html" class="nav-back" aria-label="Back to portfolio">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>
+                Portfolio
             </a>
-            <div class="nav-title">VIBRATION SYSTEM MODELING</div>
+            <div class="nav-title">Vibration System Modeling</div>
         </div>
     </nav>
 
     <!-- Hero Section -->
+    <main id="main">
     <section class="hero">
         <div class="hero-container">
             <span class="project-badge">SIGNAL PROCESSING & ANALYSIS</span>
-            <h1>Vibration System Modeling & Transduction Design</h1>
+            <h1>Vibration System Modeling and Transduction Design</h1>
             <p class="hero-subtitle">
-                Experimental characterization of a second-order mass-spring oscillator using optical sensors,
-                achieving 1.5% theoretical-experimental deviation through precision measurement and signal processing
+                I characterized a second-order mass-spring oscillator using optical sensors,
+                achieving 1.5% deviation from theoretical predictions through precision measurement and custom signal processing.
             </p>
 
             <div class="hero-meta">
                 <div class="meta-item">
                     <span class="meta-label">Timeline</span>
-                    <span class="meta-value">March 2024 - May 2024</span>
+                    <span class="meta-value">Mar 2024 to May 2024</span>
                 </div>
                 <div class="meta-item">
                     <span class="meta-label">Role</span>
-                    <span class="meta-value">Lead Researcher & Instrumentation Engineer</span>
+                    <span class="meta-value">Lead Researcher, Instrumentation</span>
                 </div>
                 <div class="meta-item">
                     <span class="meta-label">Institution</span>
@@ -461,21 +511,20 @@
             <div class="section">
                 <h2 class="section-title">Project Overview</h2>
                 <div class="text-block">
-                    This project aimed to experimentally determine the frequency response characteristics of a second-order 
-                    oscillatory system through precision measurement and analysis. Using a custom optical transduction system, 
-                    we measured the dynamic behavior of a mass-spring system across varying driving frequencies to validate 
-                    theoretical predictions and characterize system performance.
+                    I designed and built a non-contact optical measurement system to experimentally determine the frequency response 
+                    characteristics of a second-order oscillatory system. My goal was to validate theoretical predictions 
+                    by measuring the dynamic behavior of a mass-spring system across varying driving frequencies.
                 </div>
 
                 <div class="highlight-box">
-                    <strong>Core Challenge:</strong> Design and implement a non-contact measurement system capable of 
-                    accurately capturing oscillation data across a wide frequency range (0-35 rad/s) while filtering 
+                    <strong>Core problem:</strong> I needed a non-contact measurement system capable of 
+                    capturing oscillation data across a wide frequency range (0 to 35 rad/s) while filtering 
                     out electromagnetic interference and ground loop noise that would corrupt the signal.
                 </div>
 
                 <div style="text-align: center; margin: 2rem 0;">
                     <img src="./fig5_vibapp.jpg" alt="Optical Sensor Setup in Lab" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem; ">
                         Figure 5: Optical sensor setup showing the mass-spring oscillator with mounted sensor and cantilever beam
                     </p>
                 </div>
@@ -487,10 +536,10 @@
                 <h3 class="section-subtitle">Hardware Configuration</h3>
 
                 <div class="text-block">
-                    The experimental apparatus consisted of a motorized oscillator with two masses connected by a spring. 
+                    The apparatus uses a motorized oscillator with two masses connected by a spring. 
                     The bottom mass oscillates at a controlled driving frequency while the top mass responds dynamically 
-                    based on system characteristics. To measure this motion without physical contact (which would alter 
-                    the dynamics), we implemented an optical proximity sensing system.
+                    based on system characteristics. I implemented an optical proximity sensing system to measure 
+                    this motion without physical contact (which would add mass and alter the dynamics).
                 </div>
 
                 <div class="tech-grid">
@@ -530,7 +579,7 @@
 
                 <div style="text-align: center; margin: 2rem 0;">
                     <img src="./fig3_vibsetup.jpg" alt="Dual Sensor Setup with Cantilever Beam" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem; ">
                         Figure 3: Dual sensor configuration showing custom cantilever beam attached to bottom mass for phase measurement
                     </p>
                 </div>
@@ -545,10 +594,10 @@
 
             <!-- Signal Processing -->
             <div class="section">
-                <h2 class="section-title">Signal Processing & Noise Elimination</h2>
+                <h2 class="section-title">Signal Processing and Noise Elimination</h2>
                 
                 <div class="text-block">
-                    Raw sensor data contained significant high-frequency noise from electromagnetic interference (EMI), 
+                    Raw sensor data contained high-frequency noise from electromagnetic interference (EMI), 
                     ground loops in the power supply, and motor-induced electrical noise. This noise would corrupt our 
                     amplitude and frequency measurements if not properly filtered.
                 </div>
@@ -565,7 +614,7 @@
                     <div class="eq-label">Nyquist Criterion</div>
                     fₛ ≥ 2 × f_max<br>
                     fₛ = 2 × 5.6 Hz = 11.2 Hz minimum<br>
-                    <span style="color: var(--accent-blue);">→ Actual sampling: 500+ Hz (45× safety margin)</span>
+                    <span style="color: var(--accent);">→ Actual sampling: 500+ Hz (45× safety margin)</span>
                 </div>
 
                 <div class="text-block">
@@ -577,15 +626,15 @@
 
                 <div style="text-align: center; margin: 2rem 0;">
                     <img src="./fig15_topcollaramp.png" alt="Time-Dependent Position of Top Collar" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
-                        Figure 15: Time-dependent position comparison at two driving frequencies - 12.56 rad/s (left) vs 17.59 rad/s (right) showing increased amplitude closer to resonance frequency, data shown after calibration but before filtering
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem; ">
+                        Figure 15: Time-dependent position comparison at two driving frequencies, 12.56 rad/s (left) and 17.59 rad/s (right) showing increased amplitude closer to resonance frequency, data shown after calibration but before filtering
                     </p>
                 </div>
             </div>
 
             <!-- Calibration -->
             <div class="section">
-                <h2 class="section-title">Sensor Calibration & Uncertainty Analysis</h2>
+                <h2 class="section-title">Sensor Calibration and Uncertainty</h2>
 
                 <h3 class="section-subtitle">Weighted Linear Regression Calibration</h3>
 
@@ -647,7 +696,7 @@
 
                 <div style="text-align: center; margin: 2rem 0;">
                     <img src="./fig7_calib.png" alt="Weighted Calibration Fit for Optical Sensor" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem; ">
                         Figure 7: Weighted calibration fit showing linear relationship between sensor voltage and measured distance
                     </p>
                 </div>
@@ -667,12 +716,12 @@
                 <div class="two-column">
                     <div class="tech-card">
                         <h4>Step Response Testing</h4>
-                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">
                             To determine natural frequency and damping ratio experimentally, we performed step input 
                             tests. The top mass was pulled down and released, allowing free oscillation until reaching 
                             steady state.
                         </p>
-                        <p style="color: var(--text-secondary);">
+                        <p style="color: var(--text-muted);">
                             <strong>Analysis:</strong> Using the envelope decay method, we extracted the damped natural 
                             frequency from the oscillation period and the damping ratio from the exponential decay rate 
                             of the amplitude envelope.
@@ -681,12 +730,12 @@
 
                     <div class="tech-card">
                         <h4>Frequency Sweep Testing</h4>
-                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">
                             To map the full frequency response, we varied the motor power from 20-100 (arbitrary units) 
                             in increments, measuring system response at each frequency. Near resonance, we took finer 
                             steps to precisely locate the peak.
                         </p>
-                        <p style="color: var(--text-secondary);">
+                        <p style="color: var(--text-muted);">
                             <strong>Validation:</strong> Data was collected both increasing and decreasing power to 
                             check for hysteresis effects in the system response.
                         </p>
@@ -695,7 +744,7 @@
 
                 <div style="text-align: center; margin: 2rem 0;">
                     <img src="./fig9_stepfunc.png" alt="Step Function Response" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem; ">
                         Figure 9: Step response showing exponential decay envelope of free oscillation used for damping analysis
                     </p>
                 </div>
@@ -709,7 +758,7 @@
                 </div>
 
                 <div class="highlight-box">
-                    <strong>Creative Solution:</strong> Designed and fabricated a cantilever beam from pencils and 
+                    <strong>Solution:</strong> Designed and fabricated a cantilever beam from pencils and 
                     cardboard, attached to the bottom mass and extending beyond the top disk. This allowed the second 
                     optical sensor to track bottom mass motion indirectly through the beam movement.
                 </div>
@@ -724,13 +773,13 @@
 
             <!-- Results & Analysis -->
             <div class="section">
-                <h2 class="section-title">Results & Theoretical Validation</h2>
+                <h2 class="section-title">Results and Validation</h2>
 
                 <h3 class="section-subtitle">Magnitude Ratio (Amplitude Response)</h3>
 
                 <div class="text-block">
                     The magnitude ratio M(ω) describes how the amplitude of the responding mass compares to the driving 
-                    amplitude as a function of frequency. At resonance, this ratio peaks dramatically. The system amplifies 
+                    amplitude as a function of frequency. At resonance, this ratio peaks sharply. The system amplifies 
                     small inputs into large motions.
                 </div>
 
@@ -740,20 +789,20 @@
                     <br>
                     <div class="eq-label">Experimental Magnitude Ratio</div>
                     M(ω) = X / X_bottom<br>
-                    <span style="color: var(--text-secondary); font-size: 0.9rem;">
+                    <span style="color: var(--text-muted); font-size: 0.9rem;">
                         where X = (Peak_high - Peak_low)/2 from filtered data
                     </span>
                 </div>
 
                 <div style="text-align: center; margin: 2rem 0;">
                     <img src="./fig16_magratio.png" alt="Magnitude Ratio vs Frequency" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
-                        Figure 16: Magnitude ratio comparison showing excellent agreement between experimental measurements (both increasing and decreasing frequency) and theoretical predictions, with clear resonance peak at ~15 rad/s
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem; ">
+                        Figure 16: Magnitude ratio comparison showing close agreement between experimental measurements (both increasing and decreasing frequency) and theoretical predictions, with clear resonance peak around 15 rad/s
                     </p>
                 </div>
 
                 <div class="highlight-box">
-                    <strong>Key Finding:</strong> Experimental data matches theoretical predictions within 1.5% across 
+                    <strong>Result:</strong> Experimental data matches theoretical predictions within 1.5% across 
                     the entire frequency range. The magnitude ratio correctly peaks at the resonance frequency of 
                     15.08 rad/s, exactly where theory predicts maximum amplification.
                 </div>
@@ -763,7 +812,7 @@
                 <div class="text-block">
                     Phase lag φ(ω) describes the time delay between the driving force and the system's response. At 
                     low frequencies, the mass follows the drive nearly in-phase. At resonance, the lag is exactly 90°. 
-                    Above resonance, the mass lags significantly, approaching 180° at high frequencies.
+                    Above resonance, the mass lags toward 180° at high frequencies.
                 </div>
 
                 <div class="equation-block">
@@ -772,20 +821,20 @@
                     <br>
                     <div class="eq-label">Experimental Phase Lag</div>
                     φ(ω) = Δt_peak × ω<br>
-                    <span style="color: var(--text-secondary); font-size: 0.9rem;">
+                    <span style="color: var(--text-muted); font-size: 0.9rem;">
                         measured from time difference between top and bottom mass peaks
                     </span>
                 </div>
 
                 <div style="text-align: center; margin: 2rem 0;">
                     <img src="./fig17_phase.png" alt="Phase Response vs Frequency" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem; ">
                         Figure 17: Phase lag comparison showing characteristic second-order behavior with close agreement at low frequencies and divergence at high frequencies due to cantilever beam resonance effects
                     </p>
                 </div>
 
                 <div class="text-block">
-                    Phase measurements show excellent agreement with theory at lower frequencies. Above ~25 rad/s, the 
+                    Phase measurements show close agreement with theory at lower frequencies. Above ~25 rad/s, the 
                     experimental phase diverges slightly. This is the cantilever beam reaching its own resonance and 
                     introducing measurement artifact. The core finding remains valid: the system exhibits classic 
                     second-order phase behavior.
@@ -794,29 +843,29 @@
 
             <!-- Challenges & Solutions -->
             <div class="section">
-                <h2 class="section-title">Technical Challenges & Solutions</h2>
+                <h2 class="section-title">Technical Challenges</h2>
 
                 <div class="tech-grid">
                     <div class="tech-card">
                         <h4>Challenge: Electromagnetic Interference</h4>
-                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
-                            Motor operation and ground loops created significant electrical noise in the sensor signal, 
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                            Motor operation and ground loops created electrical noise in the sensor signal, 
                             particularly at harmonics of the motor frequency.
                         </p>
-                        <p style="color: var(--text-secondary);">
+                        <p style="color: var(--text-muted);">
                             <strong>Solution:</strong> 6th-order Butterworth low-pass filter with 15 Hz cutoff 
                             effectively eliminated high-frequency noise while preserving signal content (0-5.6 Hz). 
-                            Signal-to-noise ratio improved dramatically.
+                            Signal-to-noise ratio improved by two orders of magnitude.
                         </p>
                     </div>
 
                     <div class="tech-card">
                         <h4>Challenge: Phase Measurement Accessibility</h4>
-                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">
                             Top mass disk blocked direct optical access to bottom mass, making simultaneous measurement 
                             of both masses impossible with fixed sensor positions.
                         </p>
-                        <p style="color: var(--text-secondary);">
+                        <p style="color: var(--text-muted);">
                             <strong>Solution:</strong> Custom cantilever beam (pencils + cardboard) attached to bottom 
                             mass, extending beyond top disk. Second optical sensor tracked beam motion. Worked well at 
                             low frequencies; noted beam resonance effects at high frequencies.
@@ -825,11 +874,11 @@
 
                     <div class="tech-card">
                         <h4>Challenge: Signal Clipping Risk</h4>
-                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
-                            Sensor output range (4-20 mA) needed to fit within ADC input range (±5V) without clipping 
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                            Sensor output range (from 4 to 20 mA) needed to fit within ADC input range (±5V) without clipping 
                             at extreme positions.
                         </p>
-                        <p style="color: var(--text-secondary);">
+                        <p style="color: var(--text-muted);">
                             <strong>Solution:</strong> Carefully calculated resistor value (242Ω from two 121Ω in series) 
                             to map sensor range to safe voltage window. Verified with multimeter before data collection. 
                             Monitored oscilloscope throughout testing to catch any signal integrity issues.
@@ -838,11 +887,11 @@
 
                     <div class="tech-card">
                         <h4>Challenge: Resonance Peak Localization</h4>
-                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        <p style="color: var(--text-muted); margin-bottom: 1rem;">
                             Initial coarse frequency steps missed the exact resonance peak, leading to uncertainty in 
                             maximum amplitude measurement.
                         </p>
-                        <p style="color: var(--text-secondary);">
+                        <p style="color: var(--text-muted);">
                             <strong>Solution:</strong> Two-pass methodology: broad sweep to locate approximate resonance, 
                             then fine steps (smaller power increments) near the peak. Collected data both increasing and 
                             decreasing to check for hysteresis.
@@ -851,9 +900,9 @@
                 </div>
             </div>
 
-            <!-- Equipment & Instrumentation -->
+            <!-- Equipment and Instrumentation -->
             <div class="section">
-                <h2 class="section-title">Equipment & Instrumentation</h2>
+                <h2 class="section-title">Equipment and Instrumentation</h2>
 
                 <table class="specs-table">
                     <thead>
@@ -872,7 +921,7 @@
                         <tr>
                             <td>DAQ Board</td>
                             <td>National Instruments PCI-6221 (10-bit)</td>
-                            <td>Analog-to-digital conversion & logging</td>
+                            <td>Analog-to-digital conversion and logging</td>
                         </tr>
                         <tr>
                             <td>Oscilloscope</td>
@@ -909,7 +958,7 @@
 
                 <div style="text-align: center; margin: 2rem 0;">
                     <img src="./fig4_blockdiagram.png" alt="Block Diagram of Optical Sensor Setup" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border);">
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem; ">
                         Figure 4: Signal flow from optical sensor through resistor conversion to ADC/DAQ for data acquisition
                     </p>
                 </div>
@@ -917,33 +966,33 @@
 
             <!-- Key Learnings -->
             <div class="section">
-                <h2 class="section-title">Conclusions & Future Improvements</h2>
+                <h2 class="section-title">Outcomes and Future Work</h2>
                 
-                <h3 class="section-subtitle">What We Achieved</h3>
+                <h3 class="section-subtitle">What I Built</h3>
                 <div class="tech-card">
                     <ul>
-                        <li>Successfully characterized a second-order oscillatory system with 1.5% deviation from 
+                        <li>Characterized a second-order oscillatory system with 1.5% deviation from 
                             theoretical predictions across the full frequency range</li>
-                        <li>Designed and implemented a non-invasive optical measurement system eliminating the mass-loading 
+                        <li>Designed a non-invasive optical measurement system that eliminates the mass-loading 
                             effects inherent in contact sensors</li>
-                        <li>Developed effective signal processing pipeline (6th-order Butterworth filter) that isolated 
-                            clean displacement data from noisy electrical environment</li>
-                        <li>Validated theoretical models for magnitude ratio and phase response through rigorous experimental 
-                            measurement and uncertainty analysis</li>
-                        <li>Demonstrated practical application of weighted linear regression for sensor calibration and 
-                            error propagation techniques for uncertainty quantification</li>
+                        <li>Built a signal processing pipeline (6th-order Butterworth filter) that isolated 
+                            clean displacement data from a noisy electrical environment</li>
+                        <li>Validated theoretical models for magnitude ratio and phase response through 
+                            experimental measurement and uncertainty analysis</li>
+                        <li>Applied weighted linear regression for sensor calibration and 
+                            error propagation for uncertainty quantification</li>
                     </ul>
                 </div>
 
                 <h3 class="section-subtitle" style="margin-top: 2rem;">Acknowledged Limitations</h3>
                 <div class="text-block">
-                    While results were excellent, several sources of systematic error were identified:
+                    While results were accurate, several sources of systematic error were identified:
                 </div>
                 <div class="tech-card">
                     <ul>
                         <li><strong>Cantilever beam resonance:</strong> The improvised bottom mass tracking solution 
                             introduced phase measurement errors at high frequencies when the beam reached its own resonant mode</li>
-                        <li><strong>Friction & nonlinearity:</strong> The collar-to-rod interface had significant friction 
+                        <li><strong>Friction and nonlinearity:</strong> The collar-to-rod interface had measurable friction 
                             not accounted for in the ideal second-order model, contributing to small deviations</li>
                         <li><strong>Paper surface vibration:</strong> At high frequencies, the paper target on the top disk 
                             vibrated independently, affecting magnitude ratio measurements above resonance</li>
@@ -968,7 +1017,7 @@
                 </div>
 
                 <div class="highlight-box" style="margin-top: 2rem;">
-                    <strong>Bottom Line:</strong> This project successfully demonstrated that a carefully designed 
+                    <strong>Result:</strong> I demonstrated that a carefully designed 
                     measurement and signal processing system can accurately characterize dynamic mechanical systems. 
                     The combination of proper sensor selection, noise filtering, and uncertainty analysis produced 
                     experimental results that validated second-order theory within acceptable engineering tolerances.
@@ -991,5 +1040,6 @@
 
         </div>
     </section>
+    </main>
 </body>
 </html>
