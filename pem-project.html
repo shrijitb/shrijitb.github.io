@@ -295,9 +295,9 @@
             <!-- Overview -->
             <div class="sect">
                 <h2 class="sect-title">Project Overview</h2>
-                <p class="prose"><strong>The problem:</strong> 95% of global hydrogen is "grey" - produced via steam reforming, emitting 12 kg of CO₂ per kg of hydrogen. That's 830 million tonnes of CO₂ annually, more than Germany's entire output. We need green hydrogen.</p>
-                <p class="prose"><strong>Our approach:</strong> A solar-powered PEM electrolysis system that produces hydrogen with zero direct emissions. The previous team studied SOEC technology (700°C+, impractical for our setting). We built an actual working prototype using PEM at 50–80°C.</p>
-                <p class="prose"><strong>Why it matters:</strong> The DOE targets $1/kg for green hydrogen to compete commercially. Our design cuts power consumption 96% while maintaining equivalent hydrogen output - a meaningful step toward making green hydrogen economically viable.</p>
+                <p class="prose"><strong>The problem:</strong> 95% of global hydrogen is "grey" produced via steam reforming, emitting 12 kg of CO₂ per kg of hydrogen. That's 830 million tonnes of CO₂ annually, more than Germany's entire output. We need green hydrogen.</p>
+                <p class="prose"><strong>Our approach:</strong> A solar-powered PEM electrolysis system that produces hydrogen with zero direct emissions. Last year's team studied SOEC technology (700°C+, impractical for our setting). We built an actual working prototype using PEM at 50–80°C.</p>
+                <p class="prose"><strong>Why it matters:</strong> The DOE targets $1/kg for green hydrogen to compete commercially. Our design cuts power consumption 96% while maintaining equivalent hydrogen output, which is a meaningful step toward making green hydrogen economically viable.</p>
             </div>
 
             <!-- How It Works -->
@@ -342,7 +342,7 @@
                     <div class="gallery-item">
                         <img src="./IMG_3914.jpeg" alt="Assembled PEM fuel cell stack showing aluminum plates and barbed fittings">
                         <img src="./pem exploded cad.png" alt="Exploded CAD view of PEM stack components">
-                        <div class="gallery-cap"><strong>Completed stack:</strong> Aluminum 6061 compression plates, titanium electrodes, garolite gaskets, neoprene seals, Nafion 117 membrane, and titanium sintered mesh - held with teflon-coated bolts to prevent shorting.</div>
+                        <div class="gallery-cap"><strong>Completed stack:</strong> Aluminum 6061 compression plates, titanium electrodes, garolite gaskets, neoprene seals, Nafion 117 membrane, and titanium sintered mesh held with teflon-coated bolts to prevent shorting.</div>
                     </div>
                 </div>
             </div>
@@ -351,9 +351,11 @@
             <div class="sect">
                 <h2 class="sect-title">Technical Design</h2>
                 <p class="sect-sub">Core Innovation: Flow Channel Optimization</p>
-                <p class="prose">The benchmark PEM cell had 0.014″ deep flow channels - barely thicker than a few sheets of paper. Water couldn't move efficiently, creating internal resistance that demanded 13W to produce a trickle of hydrogen.</p>
-                <p class="prose"><strong>Our fix:</strong> Custom gaskets that increase channel depth to 0.0625″, 4.5× deeper. Water flows properly across 4× more electrode surface area. Less resistance means less power. We dropped input from 13W to 0.5W while maintaining the same hydrogen output.</p>
-
+                <p class="prose">The benchmark PEM cell had 0.014″ deep flow channels which is barely thicker than a few sheets of paper. Water couldn't move efficiently, creating internal resistance that demanded 13W to produce a trickle of hydrogen.</p>
+                <p class="prose"><strong>My fix:</strong> I simulated and designed custom gaskets that increase channel depth to 0.0625″, 4.5× deeper. Water flows properly across 4× more electrode surface area. Less resistance means less power. We dropped input from 13W to 0.5W while maintaining the same hydrogen output.</p>
+                <p class="sect-sub">Why PEM Over SOEC?</p>
+                <p class="prose">Previous team's research study on solid oxide electrolysis cells was interesting on paper, but impractical for the market-viable product we wanted to build and benchmark. A solid oxide cell needs to attain an operating temperatures above 600°C, which is not commercially viable and is much more difficult to measure reliable test results.</p>
+                
                 <div class="card-grid">
                     <div class="card">
                         <h4>Materials Selection</h4>
@@ -364,15 +366,6 @@
                             <li><strong>Garolite (G-10):</strong> Electrical insulator that won't ignite under laser (learned this the hard way)</li>
                             <li><strong>Aluminum 6061-T6:</strong> Lightweight compression plates, easy to machine</li>
                             <li><strong>Teflon-coated bolts:</strong> Prevents shorting between plates</li>
-                        </ul>
-                    </div>
-                    <div class="card">
-                        <h4>Why PEM Over SOEC?</h4>
-                        <ul>
-                            <li>Previous team researched Solid Oxide cells - interesting on paper, impractical for our constraints</li>
-                            <li>SOEC requires 700°C+ operating temperature</li>
-                            <li>Not commercially viable at small scale</li>
-                            <li>We wanted to build something, not just write a paper</li>
                         </ul>
                     </div>
                     <div class="card">
@@ -407,7 +400,7 @@
                         <strong>Manual assembly:</strong> Stacking and compression with proper torque sequence</p>
                         <div class="inline-img-wrap">
                             <img src="./wire edm titanium.png" alt="Wire EDM toolpath for titanium electrode gasket showing U-shaped flow channels">
-                            <p class="inline-img-cap"><strong>Wire EDM toolpath:</strong> Custom flow channel geometry for titanium electrode gasket. The U-shaped channels are the optimization - 4.5× deeper than benchmark. Red line shows the cutting path. Holes are bolt clearances. Wire EDM was necessary because titanium chews through steel bits.</p>
+                            <p class="inline-img-cap"><strong>Wire EDM toolpath:</strong> Custom flow channel geometry for titanium electrode gasket. The U-shaped channels are the optimization (4.5× deeper than benchmark). Red line shows the cutting path. Holes are bolt clearances. Wire EDM was necessary because titanium chews through steel bits.</p>
                         </div>
                     </div>
                     <div class="tl-item">
@@ -469,18 +462,18 @@
                 <div class="card-grid">
                     <div class="card">
                         <h4>Continuous Operation</h4>
-                        <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:0.75rem;">Initial tests showed inconsistent hydrogen generation - not a design flaw, but a testing limitation. Water flow was intermittent.</p>
-                        <p style="color:var(--text-muted);font-size:0.9rem;"><strong>Fix:</strong> Identified the need for an integrated pump to regulate flow. Became a key recommendation for future iterations.</p>
+                        <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:0.75rem;">Initial tests showed inconsistent hydrogen generation and we observed that water flow was intermittent.</p>
+                        <p style="color:var(--text-muted);font-size:0.9rem;"><strong>Fix:</strong> Identified the need for an integrated pump to regulate flow, which became a design feature in our final iteration of our testbed.</p>
                     </div>
                     <div class="card">
                         <h4>Gas Separation</h4>
                         <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:0.75rem;">H₂ and O₂ need separate collection paths.</p>
-                        <p style="color:var(--text-muted);font-size:0.9rem;"><strong>Fix:</strong> Titanium mesh and proper gasket sealing ensure complete separation. Separate outlet fittings per gas stream, validated with minimal O₂ ppm at the H₂ outlet.</p>
+                        <p style="color:var(--text-muted);font-size:0.9rem;"><strong>Fix:</strong> Titanium mesh and proper gasket sealing gave the fluids complete separation. Separate outlet fittings per stream, validated with minimal O₂ ppm at the H₂ outlet.</p>
                     </div>
                     <div class="card">
                         <h4>Brittle Materials</h4>
                         <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:0.75rem;">Garolite and membrane materials are fragile. Wrong machining method destroys the part.</p>
-                        <p style="color:var(--text-muted);font-size:0.9rem;"><strong>Fix:</strong> Material-specific strategies - waterjet for garolite, wire EDM for metals, careful manual assembly. Prototyped with cheap materials first to validate the process.</p>
+                        <p style="color:var(--text-muted);font-size:0.9rem;"><strong>Fix:</strong> Material-specific strategies: waterjet for garolite, wire EDM for metals, careful manual assembly. Prototyped with cheap materials first to validate the process and analyze tolerances.</p>
                     </div>
                 </div>
             </div>
@@ -523,7 +516,6 @@
                 <div class="card" style="margin-bottom:1.5rem;">
                     <h4>Next Steps</h4>
                     <ul>
-                        <li>Integrate water circulation pump for continuous operation</li>
                         <li>Optimize compression to drop power below 0.5W</li>
                         <li>Scale to multi-cell stack for higher output</li>
                         <li>Complete solar PV integration with MPPT controller</li>
